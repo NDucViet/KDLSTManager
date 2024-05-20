@@ -15,7 +15,7 @@
         var text = document.getElementById("code").value;
         console.log(text);
         if (codeNumber === parseInt(text)) {
-            window.location.href = "/user/toAdd";
+            document.getElementById('hiddenForm').submit();
         } else {
             alert("Code sai");
             document.getElementById("code").value = "";
@@ -129,8 +129,10 @@
     <h2>Enter Code</h2>
     <div class='login'>
         <input name="code" id="code" placeholder='Enter email code' type='text'>
-
         <button class='animated' onclick="checkCode()">Submit</button>
+        <form id="hiddenForm" th:action="/user/toAdd" th:method="post" style="display: none;">
+        </form>
+
     </div>
 </body>
 

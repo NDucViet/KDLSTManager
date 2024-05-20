@@ -21,7 +21,7 @@ public class User {
     private String address;
     private Date dob;
     private int gender;
-    private Blob avatar;
+    private String avatar;
     private String nation;
     private String role;
     private Boolean status;

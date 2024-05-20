@@ -224,7 +224,7 @@
             <input type="date" name="birth"
                 style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;">
 
-            <input name='passport' th:field="*{cardID}" placeholder='cardID' type='text'>
+            <input name='cardID' th:field="*{cardID}" placeholder='cardID' type='text'>
             <input name='address' th:field="*{address}" placeholder='address' type='text'>
             <select name="gender" th:field="*{gender}">
                 <option value="1">Male</option>
@@ -281,7 +281,6 @@
                 }
             </script>
             <input class='animated' type='submit' value='Register'>
-            <a class='forgot' th:href="/user/showLogin">Already have an account?</a>
         </div>
     </form>
 </body>

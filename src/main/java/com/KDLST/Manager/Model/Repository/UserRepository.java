@@ -35,7 +35,7 @@ public class UserRepository {
                 String address = rs.getString("address");
                 int gender = rs.getInt("gender");
                 String phoneNumber = rs.getString("phoneNumber");
-                Blob avatar = rs.getBlob("avatar");
+                String avatar = rs.getString("avatar");
                 CustomerType CustomerType = customerTypeRepository.getById(rs.getInt("customerTypeID"));
                 String role = rs.getString("role");
                 String password = rs.getString("password");
@@ -74,7 +74,7 @@ public class UserRepository {
             String address = rs.getString("address");
             int gender = rs.getInt("gender");
             String phoneNumber = rs.getString("phoneNumber");
-            Blob avatar = rs.getBlob("avatar");
+            String avatar = rs.getString("avatar");
             CustomerType CustomerType = customerTypeRepository.getById(rs.getInt("customerTypeID"));
             String role = rs.getString("role");
             String password = rs.getString("password");
@@ -105,7 +105,7 @@ public class UserRepository {
             prsm.setString(4, user.getAddress());
             prsm.setInt(5, user.getGender());
             prsm.setString(6, user.getPhoneNumber());
-            prsm.setBlob(7, user.getAvatar());
+            prsm.setString(7, user.getAvatar());
             prsm.setInt(8, user.getCustomerType().getIdCusType());
             prsm.setBoolean(9, user.getStatus());
             prsm.setString(10, user.getCardID());
@@ -138,7 +138,7 @@ public class UserRepository {
             prsm.setString(4, user.getAddress());
             prsm.setInt(5, user.getGender());
             prsm.setString(6, user.getPhoneNumber());
-            prsm.setBlob(7, user.getAvatar());
+            prsm.setString(7, user.getAvatar());
             prsm.setInt(8, user.getCustomerType().getIdCusType());
             prsm.setBoolean(9, user.getStatus());
             prsm.setString(10, user.getCardID());

@@ -1,5 +1,6 @@
 package com.KDLST.Manager.Controller;
 
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ import java.sql.Date;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.CustomerTypeRepository;
 import com.KDLST.Manager.Model.Service.UserServiceImplement;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -108,7 +112,8 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public String register(Model model, @ModelAttribute("user") User user1,
-            @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth) {
+            @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth,
+            @RequestParam(name = "avatar") String avatarPathOrUrl) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
         try {
@@ -118,6 +123,7 @@ public class UserController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        user1.setAvatar(null);
         user1.setRole("USER");
         user1.setCustomerType(customerTypeRepository.getById(1));
         user1.setIdUser(0);
