@@ -1,5 +1,5 @@
 package com.KDLST.Manager.Model.Service.BookingRoomService;
 
-public class BookingRoomDetailsServiceImplement {
+public class BookingRoomDetailsService {
 
 }

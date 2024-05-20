@@ -1,6 +1,5 @@
 package com.KDLST.Manager.Controller;
 
-import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.sql.Date;
 import com.KDLST.Manager.Model.Entity.User.User;
-import com.KDLST.Manager.Model.Repository.CustomerTypeRepository;
-import com.KDLST.Manager.Model.Service.UserServiceImplement;
+import com.KDLST.Manager.Model.Repository.UserRepository.CustomerTypeRepository;
+import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
+
 import java.util.ArrayList;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

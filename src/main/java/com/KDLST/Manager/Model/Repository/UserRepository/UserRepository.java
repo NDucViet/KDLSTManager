@@ -1,4 +1,4 @@
-package com.KDLST.Manager.Model.Repository;
+package com.KDLST.Manager.Model.Repository.UserRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.KDLST.Manager.Model.BaseConnection;
 import com.KDLST.Manager.Model.Entity.User.CustomerType;
 import com.KDLST.Manager.Model.Entity.User.User;
-
 import jakarta.el.ELException;
 
 @Repository

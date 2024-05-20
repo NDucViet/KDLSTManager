@@ -1,4 +1,4 @@
-package com.KDLST.Manager.Model.Service;
+package com.KDLST.Manager.Model.Service.UserService;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import com.KDLST.Manager.Model.Entity.User.User;
-import com.KDLST.Manager.Model.Repository.UserRepository;
+import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
+
 import java.util.HashSet;
 
 @Service

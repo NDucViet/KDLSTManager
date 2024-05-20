@@ -1,4 +1,4 @@
-package com.KDLST.Manager.Model.Service;
+package com.KDLST.Manager.Model.Service.UserService;
 
 import java.util.ArrayList;
 import com.KDLST.Manager.Model.Entity.User.User;

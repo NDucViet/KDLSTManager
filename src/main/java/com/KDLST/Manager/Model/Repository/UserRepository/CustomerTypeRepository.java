@@ -1,4 +1,4 @@
-package com.KDLST.Manager.Model.Repository;
+package com.KDLST.Manager.Model.Repository.UserRepository;
 
 import java.sql.*;
 import java.util.ArrayList;

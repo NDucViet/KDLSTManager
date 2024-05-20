@@ -1,4 +1,4 @@
-package com.KDLST.Manager.Model.Repository.CartItemRepository;
+package com.KDLST.Manager.Model.Service.CartItemService;
 
 public class CartService {
 

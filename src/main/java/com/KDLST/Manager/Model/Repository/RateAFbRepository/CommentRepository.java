@@ -1,5 +1,5 @@
-package com.KDLST.Manager.Model.Entity.RateAFb;
+package com.KDLST.Manager.Model.Repository.RateAFbRepository;
 
 public class CommentRepository {
-    
+
 }
