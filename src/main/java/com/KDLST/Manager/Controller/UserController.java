@@ -17,9 +17,6 @@ import java.sql.Date;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.CustomerTypeRepository;
 import com.KDLST.Manager.Model.Service.UserServiceImplement;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +46,7 @@ public class UserController {
 
                     user = userServiceImplement.login(userStr);
                     model.addAttribute("user", user);
-                    return "redirect:/";
+                    return new indexController().index();
                 }
             }
         }
@@ -87,14 +84,14 @@ public class UserController {
                 response.addCookie(cookie);
                 HttpSession session = request.getSession(true);
                 session.setAttribute("userRole", user.getRole());
-                return "redirect:";
+                return new indexController().index();
             } else {
                 return showLogin(model, request);
             }
         } else if (!Boolean.TRUE.equals(rememberme)) {
             if (flag) {
                 user = userServiceImplement.login(user1.getEmail());
-                return "redirect:";
+                return new indexController().index();
             } else {
                 return showLogin(model, request);
             }
@@ -154,7 +151,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/toAdd")
+    @GetMapping("/toAdd")
     public String toAdd() {
         userServiceImplement.add(user);
         user = null;

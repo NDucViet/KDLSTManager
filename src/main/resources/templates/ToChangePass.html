@@ -14,6 +14,7 @@
         console.log(text);
         if (codeNumber === parseInt(text)) {
             document.getElementById("code").style.display = "none";
+            document.getElementById("btncode").style.display = "none";
             document.getElementById("password").style.display = "block";
 
         } else {
@@ -124,8 +125,8 @@
     <h2>Change Password</h2>
     <div class='login'>
         <div id="codeBlock">
-            <input name="code" id="code" placeholder='Enter password' type='text'>
-            <button class='animated' onclick="checkCode()">Submit Code</button>
+            <input name="code" id="code" placeholder='Enter code' type='text'>
+            <button class='animated' id="btncode" onclick="checkCode()">Submit Code</button>
         </div>
 
         <div style="display: none;" id="password">
