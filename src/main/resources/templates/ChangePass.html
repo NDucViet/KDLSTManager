@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: #2E3740;
+        color: #435160;
+        font-family: "Open Sans", sans-serif;
+    }
+
+    h2 {
+        color: #6D7781;
+        font-family: "Sofia", serif;
+        font-size: 15px;
+        font-weight: bold;
+        font-size: 3.6em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+
+
+    input[type="text"] {
+        width: 350px;
+        padding: 20px 0px;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #435160;
+        outline: none;
+        color: #6D7781;
+        font-size: 16px;
+    }
+
+
+    button {
+        background: black;
+        border: 0;
+        width: 350px;
+        height: 40px;
+        border-radius: 3px;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
+
+    button:hover {
+        background: #AFEEEE;
+        animation-name: shake;
+    }
+
+
+    ::-webkit-input-placeholder {
+        color: #A9A9A9;
+        font-size: 12px;
+    }
+
+    .animated {
+        animation-fill-mode: both;
+        animation-duration: 1s;
+    }
+
+    @keyframes shake {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+            transform: translateX(-10px);
+        }
+
+        20%,
+        40%,
+        60%,
+        80% {
+            transform: translateX(10px);
+        }
+    }
+
+    .login {
+        width: 350px;
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        margin-left: -175px;
+    }
+</style>
+
+
+<body>
+
+    <h2>Enter Email</h2>
+    <div class='login'>
+        <form th:action="@{/user/toChangePass}" th:method="post">
+            <input name="email" id="code" placeholder='Enter email' type='text'>
+            <button class='animated' type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

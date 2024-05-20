@@ -25,4 +25,19 @@ public class User {
     private String nation;
     private String role;
     private Boolean status;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        User person = (User) obj;
+        return email.equals(person.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return email.hashCode();
+    }
 }
