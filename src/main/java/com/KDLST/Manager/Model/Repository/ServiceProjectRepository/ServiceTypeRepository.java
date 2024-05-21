@@ -90,4 +90,5 @@ public class ServiceTypeRepository {
         }
         return false;
     }
+
 }
