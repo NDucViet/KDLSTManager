@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -16,7 +15,6 @@ import java.sql.Date;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.UserRepository.CustomerTypeRepository;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
-
 import java.util.ArrayList;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,13 +24,18 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-
+    // Tạo user toàn cục
     private static User user;
+
+    // Tạo đối tượng random
     Random random = new Random();
+
+    // Tiêm phụ thuộc
     @Autowired
     UserServiceImplement userServiceImplement = new UserServiceImplement();
     CustomerTypeRepository customerTypeRepository = new CustomerTypeRepository();
 
+    // Hàm check cookie, trả về form đăng nhập
     @GetMapping("/showLogin")
     public String showLogin(Model model, HttpServletRequest request) {
 
@@ -54,11 +57,13 @@ public class UserController {
         return "login";
     }
 
+    // Hàm check form và đăng nhập
     @PostMapping(value = "/login")
     public String toLogin(@ModelAttribute("user") User user1, Model model,
             @RequestParam(value = "agree", required = false) Boolean rememberme,
             HttpServletResponse response,
             HttpServletRequest request) {
+
         User user = new User();
         user1.setAddress(null);
         user1.setAvatar(null);
@@ -99,6 +104,7 @@ public class UserController {
         return showLogin(model, request);
     }
 
+    // Hàm trả về form đăng kí
     @GetMapping(value = { "/showRegister" })
     public String showRegister(Model model, String mess) {
         User user = new User();
@@ -107,6 +113,7 @@ public class UserController {
         return "register";
     }
 
+    // Hàm check form đăng kí
     @PostMapping(value = "/register")
     public String register(Model model, @ModelAttribute("user") User user1,
             @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth,
@@ -151,6 +158,7 @@ public class UserController {
         }
     }
 
+    // Hàm add 1 User
     @GetMapping("/toAdd")
     public String toAdd() {
         userServiceImplement.add(user);
@@ -159,11 +167,13 @@ public class UserController {
 
     }
 
+    // Hàm trả về form đổi mk
     @GetMapping("/changePass")
     public String changePass() {
         return "ChangePass";
     }
 
+    // Hàm generate code đổi mk
     @PostMapping("/toChangePass")
     public String toChangePass(@RequestParam(name = "email") String email, Model model) {
         int randomNumber = random.nextInt(90000) + 10000;
@@ -174,6 +184,7 @@ public class UserController {
         return "ToChangePass";
     }
 
+    // Hàm đổi mk
     @PostMapping("/changePassword")
     public String changePass(@RequestParam(name = "password") String password) {
         User user1 = userServiceImplement.login(user.getEmail());

@@ -2,83 +2,83 @@ package com.KDLST.Manager.Model.Repository.BookingRoomRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.KDLST.Manager.Model.BaseConnection;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoom;
-import com.KDLST.Manager.Model.Entity.User.User;
-import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
+import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoomDetails;
+import com.KDLST.Manager.Model.Entity.Hotel.Room;
+import com.KDLST.Manager.Model.Repository.HotelRepository.RoomRepository;
+
 import jakarta.el.ELException;
 
 @Repository
-public class BookingRoomRepository {
-    private ArrayList<BookingRoom> bookingRoomList;
-    @Autowired
-    private UserRepository userRepository;
+public class BookingRoomDetailsRepository {
+    private ArrayList<BookingRoomDetails> bookingRoomDetailsList;
 
-    public ArrayList<BookingRoom> getAll() {
+    @Autowired
+    private BookingRoomRepository bookingRoomRepository;
+    private RoomRepository roomRepository;
+
+    public ArrayList<BookingRoomDetails> getAll() {
         try {
-            bookingRoomList.clear();
+            bookingRoomDetailsList.clear();
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             Statement stsm = con.createStatement();
-            ResultSet rs = stsm.executeQuery("select * from KDLST.BookingRoom");
+            ResultSet rs = stsm.executeQuery("select * from KDLST.BookingRoomDetail");
             while (rs.next()) {
-                int bookingRoomID = rs.getInt("bookingRoomID");
-                User user = userRepository.getById(rs.getInt("userID"));
-                Date startDate = rs.getDate("checkInDate");
-                Date endDate = rs.getDate("checkOutDate");
-                boolean status = rs.getBoolean("status");
-                BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
-                bookingRoomList.add(bookingRoom);
+                int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
+                BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
+                Room room = roomRepository.getById(rs.getInt("roomID"));
+                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+                bookingRoomDetailsList.add(bookingRoomDetails);
             }
             con.close();
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);
         }
-        return bookingRoomList;
+        return bookingRoomDetailsList;
     }
 
-    public BookingRoom getById(int id) {
+    public BookingRoomDetails getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = conn.prepareStatement(
-                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.bookingRoomID = ?;");
+                    "select * from KDLST.BookingRoomDetail where KDLST.BookingRoomDetail.bookingRoomDetailID = ?;");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 throw new ELException("Cannot find");
             }
-            int bookingRoomID = rs.getInt("bookingRoomID");
-            User user = userRepository.getById(rs.getInt("userID"));
-            Date startDate = rs.getDate("checkInDate");
-            Date endDate = rs.getDate("checkOutDate");
-            boolean status = rs.getBoolean("status");
-            BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
+            int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
+            BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
+            Room room = roomRepository.getById(rs.getInt("roomID"));
+            BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
             st.close();
-            return bookingRoom;
+            return bookingRoomDetails;
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
 
-    public boolean update(BookingRoom bookingRoom) {
+    public boolean update(BookingRoomDetails bookingRoomDetails) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.User set KDLST.BookingRoom.userID =?, KDLST.BookingRoom.checkInDate=?, KDLST.BookingRoom.checkOutDate = ?, KDLST.BookingRoom.status =? where KDLST.BookingRoom.bookingRoomID =?");
-            prsm.setInt(1, bookingRoom.getUser().getIdUser());
-            prsm.setDate(2, bookingRoom.getStartDate());
-            prsm.setDate(3, bookingRoom.getEndDate());
-            prsm.setBoolean(4, bookingRoom.isStatus());
-            prsm.setInt(5, bookingRoom.getBookingRoomID());
+                    "update KDLST.BookingRoomDetail set KDLST.BookingRoomDetail.bookingRoomID =?, KDLST.BookingRoomDetail.roomID = ? where KDLST.BookingRoomDetail.bookingRoomDetailID =?");
+            prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
+            prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
+            prsm.setInt(3, bookingRoomDetails.getBookingRoomDetailsID());
             int result = prsm.executeUpdate();
             System.out.println(result);
             con.close();
@@ -90,17 +90,15 @@ public class BookingRoomRepository {
         return false;
     }
 
-    public boolean add(BookingRoom bookingRoom) {
+    public boolean add(BookingRoomDetails bookingRoomDetails) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.BookingRoom (userID, checkInDate, checkOutDate, status) values(?,?,?,?)");
-            prsm.setInt(1, bookingRoom.getUser().getIdUser());
-            prsm.setDate(2, bookingRoom.getStartDate());
-            prsm.setDate(3, bookingRoom.getEndDate());
-            prsm.setBoolean(4, bookingRoom.isStatus());
+                    "insert into KDLST.BookingRoom (bookingRoomID, roomID) values(?,?)");
+            prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
+            prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;

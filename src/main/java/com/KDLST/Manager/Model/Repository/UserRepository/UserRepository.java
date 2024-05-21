@@ -153,8 +153,4 @@ public class UserRepository {
         return false;
     }
 
-    public static void main(String[] args) {
-        UserRepository userRepository = new UserRepository();
-        System.out.println(userRepository.getAll());
-    }
 }
