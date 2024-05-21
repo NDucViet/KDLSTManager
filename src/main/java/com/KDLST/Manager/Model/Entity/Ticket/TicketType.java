@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class TicketType {
     private int ticketTypeID;
     private String ticketTypeName;
-
 }

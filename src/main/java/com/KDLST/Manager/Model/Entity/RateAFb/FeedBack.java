@@ -14,5 +14,4 @@ public class FeedBack {
     private User user;
     private Services services;
     private String content;
-
 }

@@ -1,0 +1,15 @@
+a {
+    text-decoration: none;
+    color: #af97c4;
+}
+
+.col-sm-2,
+.col-sm-3,
+.col-sm-1 {
+    margin-top: 30px;
+}
+
+.modal-backdrop.show {
+    opacity: 0.05 !important;
+    /* Đặt độ mờ 0.05 */
+}

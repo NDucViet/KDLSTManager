@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class ServiceType {
     private int serviceTypeID;
     private String serviceName;
-
 }

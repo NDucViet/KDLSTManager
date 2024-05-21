@@ -3,7 +3,6 @@ package com.KDLST.Manager.Model.Repository.TicketRepository;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -15,18 +14,17 @@ import jakarta.el.ELException;
 @Repository
 public class TicketTypeRepository {
     private static ArrayList<TicketType> ticketTypeList = new ArrayList<>();
-    @Autowired
-    private TicketRepository ticketRepository;
-    public ArrayList<TicketType> getAll(){
+
+    public ArrayList<TicketType> getAll() {
         try {
             ticketTypeList.clear();
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             Statement stsm = con.createStatement();
-            ResultSet rs = stsm.executeQuery("select * from KDLST.CustomerType");
+            ResultSet rs = stsm.executeQuery("select * from KDLST.TicketType");
             while (rs.next()) {
-                int ticketTypeID = rs.getInt("TicketTypeID");
+                int ticketTypeID = rs.getInt("ticketTypeID");
                 String ticketTypeName = rs.getString("ticketTypeName");
                 TicketType ticketType = new TicketType(ticketTypeID, ticketTypeName);
                 ticketTypeList.add(ticketType);
@@ -37,7 +35,8 @@ public class TicketTypeRepository {
         }
         return ticketTypeList;
     }
-     public TicketType getById(int id) {
+
+    public TicketType getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
@@ -59,6 +58,7 @@ public class TicketTypeRepository {
         }
         return null;
     }
+
     public boolean update(TicketType ticketType) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -94,6 +94,7 @@ public class TicketTypeRepository {
         }
         return false;
     }
+
     public static void main(String[] args) {
         TicketTypeRepository ticketTypeRepository = new TicketTypeRepository();
         System.out.println(ticketTypeRepository.getAll());

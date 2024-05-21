@@ -10,6 +10,4 @@ import lombok.NoArgsConstructor;
 public class Image {
     private int imageID;
     private String imageUrl;
-
-    
 }

@@ -1,4 +1,5 @@
 package com.KDLST.Manager.Model.Repository.BillRepository;
+
 import java.util.ArrayList;
 import java.sql.*;
 
@@ -13,10 +14,11 @@ import jakarta.el.ELException;
 
 @Repository
 public class BillRepository {
- ArrayList<Bill> billList = new ArrayList<>();
- @Autowired
- private UserRepository userRepository = new UserRepository();
- public ArrayList<Bill> getAll() {
+    ArrayList<Bill> billList = new ArrayList<>();
+    @Autowired
+    private UserRepository userRepository = new UserRepository();
+
+    public ArrayList<Bill> getAll() {
         try {
             billList.clear();
             Class.forName(BaseConnection.nameClass);
@@ -29,12 +31,12 @@ public class BillRepository {
                 User user = userRepository.getById(rs.getInt("userID"));
                 Date datePay = rs.getDate("datePay");
                 Boolean status = rs.getBoolean("status");
-               Bill bill= new Bill(billID, user, datePay, false);
+                Bill bill = new Bill(billID, user, datePay, status);
                 billList.add(bill);
             }
             con.close();
         } catch (Exception e) {
-            
+
         }
         return billList;
     }
@@ -53,9 +55,9 @@ public class BillRepository {
             }
             int billID = rs.getInt("billID");
             User user = userRepository.getById(rs.getInt("userID"));
-                Date datePay = rs.getDate("datePay");
-                Boolean status = rs.getBoolean("status");
-                Bill bill= new Bill(billID, user, datePay, false);
+            Date datePay = rs.getDate("datePay");
+            Boolean status = rs.getBoolean("status");
+            Bill bill = new Bill(billID, user, datePay, status);
 
             st.close();
             return bill;
@@ -72,10 +74,10 @@ public class BillRepository {
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
                     "Update KDLST.bill set userID = ?, datePay = ?, status = ? WHERE billID = ?");
-                    prsm.setInt(1, bill.getUser().getIdUser());
-                    prsm.setDate(2, bill.getDatePay());
-                    prsm.setBoolean(3, bill.isStatus());
-                    prsm.setInt(4, bill.getBillID());
+            prsm.setInt(1, bill.getUser().getIdUser());
+            prsm.setDate(2, bill.getDatePay());
+            prsm.setBoolean(3, bill.isStatus());
+            prsm.setInt(4, bill.getBillID());
             System.out.println(bill.toString());
             int result = prsm.executeUpdate();
             System.out.println(result);
@@ -87,26 +89,24 @@ public class BillRepository {
         return false;
     }
 
-
     public boolean add(Bill bill) {
         try {
             Class.forName(BaseConnection.nameClass);
-            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-            "INSERT INTO KDLST.bill (userID, datePay, status) VALUES (?, ?, ?)");
-            
+                    "INSERT INTO KDLST.bill (userID, datePay, status) VALUES (?, ?, ?)");
+
             prsm.setInt(1, bill.getUser().getIdUser());
             prsm.setDate(2, bill.getDatePay());
             prsm.setBoolean(3, bill.isStatus());
-    
             int result = prsm.executeUpdate();
             con.close();
-            return result > 0; 
+            return result > 0;
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
-        return false; 
-    }
-    
+        return false;
     }
 
+}

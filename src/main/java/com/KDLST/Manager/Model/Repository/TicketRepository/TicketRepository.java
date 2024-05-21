@@ -9,14 +9,14 @@ import com.KDLST.Manager.Model.BaseConnection;
 import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Entity.Ticket.TicketType;
 
-
 import jakarta.el.ELException;
 
 @Repository
 public class TicketRepository {
     private static ArrayList<Ticket> ticketList = new ArrayList<>();
     @Autowired
-    private TicketTypeRepository ticketTypeRepository ;
+    private TicketTypeRepository ticketTypeRepository;
+
     public ArrayList<Ticket> getAll() {
         try {
             ticketList.clear();
@@ -30,11 +30,11 @@ public class TicketRepository {
                 TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
                 String title = rs.getString("title");
                 String description = rs.getString("description");
-                Boolean price = rs.getBoolean("description");
+                double price = rs.getDouble("description");
                 String image = rs.getString("image");
                 Boolean status = rs.getBoolean("status");
-                Ticket ticket = new Ticket(ticketID, TicketType, title, description, ticketID, image, false);
-                
+                Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);
+
                 ticketList.add(ticket);
             }
             con.close();
@@ -45,7 +45,8 @@ public class TicketRepository {
         }
         return ticketList;
     }
-     public Ticket getById(int id) {
+
+    public Ticket getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
@@ -58,13 +59,13 @@ public class TicketRepository {
                 throw new ELException("Cannot find");
             }
             int ticketID = rs.getInt("ticketID");
-                TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                Boolean price = rs.getBoolean("description");
-                String image = rs.getString("image");
-                Boolean status = rs.getBoolean("status");
-                Ticket ticket = new Ticket(ticketID, TicketType, title, description, ticketID, image, false);
+            TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
+            String title = rs.getString("title");
+            String description = rs.getString("description");
+            double price = rs.getDouble("description");
+            String image = rs.getString("image");
+            Boolean status = rs.getBoolean("status");
+            Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);
             st.close();
             return ticket;
         } catch (Exception e) {
@@ -72,6 +73,7 @@ public class TicketRepository {
         }
         return null;
     }
+
     public boolean update(Ticket ticket) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -86,7 +88,7 @@ public class TicketRepository {
             prsm.setString(5, ticket.getImage());
             prsm.setBoolean(6, ticket.isStatus());
             prsm.setInt(7, ticket.getTicketID());
-            
+
             System.out.println(ticket.toString());
             int result = prsm.executeUpdate();
             System.out.println(result);
@@ -98,6 +100,7 @@ public class TicketRepository {
         }
         return false;
     }
+
     public boolean add(Ticket ticket) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -105,13 +108,13 @@ public class TicketRepository {
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
                     "insert into KDLST.Ticket (ticketTypeID, title, description, price, image, status) values(?,?,?,?,?,?)");
-                    prsm.setInt(1, ticket.getTicketTypeID().getTicketTypeID());
-                    prsm.setString(2, ticket.getTitle());
-                    prsm.setString(3, ticket.getDescription());
-                    prsm.setDouble(4, ticket.getPrice());
-                    prsm.setString(5, ticket.getImage());
-                    prsm.setBoolean(6, ticket.isStatus());
-                    prsm.setInt(7, ticket.getTicketID());
+            prsm.setInt(1, ticket.getTicketTypeID().getTicketTypeID());
+            prsm.setString(2, ticket.getTitle());
+            prsm.setString(3, ticket.getDescription());
+            prsm.setDouble(4, ticket.getPrice());
+            prsm.setString(5, ticket.getImage());
+            prsm.setBoolean(6, ticket.isStatus());
+            prsm.setInt(7, ticket.getTicketID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -120,8 +123,4 @@ public class TicketRepository {
         }
         return false;
     }
-    //     public static void main(String[] args) {
-    //     TicketRepository ticketRepository = new TicketRepository();
-    //     System.out.println(ticketRepository.getAll());
-    // }
 }
