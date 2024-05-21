@@ -84,9 +84,6 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
         }
         return false;
     }
-    public static void main(String[] args) {
-        FeedBackRepository r= new FeedBackRepository();
-        System.out.println(r.getAll());
-    }
+
 
 }

@@ -39,7 +39,7 @@ public class ServiceTypeRepository {
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = conn
-                    .prepareStatement("select * from KDLST.user where KDLST.ServiceType.serviceTypeID = ?;");
+                    .prepareStatement("select * from KDLST.ServiceType where KDLST.ServiceType.serviceTypeID = ?;");
             st.setInt(1, serviceTypeId);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
@@ -89,5 +89,10 @@ public class ServiceTypeRepository {
             System.out.println(e);
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+        ServiceTypeRepository r= new ServiceTypeRepository();
+        System.out.println(r.getById(1));
     }
 }
