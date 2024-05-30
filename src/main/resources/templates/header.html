@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -16,28 +16,24 @@
 
 <body>
     <div th:fragment="header">
-        <header style="background-color: white;">
-            <div class="row" style="margin-top: 10px;">
+        <header style="background-color: none;">
+            <div class="row">
                 <div class="col-sm-4" style="text-align: center;">
-                    <a href="/home"><img src="images/1.jpg" alt="#" style="width: 200px;"></a>
+                    <a href="/home" style="margin-top: 0px;"><img src="images/4.png" alt="#" style="width: 170px;"></a>
                 </div>
                 <div class="col-sm-8">
                     <div class="row">
                         <div class="col-sm-2">
-                            <div class="row_tittle"><a href="">Dịch Vụ</a></div>
-                            
+                            <a href="">Dịch Vụ</a>
                         </div>
                         <div class="col-sm-2">
-                            <div class="row_tittle"><a href="">Khách Sạn</a></div>
-                            
+                            <a href="">Khách Sạn</a>
                         </div>
                         <div class="col-sm-2">
-                            <div class="row_tittle"><a href="">Tin Tức</a></div>
-                            
+                            <a href="">Tin Tức</a>
                         </div>
                         <div class="col-sm-2">
-                            <div class="row_tittle"><a href="">Contact Us</a></div>
-                            
+                            <a href="">Contact Us</a>
                         </div>
 
                         <div class="col-sm-1" style="text-align: right;">

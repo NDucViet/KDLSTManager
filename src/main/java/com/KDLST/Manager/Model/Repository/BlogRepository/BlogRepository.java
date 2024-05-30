@@ -41,7 +41,6 @@ public class BlogRepository {
                 blogList.add(blog);
             }
             con.close();
-
         } catch (Exception e) {
             System.out.println(e);
         }

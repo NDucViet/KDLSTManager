@@ -10,9 +10,14 @@ import com.KDLST.Manager.Model.Repository.HotelRepository.RoomTypeRepository;
 
 @Service
 public class RoomTypeServiceImplement implements RoomTypeService {
-    private ArrayList<RoomType> roomTypeList;
+    ArrayList<RoomType> roomTypeList = new ArrayList<>();
     @Autowired
-    private RoomTypeRepository roomTypeRepository;
+    RoomTypeRepository roomTypeRepository = new RoomTypeRepository();
+
+    public static void main(String[] args) {
+        RoomTypeServiceImplement r = new RoomTypeServiceImplement();
+        System.out.println(r.getAll());
+    }
 
     @Override
     public ArrayList<RoomType> getAll() {

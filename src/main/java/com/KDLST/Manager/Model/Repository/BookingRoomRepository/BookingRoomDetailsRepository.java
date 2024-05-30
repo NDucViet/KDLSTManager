@@ -16,11 +16,11 @@ import jakarta.el.ELException;
 
 @Repository
 public class BookingRoomDetailsRepository {
-    private ArrayList<BookingRoomDetails> bookingRoomDetailsList;
+    ArrayList<BookingRoomDetails> bookingRoomDetailsList = new ArrayList<>();
 
     @Autowired
-    private BookingRoomRepository bookingRoomRepository;
-    private RoomRepository roomRepository;
+    BookingRoomRepository bookingRoomRepository = new BookingRoomRepository();
+    RoomRepository roomRepository = new RoomRepository();
 
     public ArrayList<BookingRoomDetails> getAll() {
         try {
@@ -45,6 +45,32 @@ public class BookingRoomDetailsRepository {
         return bookingRoomDetailsList;
     }
 
+    public ArrayList<BookingRoomDetails> getByIDRoomDetails(int id) {
+        ArrayList<BookingRoomDetails> bkrdt = new ArrayList<>();
+        try {
+            bkrdt.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = con.prepareStatement(
+                    "select * from KDLST.BookingRoomDetail where KDLST.BookingRoomDetail.bookingRoomID = ?;");
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
+                BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
+                Room room = roomRepository.getById(rs.getInt("roomID"));
+                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+                bkrdt.add(bookingRoomDetails);
+            }
+            con.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+        }
+        return bkrdt;
+    }
+
     public BookingRoomDetails getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -67,6 +93,11 @@ public class BookingRoomDetailsRepository {
             System.out.println(e);
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        BookingRoomDetailsRepository b = new BookingRoomDetailsRepository();
+        System.out.println(b.getByIDRoomDetails(2));
     }
 
     public boolean update(BookingRoomDetails bookingRoomDetails) {
@@ -96,7 +127,7 @@ public class BookingRoomDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.BookingRoom (bookingRoomID, roomID) values(?,?)");
+                    "insert into KDLST.BookingRoomDetail (bookingRoomID, roomID) values(?,?)");
             prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
             prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
             int result = prsm.executeUpdate();

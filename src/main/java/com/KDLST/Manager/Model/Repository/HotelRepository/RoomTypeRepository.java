@@ -11,10 +11,9 @@ import jakarta.el.ELException;
 
 @Repository
 public class RoomTypeRepository {
-    private ArrayList<RoomType> roomTypeList;
+    ArrayList<RoomType> roomTypeList = new ArrayList<>();
 
     public ArrayList<RoomType> getAll() {
-
         try {
             roomTypeList.clear();
             Class.forName(BaseConnection.nameClass);
@@ -25,7 +24,12 @@ public class RoomTypeRepository {
             while (rs.next()) {
                 int id = rs.getInt("roomTypeID");
                 String name = rs.getString("roomTypeName");
-                RoomType roomType = new RoomType(id, name);
+                double price = rs.getDouble("price");
+                String images = rs.getString("image");
+                String details = rs.getString("details");
+                int maxPeople = rs.getInt("maxOfPeople");
+                int quantity = rs.getInt("quantity");
+                RoomType roomType = new RoomType(id, name, price, images, details, maxPeople, quantity);
                 roomTypeList.add(roomType);
             }
             con.close();
@@ -49,12 +53,22 @@ public class RoomTypeRepository {
                 throw new ELException("Cannot find");
             }
             String name = rs.getString("roomTypeName");
-            RoomType roomType = new RoomType(id, name);
+            double price = rs.getDouble("price");
+            String images = rs.getString("image");
+            String details = rs.getString("details");
+            int maxPeople = rs.getInt("maxOfPeople");
+            int quantity = rs.getInt("quantity");
+            RoomType roomType = new RoomType(id, name, price, images, details, maxPeople, quantity);
             st.close();
             return roomType;
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        RoomTypeRepository roomTypeRepository = new RoomTypeRepository();
+        System.out.println(roomTypeRepository.getAll());
     }
 }

@@ -9,7 +9,10 @@ public interface BookingRoomDetailsService {
 
     public BookingRoomDetails getById(int id);
 
+    public ArrayList<BookingRoomDetails> getByIDRoomDetails(int id);
+
     public boolean update(BookingRoomDetails bookingRoomDetails);
 
     public boolean add(BookingRoomDetails bookingRoomDetails);
+
 }

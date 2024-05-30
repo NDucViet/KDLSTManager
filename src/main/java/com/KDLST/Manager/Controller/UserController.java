@@ -12,8 +12,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.sql.Date;
+
+import com.KDLST.Manager.Model.Entity.CartItem.Cart;
 import com.KDLST.Manager.Model.Entity.User.User;
-import com.KDLST.Manager.Model.Repository.UserRepository.CustomerTypeRepository;
+import com.KDLST.Manager.Model.Service.CartItemService.CartService;
+import com.KDLST.Manager.Model.Service.UserService.CustomerTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
 import java.util.ArrayList;
 import jakarta.servlet.http.Cookie;
@@ -32,8 +35,9 @@ public class UserController {
 
     // Tiêm phụ thuộc
     @Autowired
-    UserServiceImplement userServiceImplement = new UserServiceImplement();
-    CustomerTypeRepository customerTypeRepository = new CustomerTypeRepository();
+    private UserServiceImplement userServiceImplement = new UserServiceImplement();
+    private CustomerTypeServiceImplement customerTypeServiceImplement;
+    private CartService cartService;
 
     // Hàm check cookie, trả về form đăng nhập
     @GetMapping("/showLogin")
@@ -45,8 +49,10 @@ public class UserController {
             for (Cookie cookie : cookies) {
                 if ("userCookie".equals(cookie.getName())) {
                     String userStr = cookie.getValue();
+                    user = userServiceImplement.login(userStr);
                     // Xử lý logic với username
-
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user", user);
                     user = userServiceImplement.login(userStr);
                     model.addAttribute("user", user);
                     return new indexController().index();
@@ -88,6 +94,7 @@ public class UserController {
                 cookie.setMaxAge(60 * 60);
                 response.addCookie(cookie);
                 HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
                 session.setAttribute("userRole", user.getRole());
                 return new indexController().index();
             } else {
@@ -96,6 +103,8 @@ public class UserController {
         } else if (!Boolean.TRUE.equals(rememberme)) {
             if (flag) {
                 user = userServiceImplement.login(user1.getEmail());
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
                 return new indexController().index();
             } else {
                 return showLogin(model, request);
@@ -129,7 +138,7 @@ public class UserController {
         }
         user1.setAvatar(null);
         user1.setRole("USER");
-        user1.setCustomerType(customerTypeRepository.getById(1));
+        user1.setCustomerType(customerTypeServiceImplement.getById(6));
         user1.setIdUser(0);
         user1.setStatus(true);
         if (pass.equals(user1.getPassword())) {
@@ -162,6 +171,9 @@ public class UserController {
     @GetMapping("/toAdd")
     public String toAdd() {
         userServiceImplement.add(user);
+        user = userServiceImplement.login(user.getEmail());
+        Cart cart = new Cart(0, user);
+        cartService.add(cart);
         user = null;
         return "redirect:/user/showLogin";
 

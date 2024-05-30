@@ -10,10 +10,10 @@ import com.KDLST.Manager.Model.Repository.BookingRoomRepository.BookingRoomRepos
 
 @Service
 public class BookingRoomServiceImplement implements BookingRoomService {
-    private ArrayList<BookingRoom> bookingRoomList;
+    ArrayList<BookingRoom> bookingRoomList = new ArrayList<>();
 
     @Autowired
-    private BookingRoomRepository bookingRoomRepository;
+    BookingRoomRepository bookingRoomRepository = new BookingRoomRepository();
 
     @Override
     public ArrayList<BookingRoom> getAll() {
@@ -40,5 +40,15 @@ public class BookingRoomServiceImplement implements BookingRoomService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<BookingRoom> getByStatus() {
+        return bookingRoomRepository.getByStatus();
+    }
+
+    @Override
+    public ArrayList<BookingRoom> getByIdUser(int id) {
+        return bookingRoomRepository.getByIdUser(id);
     }
 }

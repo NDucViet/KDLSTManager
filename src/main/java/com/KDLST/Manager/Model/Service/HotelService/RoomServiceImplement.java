@@ -10,9 +10,9 @@ import com.KDLST.Manager.Model.Repository.HotelRepository.RoomRepository;
 
 @Service
 public class RoomServiceImplement implements RoomService {
-    private ArrayList<Room> roomList;
+    ArrayList<Room> roomList = new ArrayList<>();
     @Autowired
-    private RoomRepository roomRepository;
+    RoomRepository roomRepository = new RoomRepository();
 
     @Override
     public ArrayList<Room> getAll() {
@@ -31,6 +31,11 @@ public class RoomServiceImplement implements RoomService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<Room> getByIdRoomType(int idRoomType) {
+        return roomRepository.getByIdRoomType(idRoomType);
     }
 
 }

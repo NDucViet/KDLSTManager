@@ -22,7 +22,7 @@ public class ServiceTypeRepository {
             ResultSet rs = stsm.executeQuery("select * from KDLST.ServiceType");
             while (rs.next()) {
                 int serviceTypeID = rs.getInt("serviceTypeID");
-                String serviceName = rs.getString("serviceName");
+                String serviceName = rs.getString("serviceTypeName");
                 ServiceType svtype = new ServiceType(serviceTypeID, serviceName);
                 serviceTypesList.add(svtype);
             }
@@ -46,7 +46,7 @@ public class ServiceTypeRepository {
                 throw new ELException("Cannot find");
             }
             int serviceTypeID = rs.getInt("serviceTypeID");
-            String serviceName = rs.getString("serviceName");
+            String serviceName = rs.getString("serviceTypeName");
             ServiceType svtp = new ServiceType(serviceTypeID, serviceName);
             st.close();
             return svtp;
@@ -62,9 +62,8 @@ public class ServiceTypeRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.ServiceType set KDLST.ServiceType.serviceName=?,where KDLST.ServiceType.serviceTypeID =?");
+                    "update KDLST.ServiceType set KDLST.ServiceType.serviceTypeName=?,where KDLST.ServiceType.serviceTypeID =?");
             prsm.setString(1, serviceType.getServiceName());
-            System.out.println(serviceType.toString());
             int result = prsm.executeUpdate();
             System.out.println(result);
             con.close();
@@ -80,7 +79,7 @@ public class ServiceTypeRepository {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement prsm = con.prepareStatement("insert into KDLST.ServiceType (serviceName) values(?)");
+            PreparedStatement prsm = con.prepareStatement("insert into KDLST.ServiceType (serviceTypeName) values(?)");
             prsm.setString(1, ServiceType.getServiceName());
             int result = prsm.executeUpdate();
             con.close();
@@ -89,10 +88,5 @@ public class ServiceTypeRepository {
             System.out.println(e);
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        ServiceTypeRepository r= new ServiceTypeRepository();
-        System.out.println(r.getById(1));
     }
 }

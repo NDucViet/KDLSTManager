@@ -15,10 +15,10 @@ import jakarta.el.ELException;
 
 @Repository
 public class RoomRepository {
-    private ArrayList<Room> roomList;
+    ArrayList<Room> roomList = new ArrayList<>();
     @Autowired
-    private HotelRepository hotelRepository;
-    private RoomTypeRepository roomTypeRepository;
+    HotelRepository hotelRepository = new HotelRepository();
+    RoomTypeRepository roomTypeRepository = new RoomTypeRepository();
 
     public ArrayList<Room> getAll() {
         try {
@@ -32,17 +32,11 @@ public class RoomRepository {
                 int roomID = rs.getInt("roomID");
                 Hotel hotel = hotelRepository.getById(rs.getInt("hotelID"));
                 RoomType roomType = roomTypeRepository.getById(rs.getInt("roomTypeID"));
-                double acreage = rs.getDouble("acreage");
-                int maxPeople = rs.getInt("maxOfPeople");
-                double price = rs.getDouble("price");
-                String image = rs.getString("image");
-                String amenities = rs.getString("amenities");
                 boolean status = rs.getBoolean("status");
-                Room room = new Room(roomID, hotel, roomType, acreage, maxPeople, price, image, amenities, status);
+                Room room = new Room(roomID, hotel, roomType, status);
                 roomList.add(room);
             }
             con.close();
-
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);
@@ -65,15 +59,37 @@ public class RoomRepository {
             int roomID = rs.getInt("roomID");
             Hotel hotel = hotelRepository.getById(rs.getInt("hotelID"));
             RoomType roomType = roomTypeRepository.getById(rs.getInt("roomTypeID"));
-            double acreage = rs.getDouble("acreage");
-            int maxPeople = rs.getInt("maxOfPeople");
-            double price = rs.getDouble("price");
-            String image = rs.getString("image");
-            String amenities = rs.getString("amenities");
             boolean status = rs.getBoolean("status");
-            Room room = new Room(roomID, hotel, roomType, acreage, maxPeople, price, image, amenities, status);
+            Room room = new Room(roomID, hotel, roomType, status);
             st.close();
             return room;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public ArrayList<Room> getByIdRoomType(int idRoomType) {
+        ArrayList<Room> roList = new ArrayList<>();
+        try {
+            roList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = conn.prepareStatement(
+                    "select * from KDLST.Room where KDLST.Room.roomTypeID = ?;");
+            st.setInt(1, idRoomType);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int roomID = rs.getInt("roomID");
+                Hotel hotel = hotelRepository.getById(rs.getInt("hotelID"));
+                RoomType roomType = roomTypeRepository.getById(rs.getInt("roomTypeID"));
+                boolean status = rs.getBoolean("status");
+                Room room = new Room(roomID, hotel, roomType, status);
+                roList.add(room);
+            }
+            st.close();
+            return roList;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -86,16 +102,11 @@ public class RoomRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.Room set KDLST.Room.hotelID =?, KDLST.Room.roomTypeID=?, KDLST.Room.quantity = ?, KDLST.Room.maxOfPeople =?, KDLST.Room.price =?, KDLST.Room.image =?, KDLST.Room.amenities =?, KDLST.Room.status =? where KDLST.Room.roomID =?");
+                    "update KDLST.Room set KDLST.Room.hotelID =?, KDLST.Room.roomTypeID=?, KDLST.Room.status =? where KDLST.Room.roomID =?");
             prsm.setInt(1, room.getHotel().getHotelID());
             prsm.setInt(2, room.getRoomType().getRoomTypeID());
-            prsm.setDouble(3, room.getAcreage());
-            prsm.setInt(4, room.getMaxPeople());
-            prsm.setDouble(5, room.getPrice());
-            prsm.setString(6, room.getImage());
-            prsm.setString(7, room.getAmenities());
-            prsm.setBoolean(8, room.isStatus());
-            prsm.setInt(9, room.getRoomID());
+            prsm.setBoolean(3, room.isStatus());
+            prsm.setInt(4, room.getRoomID());
             int result = prsm.executeUpdate();
             System.out.println(result);
             con.close();
@@ -107,8 +118,4 @@ public class RoomRepository {
         return false;
     }
 
-    public static void main(String[] args) {
-        RoomRepository roomRepository = new RoomRepository();
-        System.out.println(roomRepository.getAll());
-    }
 }

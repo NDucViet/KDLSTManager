@@ -58,7 +58,6 @@ public class BillRepository {
             Date datePay = rs.getDate("datePay");
             Boolean status = rs.getBoolean("status");
             Bill bill = new Bill(billID, user, datePay, status);
-
             st.close();
             return bill;
         } catch (Exception e) {
@@ -96,7 +95,6 @@ public class BillRepository {
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
                     "INSERT INTO KDLST.bill (userID, datePay, status) VALUES (?, ?, ?)");
-
             prsm.setInt(1, bill.getUser().getIdUser());
             prsm.setDate(2, bill.getDatePay());
             prsm.setBoolean(3, bill.isStatus());
@@ -108,5 +106,4 @@ public class BillRepository {
         }
         return false;
     }
-
 }

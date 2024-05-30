@@ -1,324 +1,406 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css"
-      integrity="sha512-DJLNx+VLY4aEiEQFjiawXaiceujj5GA7lIY8CHCIGQCBPfsEG0nGz1edb4Jvw1LR7q031zS5PpPqFuPA8ihlRA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css"
-      integrity="sha512-UuQ/zJlbMVAw/UU8vVBhnI4op+/tFOpQZVT+FormmIEhRSCnJWyHiBbEVgM4Uztsht41f3FzVWgLuwzUqOObKw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <!--  -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery
-    /3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo2
-    1dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      c
-      rossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="./fancybox/jquery.fancybox-1.3.4.css"
-      media="screen"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
-      integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
-      integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      type="text/javascript"
-      src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./fancybox/jquery.mousewheel-3.0.4.pack.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./fancybox/jquery.fancybox-1.3.4.pack.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="./fancybox/jquery.fancybox-1.3.4.css"
-      media="screen"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Allura&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/reUse.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-  </head>
+<!DOCTYPE HTML>
+<html>
 
-  <body>
-    <div>
-      <header th:insert="~{header :: header}"></header>
-      <div class="carosel">
-        <div
-          id="carouselExampleFade"
-          class="carousel slide carousel-fade"
-          data-bs-ride="carousel"
-        >
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="images/10.jpg" class="d-block w-100" alt="..." />
-              <div class="carosel_tittle">
-                <p>Find excitement wherever you go</p>
-                <h1>Switzerland</h1>
-                <div class="bth"><a href="http://">READ MORE</a></div>
-              </div>
-              <!-- <img class="hehe" src="./img/62b342e93a6b3e0aaad173c0_PNG (V-4) (1).png" alt=""> -->
-            </div>
-            <div class="carousel-item">
-              <img src="images/11.jpg" class="d-block w-100" alt="..." />
-              <div class="carosel_tittle">
-                <p>Find your perfect location</p>
-                <h1>Salerno</h1>
-                <div class="bth"><a href="http://">READ MORE</a></div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="images/12.jpg" class="d-block w-100" alt="..." />
-              <div class="carosel_tittle">
-                <p>Visit the beautiful landscapes</p>
-                <h1>Norway</h1>
-                <div class="bth"><a href="http://">READ MORE</a></div>
-              </div>
-            </div>
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleFade"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleFade"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sogo Hotel by Colorlib.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="" />
+  <link rel="stylesheet" type="text/css"
+    href="//fonts.googleapis.com/css?family=|Roboto+Sans:400,700|Playfair+Display:400,700">
+
+  <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../css/fancybox.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap-datepicker.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../css/jquery.timepicker.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../css/owl.carousel.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../fonts/ionicons/css/ionicons.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../fonts/fontawesome/css/font-awesome.min.css}">
+
+  <link rel="stylesheet" type="text/css" th:href="@{../css/animate.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../css/aos.css}">
+  <!-- Theme Style -->
+  <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+</head>
+
+<body>
+
+  <header th:insert="~{header1 :: header}"></header>
+  <!-- END head -->
+
+  <section class="site-hero overlay" style="background-image: url(images/hero_4.jpg)"
+    data-stellar-background-ratio="0.5">
+    <div class="container">
+      <div class="row site-hero-inner justify-content-center align-items-center">
+        <div class="col-md-10 text-center" data-aos="fade-up">
+          <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span
+              class="fa fa-star text-primary"></span> Hotel</span>
+          <h1 class="heading">A Best Place To Stay</h1>
         </div>
       </div>
     </div>
 
-    <!-- deal -->
-
-    <section class="deal">
-      <div class="deal_tittlee">
-        <p>Last minute offer for you</p>
-        <h2>DEALS & DISCOUNT</h2>
+    <a class="mouse smoothscroll" href="#next">
+      <div class="mouse-icon">
+        <span class="mouse-wheel"></span>
       </div>
+    </a>
+  </section>
+  <!-- END section -->
 
-      <div class="container">
-        <div class="left">
-          <div class="im">
-<!--            <img src="images/12.jpg" alt="" />-->
-            <div class="mini_tittle">
-              <h3>$ 950.00 USD</h3>
-              <h4>Adventures in Japan</h4>
-              <p>
-                Get an unforgettable experience from each of our trips! Travel
-                with us!
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="right">
-          <div class="right_top">
-            <div class="top1">
-              <div class="mini_tittle">
-                <h3>$ 870.00 USD</h3>
-                <h4>Extreme Madagascar</h4>
-                <p>Enjoy each of our tours!</p>
+  <section class="section bg-light pb-0">
+    <div class="container">
+
+      <div class="row check-availabilty" id="next">
+        <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+
+          <form th:action="@{/hotel/getDate}" th:method="get">
+            <div class="row">
+              <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                <label for="checkin_date" class="font-weight-bold text-black">Check In</label>
+                <div class="field-icon-wrap">
+                  <div class="icon"><span class="icon-calendar"></span></div>
+                  <input type="text" id="checkin_date" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                <label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
+                <div class="field-icon-wrap">
+                  <div class="icon"><span class="icon-calendar"></span></div>
+                  <input type="text" id="checkout_date" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3 align-self-end">
+                <button type="submit" class="btn btn-primary btn-block text-white">Check Availabilty</button>
               </div>
             </div>
-            <div class="top2">
-              <div class="mini_tittle">
-                <h3>$ 900.00 USD</h3>
-                <h4>Amazing Colombia</h4>
-                <p>Enjoy each of our tours!</p>
-              </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5" data-aos="fade-up">
+          <figure class="img-absolute">
+            <img src="images/food-1.jpg" alt="Image" class="img-fluid">
+          </figure>
+          <img src="images/img_1.jpg" alt="Image" class="img-fluid rounded">
+        </div>
+        <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
+          <h2 class="heading">Welcome!</h2>
+          <p class="mb-4">
+            Nestled far away, behind lush green mountains, and distant from the bustling city of Da Nang, lies the
+            enchanting eco-tourism resort known as "Green Paradise." Here, charming cottages are tucked away amidst
+            sprawling forests, where birds chirp melodiously and streams flow gently. Surrounded by pristine nature and
+            serene tranquility, Green Paradise offers visitors a sense of absolute relaxation and comfort. With its
+            long, sandy beaches and crystal-clear waters, the resort resembles a precious gem set amidst the vast ocean,
+            providing a unique and magical experience for those who cherish the peace and the untouched beauty of
+            nature.</p>
+          <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span
+              class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774"
+              data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-md-7">
+          <h2 class="heading" data-aos="fade-up">Rooms &amp; Suites</h2>
+          <p data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries
+            Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the
+            coast of the Semantics, a large language ocean.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-4" data-aos="fade-up">
+          <a href="#" class="room">
+            <figure class="img-wrap">
+              <img src="images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
+            </figure>
+            <div class="p-3 text-center room-info">
+              <h2>Single Room</h2>
+              <span class="text-uppercase letter-spacing-1">90$ / per night</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up">
+          <a href="#" class="room">
+            <figure class="img-wrap">
+              <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
+            </figure>
+            <div class="p-3 text-center room-info">
+              <h2>Family Room</h2>
+              <span class="text-uppercase letter-spacing-1">120$ / per night</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4" data-aos="fade-up">
+          <a href="#" class="room">
+            <figure class="img-wrap">
+              <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
+            </figure>
+            <div class="p-3 text-center room-info">
+              <h2>Presidential Room</h2>
+              <span class="text-uppercase letter-spacing-1">250$ / per night</span>
+            </div>
+          </a>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section slider-section bg-light">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-md-7">
+          <h2 class="heading" data-aos="fade-up">Photos</h2>
+          <p data-aos="fade-up" data-aos-delay="100">
+            Nestled far away, behind lush green mountains, and distant from the bustling city of Da Nang, lies the
+            enchanting eco-tourism resort known as "Green Paradise." Here, charming cottages are tucked away amidst
+            sprawling forests, where birds chirp melodiously and streams flow gently. Surrounded by pristine nature and
+            serene tranquility, Green Paradise offers visitors a sense of absolute relaxation and comfort. With its
+            long, sandy beaches and crystal-clear waters, the resort resembles a precious gem set amidst the vast ocean,
+            providing a unique and magical experience for those who cherish the peace and the untouched beauty of
+            nature.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="home-slider major-caousel owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+            <div class="slider-item">
+              <a href="images/slider-1.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-1.jpg" alt="Image placeholder" class="img-fluid"></a>
+            </div>
+            <div class="slider-item">
+              <a href="images/slider-2.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-2.jpg" alt="Image placeholder" class="img-fluid"></a>
+            </div>
+            <div class="slider-item">
+              <a href="images/slider-3.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-3.jpg" alt="Image placeholder" class="img-fluid"></a>
+            </div>
+            <div class="slider-item">
+              <a href="images/slider-4.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-4.jpg" alt="Image placeholder" class="img-fluid"></a>
+            </div>
+            <div class="slider-item">
+              <a href="images/slider-5.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-5.jpg" alt="Image placeholder" class="img-fluid"></a>
+            </div>
+            <div class="slider-item">
+              <a href="images/slider-6.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-6.jpg" alt="Image placeholder" class="img-fluid"></a>
+            </div>
+            <div class="slider-item">
+              <a href="images/slider-7.jpg" data-fancybox="images" data-caption="Caption for this image"><img
+                  src="images/slider-7.jpg" alt="Image placeholder" class="img-fluid"></a>
             </div>
           </div>
-          <div class="right_bottom">
-            <div class="mini_tittle">
-              <h3>$ 700.00 USD</h3>
-              <h4>Adventures in Japan</h4>
+          <!-- END slider -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- END section -->
+  <!-- .tab-pane -->
+
+
+  <!-- END section -->
+  <section class="section testimonial-section">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-md-7">
+          <h2 class="heading" data-aos="fade-up">People Says</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="js-carousel-2 owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+
+          <div class="testimonial text-center slider-item">
+            <div class="author-image mb-3">
+              <img src="images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+            </div>
+            <blockquote>
+
+              <p>&ldquo;A small river named Duden flows by their place and supplies it with the necessary regelialia. It
+                is a paradisematic country, in which roasted parts of sentences fly into your mouth.&rdquo;</p>
+            </blockquote>
+            <p><em>&mdash; Jean Smith</em></p>
+          </div>
+
+          <div class="testimonial text-center slider-item">
+            <div class="author-image mb-3">
+              <img src="images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+            </div>
+            <blockquote>
+              <p>&ldquo;Even the all-powerful Pointing has no control about the blind texts it is an almost
+                unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to
+                leave for the far World of Grammar.&rdquo;</p>
+            </blockquote>
+            <p><em>&mdash; John Doe</em></p>
+          </div>
+
+          <div class="testimonial text-center slider-item">
+            <div class="author-image mb-3">
+              <img src="images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+            </div>
+            <blockquote>
+
+              <p>&ldquo;When she reached the first hills of the Italic Mountains, she had a last view back on the
+                skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own
+                road, the Line Lane.&rdquo;</p>
+            </blockquote>
+            <p><em>&mdash; John Doe</em></p>
+          </div>
+
+
+          <div class="testimonial text-center slider-item">
+            <div class="author-image mb-3">
+              <img src="images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+            </div>
+            <blockquote>
+
+              <p>&ldquo;A small river named Duden flows by their place and supplies it with the necessary regelialia. It
+                is a paradisematic country, in which roasted parts of sentences fly into your mouth.&rdquo;</p>
+            </blockquote>
+            <p><em>&mdash; Jean Smith</em></p>
+          </div>
+
+          <div class="testimonial text-center slider-item">
+            <div class="author-image mb-3">
+              <img src="images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+            </div>
+            <blockquote>
+              <p>&ldquo;Even the all-powerful Pointing has no control about the blind texts it is an almost
+                unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to
+                leave for the far World of Grammar.&rdquo;</p>
+            </blockquote>
+            <p><em>&mdash; John Doe</em></p>
+          </div>
+
+          <div class="testimonial text-center slider-item">
+            <div class="author-image mb-3">
+              <img src="images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+            </div>
+            <blockquote>
+
+              <p>&ldquo;When she reached the first hills of the Italic Mountains, she had a last view back on the
+                skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own
+                road, the Line Lane.&rdquo;</p>
+            </blockquote>
+            <p><em>&mdash; John Doe</em></p>
+          </div>
+
+        </div>
+        <!-- END slider -->
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="section blog-post-entry bg-light">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-md-7">
+          <h2 class="heading" data-aos="fade-up">Events</h2>
+          <p data-aos="fade-up">
+            Nestled far away, behind lush green mountains, and distant from the bustling city of Da Nang, lies the
+            enchanting eco-tourism resort known as "Green Paradise." Here, charming cottages are tucked away amidst
+            sprawling forests, where birds chirp melodiously and streams flow gently. Surrounded by pristine nature and
+            serene tranquility, Green Paradise offers visitors a sense of absolute relaxation and comfort. With its
+            long, sandy beaches and crystal-clear waters, the resort resembles a precious gem set amidst the vast ocean,
+            providing a unique and magical experience for those who cherish the peace and the untouched beauty of
+            nature.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="media media-custom d-block mb-4 h-100">
+            <a href="#" class="mb-4 d-block"><img src="images/img_1.jpg" alt="Image placeholder" class="img-fluid"></a>
+            <div class="media-body">
+              <span class="meta-post">February 26, 2018</span>
+              <h2 class="mt-0 mb-3"><a href="#">Travel Hacks to Make Your Flight More Comfortable</a></h2>
               <p>
-                Get an unforgettable experience from each of our trips! Travel
-                with us!
-              </p>
+                Nestled far away, behind lush green mountains, and distant from the bustling city of Da Nang, lies the
+                enchanting eco-tourism resort known as "Green Paradise." Here, charming cottages are tucked away amidst
+                sprawling forests, where birds chirp melodiously and streams flow gently. Surrounded by pristine nature
+                and serene tranquility, Green Paradise offers visitors a sense of absolute relaxation and comfort. With
+                its long, sandy beaches and crystal-clear waters, the resort resembles a precious gem set amidst the
+                vast ocean, providing a unique and magical experience for those who cherish the peace and the untouched
+                beauty of nature.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="200">
+          <div class="media media-custom d-block mb-4 h-100">
+            <a href="#" class="mb-4 d-block"><img src="images/img_2.jpg" alt="Image placeholder" class="img-fluid"></a>
+            <div class="media-body">
+              <span class="meta-post">February 26, 2018</span>
+              <h2 class="mt-0 mb-3"><a href="#">5 Job Types That Aallow You To Earn As You Travel The World</a></h2>
+              <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="300">
+          <div class="media media-custom d-block mb-4 h-100">
+            <a href="#" class="mb-4 d-block"><img src="images/img_3.jpg" alt="Image placeholder" class="img-fluid"></a>
+            <div class="media-body">
+              <span class="meta-post">February 26, 2018</span>
+              <h2 class="mt-0 mb-3"><a href="#">30 Great Ideas On Gifts For Travelers</a></h2>
+              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. t is a
+                paradisematic country, in which roasted parts of sentences.</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <!-- end_deal -->
-    <!-- category -->
-    <section div="category">
-      <div class="category_tittle">
-        <p>Many places for your trip</p>
-        <h2>TOUR CATEGORIES</h2>
-      </div>
-      <div class="slide_category">
-        <div class="mul">
-          <div class="mul_card">
-            <img src="/images/62b196385edaf64b6855aa37_beautiful-luxury-outdoor-swimming-pool-hotel-resort (1) (1) (1)-p-500.jpeg" alt="" />
-            <hr />
-            <div class="mul_detail">
-              <div class="mul_del1">8 days</div>
-              <div class="mul_del1">Exotic</div>
-              <div class="mul_del1">61+</div>
-            </div>
-            <hr />
-            <div class="mul_tittle">
-              <div class="money">$8000 VND</div>
-              <p></p>
-            </div>
-            <button class="bth">ADD TO CART</button>
-          </div>
-          <div>
-            <img
-              src="/images/62b196385edaf64b6855aa37_beautiful-luxury-outdoor-swimming-pool-hotel-resort (1) (1) (1)-p-500.jpeg"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="/images//62b196385edaf64b6855aa37_beautiful-luxury-outdoor-swimming-pool-hotel-resort (1) (1) (1)-p-500.jpeg"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="/images//62b196385edaf64b6855aa37_beautiful-luxury-outdoor-swimming-pool-hotel-resort (1) (1) (1)-p-500.jpeg"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="/images//62b196385edaf64b6855aa37_beautiful-luxury-outdoor-swimming-pool-hotel-resort (1) (1) (1)-p-500.jpeg"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="/images//62b196385edaf64b6855aa37_beautiful-luxury-outdoor-swimming-pool-hotel-resort (1) (1) (1)-p-500.jpeg"
-              alt=""
-            />
-          </div>
+    </div>
+  </section>
+
+  <section class="section bg-image overlay" style="background-image: url('images/hero_4.jpg');">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">
+          <h2 class="text-white font-weight-bold">A Best Place To Stay. Reserve Now!</h2>
+        </div>
+        <div class="col-12 col-md-6 text-center text-md-right" data-aos="fade-up" data-aos-delay="200">
+          <a href="reservation.html" class="btn btn-outline-white-primary py-3 text-white px-5">Reserve Now</a>
         </div>
       </div>
-    </section>
-    <!-- end_cate -->
-    <!-- tour_cate -->
-    <!-- profile_cate -->
-    <!-- video -->
-    <!-- hehe -->
-    <!-- post -->
-    <!-- sub -->
-    <!-- footer -->
-    <footer></footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
-      integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    </div>
+  </section>
+  <footer th:insert="~{footer1 :: footer}"></footer>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.fancybox.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/main.js"></script>
+</body>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"
-      integrity="sha512-eP8DK17a+MOcKHXC5Yrqzd8WI5WKh6F1TIk5QZ/8Lbv+8ssblcz7oGC8ZmQ/ZSAPa7ZmsCU4e/hcovqR8jfJqA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script type="text/javascript">
-      $(".mul").slick({
-        slidesToShow: 3,
-        slidesToScroll: 2,
-        autoplay: true,
-        infinity: true,
-        dots: true,
-        autoplaySpeed: 0,
-        speed: 1000,
-        /* xóa button */
-        appendArrows: "",
-      });
-    </script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-    <script src="./Counting-Up-To-Numerical-Values-On-Scroll-jQuery-Countup-js/jquery.countup.js"></script>
-
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/brands.min.js"
-      integrity="sha512-ojD9xRtdGdJLd9K/vMhV6GyO8G9wVrofDXmX4AjrKPctyKTLaVVwuAJhZanincPnSprZv1Nc3iDpxIi/6+Xv7A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"
-      integrity="sha512-u3fPA7V8qQmhBPNT5quvaXVa1mnnLSXUep5PS1qo5NRzHwG19aHmNJnj1Q8hpA/nBWZtZD4r4AX6YOt5ynLN2g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/static/js/"></script>
-  </body>
 </html>

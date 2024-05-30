@@ -1,6 +1,5 @@
 package com.KDLST.Manager.Model.Repository.CartItemRepository;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +10,13 @@ import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
 import jakarta.el.ELException;
 
-
-
 @Repository
 public class CartRepository {
-ArrayList<Cart> cartList = new ArrayList<>();
- @Autowired
- private UserRepository userRepository = new UserRepository();
- 
-public ArrayList<Cart> getAll() {
+    ArrayList<Cart> cartList = new ArrayList<>();
+    @Autowired
+    private UserRepository userRepository = new UserRepository();
+
+    public ArrayList<Cart> getAll() {
         try {
             cartList.clear();
             Class.forName(BaseConnection.nameClass);
@@ -29,13 +26,13 @@ public ArrayList<Cart> getAll() {
             ResultSet rs = stsm.executeQuery("select * from KDLST.cart");
             while (rs.next()) {
                 int cartID = rs.getInt("cartID");
-               User user = userRepository.getById(rs.getInt("userID"));
-               Cart cart= new Cart(cartID, user);
+                User user = userRepository.getById(rs.getInt("userID"));
+                Cart cart = new Cart(cartID, user);
                 cartList.add(cart);
             }
             con.close();
         } catch (Exception e) {
-            
+
         }
         return cartList;
     }
@@ -54,7 +51,7 @@ public ArrayList<Cart> getAll() {
             }
             int cartID = rs.getInt("cartID");
             User user = userRepository.getById(rs.getInt("userID"));
-            Cart cart= new Cart(cartID, user);
+            Cart cart = new Cart(cartID, user);
 
             st.close();
             return cart;
@@ -65,12 +62,13 @@ public ArrayList<Cart> getAll() {
     }
 
     public boolean update(Cart cart) {
-        try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password)) {
+        try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                BaseConnection.password)) {
             PreparedStatement prsm = con.prepareStatement(
-                    "UPDATE KDLST.User SET userID = ? WHERE cartID = ?");
+                    "UPDATE KDLST.cart SET userID = ? WHERE cartID = ?");
             prsm.setInt(1, cart.getUser().getIdUser());
             prsm.setInt(2, cart.getCartID());
-    
+
             int result = prsm.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
@@ -78,20 +76,21 @@ public ArrayList<Cart> getAll() {
             return false;
         }
     }
+
     public boolean add(Cart cart) {
         try {
             Class.forName(BaseConnection.nameClass);
-            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-            "INSERT INTO KDLST.cart (userID) VALUES ( ?)");
+                    "INSERT INTO KDLST.cart (userID) VALUES ( ?)");
             prsm.setInt(1, cart.getUser().getIdUser());
-    
             int result = prsm.executeUpdate();
             con.close();
-            return result > 0; 
+            return result > 0;
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
-        return false; 
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 
 package com.KDLST.Manager.Model.Entity.Bill;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

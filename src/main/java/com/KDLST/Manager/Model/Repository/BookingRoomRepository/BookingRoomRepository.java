@@ -12,9 +12,9 @@ import jakarta.el.ELException;
 
 @Repository
 public class BookingRoomRepository {
-    private ArrayList<BookingRoom> bookingRoomList;
+    ArrayList<BookingRoom> bookingRoomList = new ArrayList<>();
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository = new UserRepository();
 
     public ArrayList<BookingRoom> getAll() {
         try {
@@ -41,6 +41,35 @@ public class BookingRoomRepository {
         return bookingRoomList;
     }
 
+    public ArrayList<BookingRoom> getByIdUser(int id) {
+        ArrayList<BookingRoom> bkrs = new ArrayList<>();
+        try {
+            bkrs.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = conn.prepareStatement(
+                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.userID = ?;");
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int bookingRoomID = rs.getInt("bookingRoomID");
+                User user = userRepository.getById(rs.getInt("userID"));
+                Date startDate = rs.getDate("checkInDate");
+                Date endDate = rs.getDate("checkOutDate");
+                boolean status = rs.getBoolean("status");
+                BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
+                bkrs.add(bookingRoom);
+            }
+
+            st.close();
+            return bkrs;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public BookingRoom getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -61,6 +90,33 @@ public class BookingRoomRepository {
             BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
             st.close();
             return bookingRoom;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public ArrayList<BookingRoom> getByStatus() {
+        ArrayList<BookingRoom> bookingRoomLis = new ArrayList<>();
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = conn.prepareStatement(
+                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.status = ?;");
+            st.setBoolean(1, true);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int bookingRoomID = rs.getInt("bookingRoomID");
+                User user = userRepository.getById(rs.getInt("userID"));
+                Date startDate = rs.getDate("checkInDate");
+                Date endDate = rs.getDate("checkOutDate");
+                boolean status = rs.getBoolean("status");
+                BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
+                bookingRoomLis.add(bookingRoom);
+            }
+            st.close();
+            return bookingRoomLis;
         } catch (Exception e) {
             System.out.println(e);
         }

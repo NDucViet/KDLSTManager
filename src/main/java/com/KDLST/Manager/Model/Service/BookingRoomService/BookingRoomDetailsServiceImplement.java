@@ -10,9 +10,9 @@ import com.KDLST.Manager.Model.Repository.BookingRoomRepository.BookingRoomDetai
 
 @Service
 public class BookingRoomDetailsServiceImplement implements BookingRoomDetailsService {
-    private ArrayList<BookingRoomDetails> bookingRoomDetailList;
+    ArrayList<BookingRoomDetails> bookingRoomDetailList = new ArrayList<>();
     @Autowired
-    private BookingRoomDetailsRepository bookingRoomDetailsRepository;
+    BookingRoomDetailsRepository bookingRoomDetailsRepository = new BookingRoomDetailsRepository();
 
     @Override
     public ArrayList<BookingRoomDetails> getAll() {
@@ -39,6 +39,11 @@ public class BookingRoomDetailsServiceImplement implements BookingRoomDetailsSer
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<BookingRoomDetails> getByIDRoomDetails(int id) {
+        return bookingRoomDetailsRepository.getByIDRoomDetails(id);
     }
 
 }

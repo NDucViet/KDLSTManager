@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bill {
-private int billID;
-private User user;
-private Date datePay;
-private boolean status;
+    private int billID;
+    private User user;
+    private Date datePay;
+    private boolean status;
 }

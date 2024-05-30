@@ -1,6 +1,5 @@
 package com.KDLST.Manager.Model.Repository.CartItemRepository;
 
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,13 +18,11 @@ import jakarta.el.ELException;
 
 @Repository
 public class CartItemRepository {
-ArrayList <CartItem> cartItemList = new ArrayList<>();
- @Autowired
- private CartRepository cartRepository = new CartRepository();
+    ArrayList<CartItem> cartItemList = new ArrayList<>();
+    @Autowired
+    private CartRepository cartRepository = new CartRepository();
 
-
-
-public ArrayList<CartItem> getAll() {
+    public ArrayList<CartItem> getAll() {
         try {
             cartItemList.clear();
             Class.forName(BaseConnection.nameClass);
@@ -34,21 +31,22 @@ public ArrayList<CartItem> getAll() {
             Statement stsm = con.createStatement();
             ResultSet rs = stsm.executeQuery("select * from KDLST.cartitem");
             while (rs.next()) {
-             int cartItemID = rs.getInt("cartItemID");
-            Cart cart = cartRepository.getById(rs.getInt("cartID"));
-            int ticketID=rs.getInt("ticketId");
-            int quantity=rs.getInt("quantity");
-            BigDecimal price=rs.getBigDecimal("price");  
-            CartItem cartItem= new CartItem(cartItemID, cart, ticketID, quantity, price);
+                int cartItemID = rs.getInt("cartItemID");
+                Cart cart = cartRepository.getById(rs.getInt("cartID"));
+                int ticketID = rs.getInt("ticketId");
+                int quantity = rs.getInt("quantity");
+                BigDecimal price = rs.getBigDecimal("price");
+                CartItem cartItem = new CartItem(cartItemID, cart, ticketID, quantity, price);
                 cartItemList.add(cartItem);
             }
             con.close();
         } catch (Exception e) {
-            
+
         }
         return cartItemList;
     }
-public CartItem getById(int id) {
+
+    public CartItem getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
@@ -62,10 +60,10 @@ public CartItem getById(int id) {
             }
             int cartItemID = rs.getInt("cartItemID");
             Cart cart = cartRepository.getById(rs.getInt("cartID"));
-            int ticketID=rs.getInt("ticketId");
-            int quantity=rs.getInt("quantity");
-            BigDecimal price=rs.getBigDecimal("price");  
-            CartItem cartItem= new CartItem(cartItemID, cart, ticketID, quantity, price);
+            int ticketID = rs.getInt("ticketId");
+            int quantity = rs.getInt("quantity");
+            BigDecimal price = rs.getBigDecimal("price");
+            CartItem cartItem = new CartItem(cartItemID, cart, ticketID, quantity, price);
 
             st.close();
             return cartItem;
@@ -74,16 +72,17 @@ public CartItem getById(int id) {
         }
         return null;
     }
-public boolean update(CartItem cartItem) {
-        try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password)) {
+
+    public boolean update(CartItem cartItem) {
+        try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                BaseConnection.password)) {
             PreparedStatement prsm = con.prepareStatement(
-                    "UPDATE KDLST.User SET CartID = ?,ticketID = ?, quantity = ? ,price = ? WHERE cartID = ?");
+                    "UPDATE KDLST.cartitem SET CartID = ?,ticketID = ?, quantity = ? ,price = ? WHERE cartID = ?");
             prsm.setInt(1, cartItem.getCart().getCartID());
             prsm.setInt(2, cartItem.getTicketID());
             prsm.setInt(3, cartItem.getQuantity());
             prsm.setBigDecimal(4, cartItem.getPrice());
-            prsm.setInt(5,cartItem.getCartItemID());
-    
+            prsm.setInt(5, cartItem.getCartItemID());
             int result = prsm.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
@@ -95,23 +94,22 @@ public boolean update(CartItem cartItem) {
     public boolean add(CartItem cartItem) {
         try {
             Class.forName(BaseConnection.nameClass);
-            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-            "INSERT INTO KDLST.cart (CartID,ticketID,Quantity,Price) VALUES ( ?,?,?,?)");
+                    "INSERT INTO KDLST.cartitem (CartID,ticketID,Quantity,Price) VALUES ( ?,?,?,?)");
             prsm.setInt(1, cartItem.getCart().getCartID());
             prsm.setInt(2, cartItem.getTicketID());
             prsm.setInt(3, cartItem.getQuantity());
             prsm.setBigDecimal(4, cartItem.getPrice());
-    
+
             int result = prsm.executeUpdate();
             con.close();
-            return result > 0; 
+            return result > 0;
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
-        return false; 
+        return false;
     }
 
-
 }
-

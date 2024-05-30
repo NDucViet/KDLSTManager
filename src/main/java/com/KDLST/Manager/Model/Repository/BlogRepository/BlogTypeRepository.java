@@ -1,6 +1,5 @@
 package com.KDLST.Manager.Model.Repository.BlogRepository;
 
-
 import java.util.ArrayList;
 import java.sql.*;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import jakarta.el.ELException;
 
 @Repository
 public class BlogTypeRepository {
-   private ArrayList<BlogType> blogTypeList = new ArrayList<>();
+    private ArrayList<BlogType> blogTypeList = new ArrayList<>();
 
     public ArrayList<BlogType> getAll() {
         try {
@@ -51,7 +50,6 @@ public class BlogTypeRepository {
             int blogTypeID = rs.getInt("blogTypeID");
             String blogTypeName = rs.getString("blogTypeName");
             BlogType blogType = new BlogType(blogTypeID, blogTypeName);
-
             st.close();
             return blogType;
         } catch (Exception e) {

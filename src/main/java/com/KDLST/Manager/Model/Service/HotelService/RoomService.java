@@ -10,4 +10,7 @@ public interface RoomService {
     public Room getById(int id);
 
     public boolean update(Room room);
+
+    public ArrayList<Room> getByIdRoomType(int idRoomType);
+
 }

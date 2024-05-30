@@ -2,11 +2,8 @@
 package com.KDLST.Manager.Model.Repository.TicketRepository;
 
 import java.util.ArrayList;
-
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
-
 import com.KDLST.Manager.Model.BaseConnection;
 import com.KDLST.Manager.Model.Entity.Ticket.TicketType;
 import jakarta.el.ELException;
@@ -93,10 +90,5 @@ public class TicketTypeRepository {
             // TODO: handle exception
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        TicketTypeRepository ticketTypeRepository = new TicketTypeRepository();
-        System.out.println(ticketTypeRepository.getAll());
     }
 }

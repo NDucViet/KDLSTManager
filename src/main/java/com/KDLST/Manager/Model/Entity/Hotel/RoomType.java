@@ -10,4 +10,9 @@ import lombok.NoArgsConstructor;
 public class RoomType {
     private int roomTypeID;
     private String roomTypeName;
+    private double price;
+    private String images;
+    private String details;
+    private int maxPeople;
+    private int quantity;
 }

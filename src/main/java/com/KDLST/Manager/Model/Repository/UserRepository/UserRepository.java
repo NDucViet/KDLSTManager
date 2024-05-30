@@ -15,7 +15,7 @@ import jakarta.el.ELException;
 public class UserRepository {
     ArrayList<User> userList = new ArrayList<>();
     @Autowired
-    private CustomerTypeRepository customerTypeRepository = new CustomerTypeRepository();
+    CustomerTypeRepository customerTypeRepository = new CustomerTypeRepository();
 
     // Tính sau
     public ArrayList<User> getAll() {
@@ -152,7 +152,5 @@ public class UserRepository {
         }
         return false;
     }
-
-
 
 }

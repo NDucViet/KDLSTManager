@@ -14,5 +14,4 @@ public class CartItem {
     private int ticketID;
     private int quantity;
     private BigDecimal price;
-
 }
