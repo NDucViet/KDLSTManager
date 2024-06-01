@@ -4,8 +4,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.HashSet;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
@@ -51,35 +49,35 @@ public class HotelController {
 
     @GetMapping({ "/", "" })
     public String indexHotel() {
-        return "index";
+        return "Hotel/index";
     }
 
     @GetMapping({ "/about" })
     public String about() {
-        return "about";
+        return "Hotel/about";
     }
 
     @GetMapping({ "/contactUs" })
     public String contactUs() {
-        return "contact";
+        return "Hotel/contact";
     }
 
     @GetMapping({ "/getDate" })
     public String getDate() {
-        return "getDate";
+        return "Hotel/getDate";
     }
 
     @GetMapping({ "/getRoom" })
     public String getRoom(@RequestParam(name = "roomType") int id, Model model) {
         model.addAttribute("id", id);
-        return "getDate";
+        return "Hotel/getDate";
     }
 
     @GetMapping({ "/getRoomType" })
     public String getRoomType(Model model) {
         ArrayList<RoomType> roomTypeList = roomTypeService.getAll();
         model.addAttribute("roomTypeList", roomTypeList);
-        return "getRoomType";
+        return "Hotel/getRoomType";
     }
 
     @GetMapping("/getRoomByRoomType")
@@ -115,7 +113,7 @@ public class HotelController {
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("setRoom", rommHashMap);
-        return "bookRoomValid";
+        return "Hotel/bookRoomValid";
     }
 
     @GetMapping("/getAllRoom")
@@ -151,7 +149,7 @@ public class HotelController {
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("setRoom", hashRoom);
-        return "bookRoomValid";
+        return "Hotel/bookRoomValid";
     }
 
     @GetMapping("/history")
@@ -169,7 +167,7 @@ public class HotelController {
         }
         model.addAttribute("history", boArrayList);
 
-        return "history";
+        return "Hotel/history";
     }
 
 }

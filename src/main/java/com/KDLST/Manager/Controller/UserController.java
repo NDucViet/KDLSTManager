@@ -60,7 +60,7 @@ public class UserController {
             }
         }
         model.addAttribute("user", user);
-        return "login";
+        return "User/login";
     }
 
     // Hàm check form và đăng nhập
@@ -85,9 +85,9 @@ public class UserController {
         user1.setRole(null);
         System.out.println(user1.toString());
         boolean flag = userServiceImplement.toLogin(user1);
-        System.out.println(flag);
+
         if (Boolean.TRUE.equals(rememberme)) {
-            System.out.println("cc");
+
             if (flag) {
                 Cookie cookie = new Cookie("userCookie", user1.getEmail());
                 user = userServiceImplement.login(user1.getEmail());
@@ -119,7 +119,7 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("mess", mess);
-        return "register";
+        return "User/register";
     }
 
     // Hàm check form đăng kí
@@ -150,7 +150,7 @@ public class UserController {
                 model.addAttribute("code", randomNumber);
                 userServiceImplement.sendMail(user1.getEmail(), "Code Login for you",
                         randomNumber + "");
-                return "SubmitCode";
+                return "User/SubmitCode";
             } else {
                 ArrayList<String> errr = new ArrayList<>();
                 errr = userServiceImplement.getInvalidAttributes(user1);
@@ -182,7 +182,7 @@ public class UserController {
     // Hàm trả về form đổi mk
     @GetMapping("/changePass")
     public String changePass() {
-        return "ChangePass";
+        return "User/ChangePass";
     }
 
     // Hàm generate code đổi mk
@@ -193,7 +193,7 @@ public class UserController {
         userServiceImplement.sendMail(email, "Code change password for you",
                 randomNumber + "");
         user = userServiceImplement.login(email);
-        return "ToChangePass";
+        return "User/ToChangePass";
     }
 
     // Hàm đổi mk
