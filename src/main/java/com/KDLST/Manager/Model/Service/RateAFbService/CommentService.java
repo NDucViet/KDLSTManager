@@ -12,4 +12,6 @@ public interface CommentService {
     public boolean update(Comment comment);
 
     public boolean add(Comment comment);
+    
+    public ArrayList<Comment> getCommentByBlogID(int id);
 }

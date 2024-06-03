@@ -12,10 +12,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.sql.Date;
-
 import com.KDLST.Manager.Model.Entity.CartItem.Cart;
+
 import com.KDLST.Manager.Model.Entity.User.User;
+import com.KDLST.Manager.Model.Service.BlogService.BlogServiceImplement;
+import com.KDLST.Manager.Model.Service.BlogService.BlogTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.CartItemService.CartService;
+import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
+import com.KDLST.Manager.Model.Service.RateAFbService.CommentServiceImplement;
 import com.KDLST.Manager.Model.Service.UserService.CustomerTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
 import java.util.ArrayList;
@@ -204,4 +208,37 @@ public class UserController {
         userServiceImplement.update(user1);
         return "redirect:/user/showLogin";
     }
+
+    // logout
+    @GetMapping("/logout")
+    public String index(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
+
+    //
+
+    @GetMapping("/about")
+    public String about() {
+        return "User/about";
+    }
+
+    @GetMapping("/service")
+    public String service() {
+        return "User/service";
+    }
+
+    @GetMapping("/hotel")
+    public String hotel() {
+        return "User/hotel";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "User/contact";
+    }
+
+  
+
 }

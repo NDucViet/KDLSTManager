@@ -45,4 +45,13 @@ public class CommentServiceImplement implements CommentService {
         }
         return false;
     }
+
+    @Override
+    public ArrayList<Comment> getCommentByBlogID(int id){
+        commentList = commentRepository.getCommentByBlogID(id);
+        if(!commentList.isEmpty()){
+            return commentList;
+        }
+        return null;
+    }
 }

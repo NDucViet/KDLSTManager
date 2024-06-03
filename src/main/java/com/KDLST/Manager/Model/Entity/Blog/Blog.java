@@ -14,6 +14,7 @@ public class Blog {
     private User user;
     private BlogType blogType;
     private String title;
-    private String content;
+    private String contentOpen;
     private Date dateTimeEdit;
+    private String contentBody;
 }

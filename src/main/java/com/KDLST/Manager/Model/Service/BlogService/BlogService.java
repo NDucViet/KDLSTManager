@@ -12,4 +12,6 @@ public interface BlogService {
     public boolean update(Blog blog);
 
     public boolean add(Blog blog);
+
+    public ArrayList<Blog> getPageBlog(int index, int blogTypeID) ;
 }

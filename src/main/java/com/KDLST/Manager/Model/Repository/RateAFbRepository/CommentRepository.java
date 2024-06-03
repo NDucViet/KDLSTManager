@@ -113,5 +113,32 @@ public class CommentRepository {
         }
         return false;
     }
+
+    public ArrayList<Comment> getCommentByBlogID(int id) {
+        try {
+            commentList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = conn.prepareStatement(
+                    "select * from KDLST.Comment where blogID = ?;");
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int commentID = rs.getInt("commentID");
+                User user = userRepository.getById(rs.getInt("userID"));
+                Blog blog = blogRepository.getById(rs.getInt("blogID"));
+                String content = rs.getString("content");
+                Date commentDate = rs.getDate("commentDate");
+                Comment comment = new Comment(commentID, user, blog, content, commentDate);
+                commentList.add(comment);
+            }
+            st.close();
+            return commentList;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }
 

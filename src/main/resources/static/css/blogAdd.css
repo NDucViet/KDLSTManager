@@ -1,0 +1,55 @@
+.container-custom-blog-descript {
+    width: calc(100% - 500tiepx);
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 250px;
+    padding-right: 250px;
+}
+
+.entry-blog {
+    margin-bottom: 30px;
+}
+
+.entry-time {
+    color: #767676;
+}
+
+.button-comment-blog {
+    background-color: #fa6741;
+    color: white;
+}
+
+.button-comment-blog:hover {
+    color: black;
+    border-color: #fa6741;
+}
+
+.coim-response-blog {
+    display: flex;
+}
+
+.image-response-blog {
+    margin-right: 17px;
+}
+
+.response-time-blog {
+    font-size: 14px;
+    font-style: italic;
+}
+
+.content-response-blog p {
+    margin: 0;
+}
+
+.content-response-blog p:first-child {
+    color: #fa6741;
+}
+
+.image-response-blog {
+    margin-top: 7px;
+
+}
+
+.response-blog {
+    margin-top: 50px;
+}

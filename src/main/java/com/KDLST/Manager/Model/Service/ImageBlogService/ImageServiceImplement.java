@@ -11,7 +11,7 @@ import com.KDLST.Manager.Model.Repository.ImageBlog.ImageRepository;
 @Service
 public class ImageServiceImplement implements ImageService {
 
-   private ArrayList<Image> imageList = new ArrayList<>();
+    private ArrayList<Image> imageList = new ArrayList<>();
 
     @Autowired
     ImageRepository imageRepository = new ImageRepository();
@@ -49,4 +49,21 @@ public class ImageServiceImplement implements ImageService {
         return false;
     }
 
+    @Override
+    public ArrayList<Image> getPageImage(int index, int blogTypeID) {
+        imageList = imageRepository.getPageImage(index, blogTypeID);
+        if (!imageList.isEmpty()) {
+            return imageList;
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Image> getImagesByBlogID(int blogID) {
+        imageList = imageRepository.getImagesByBlogID(blogID);
+        if (!imageList.isEmpty()) {
+            return imageList;
+        }
+        return null;
+    }
 }

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Pacific - Free Bootstrap 4 Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" th:href="@{../css/animate1.css}">
+
+  <link rel="stylesheet" th:href="@{../css/owl.carousel.min1.css}">
+  <link rel="stylesheet" th:href="@{../css/owl.theme.default.min1.css}">
+  <link rel="stylesheet" th:href="@{../css/magnific-popup1.css}">
+
+  <link rel="stylesheet" th:href="@{../css/bootstrap-datepicker1.css}">
+  <link rel="stylesheet" th:href="@{../css/jquery.timepicker1.css}">
+
+  <link rel="stylesheet" th:href="@{../css/flaticon1.css}">
+  <link rel="stylesheet" th:href="@{../css/style.css}">
+
+</head>
+
+<body>
+  <!-- header -->
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/}">Pacific<span>Travel Agency</span></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item "><a th:href="@{/}" class="nav-link">Home</a></li>
+          <li class="nav-item"><a th:href="@{/user/about}" class="nav-link">About</a></li>
+          <li class="nav-item"><a th:href="@{/user/service}" class="nav-link">Service</a></li>
+          <li class="nav-item"><a th:href="@{/user/hotel}" class="nav-link">Hotel</a></li>
+          <li class="nav-item active dropdown">
+            <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">News</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Event</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item"><a th:href="@{/user/contact}" class="nav-link">Contact</a></li>
+          <li class="nav-item"><a th:href="@{/user/login}" class="nav-link">Book Now</a></li>
+          <li class="nav-item"><a th:href="@{/#}" class="nav-link"><i class="fa-solid fa-cart-shopping"></i></a></li>
+          <li class="nav-item">
+            <form action="/user/search" class="nav-link">
+              <!-- <input type="text"> -->
+              <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> </button>
+            </form>
+          </li>
+          <li th:if="${session.user == null}" class="nav-item"><a th:href="@{/user/showLogin}"
+              class="nav-link">Login</a></li>
+          <li th:if="${session.user != null}" class="nav-item dropdown">
+            <a th:href="@{/user/showLogin}" class="nav-link dropdown-toggle">Hi,<span
+                th:text="${session.user.username}"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="fa-solid fa-gear"></i>
+                  Password
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user-edit"></i> Edit Profile
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" th:href="@{/user/logout}">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- END nav -->
+
+  <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i
+                  class="fa fa-chevron-right"></i></a></span> <span class="mr-2"><a href="index.html">Blog <i
+                  class="fa fa-chevron-right"></i></a></span> <span>Blog Single <i
+                class="fa fa-chevron-right"></i></span></p>
+          <h1 class="mb-0 bread">Blog Details</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ftco-section ftco-no-pt ftco-no-pb">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 ftco-animate py-md-5 mt-md-5">
+          <h2 class="mb-3">[[${image1.blog.title}]]</h2>
+          <time class="entry-time" th:text="${image1.blog.dateTimeEdit}"><b></b></time>
+          <p>[[${image1.blog.contentOpen}]]</p>
+          <p>
+            <img th:src="@{/images/{imageUrl}(imageUrl=${image1.imageUrl})}" alt="" class="img-fluid">
+          </p>
+          <p th:text="${image1.imageDescript}"></p>
+          <p>[[${image1.blog.contentBody}]]</p>
+          <p>
+            <img th:src="@{/images/{imageUrl}(imageUrl=${image2.imageUrl})}" alt="" class="img-fluid">
+          </p>
+          <p th:text="${image2.imageDescript}"></p>
+          <div class="tag-widget post-tag-container mb-5 mt-5">
+            <div class="tagcloud">
+              <a href="#" class="tag-cloud-link">Life</a>
+              <a href="#" class="tag-cloud-link">Sport</a>
+              <a href="#" class="tag-cloud-link">Tech</a>
+              <a href="#" class="tag-cloud-link">Travel</a>
+            </div>
+          </div>
+
+          <div class="about-author d-flex p-4 bg-light">
+            <div class="bio mr-5">
+              <img src="/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+            </div>
+            <div class="desc">
+              <h3>George Washington</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus
+                voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique,
+                inventore eos fugit cupiditate numquam!</p>
+            </div>
+          </div>
+
+
+          <div class="pt-5 mt-5">
+            <h3 class="mb-5" style="font-size: 20px; font-weight: bold;" >[[${commentTotal}]] Comment(s)</h3>
+            <ul class="comment-list">
+              <th:block th:each="comment : ${commentList}">
+                <li class="comment">
+                  <div class="vcard bio">
+                    <img src="/images/person_1.jpg" alt="Image placeholder">
+                  </div>
+                  <div class="comment-body">
+                    <h3>[[${comment.user.username}]]</h3>
+                    <div class="meta">[[${comment.commentDate}]]</div>
+                    <p>[[${comment.content}]]</p>
+                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                  </div>
+                </li>
+              </th:block>
+            </ul>
+            <!-- END comment-list -->
+
+            <div class="comment-form-wrap pt-5">
+              <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Leave a comment</h3>
+              <form th:action="@{/blog/submitComment}" method="post" class="p-5 bg-light">
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea name="content" id="message" cols="30" rows="10" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                </div>
+                <input type="hidden" name="blogID" th:value="${blogID}" />
+              </form>
+            </div>
+          </div>
+
+        </div> <!-- .col-md-8 -->
+        <div class="col-lg-4 sidebar ftco-animate bg-light py-md-5">
+          <div class="sidebar-box pt-md-5">
+            <form action="#" class="search-form">
+              <div class="form-group">
+                <span class="icon fa fa-search"></span>
+                <input type="text" class="form-control" placeholder="Search...">
+              </div>
+            </form>
+          </div>
+          <div class="sidebar-box ftco-animate">
+            <div class="categories">
+              <h3>Categories</h3>
+              <li><a href="#">Travel <span>(12)</span></a></li>
+              <li><a href="#">Tour <span>(22)</span></a></li>
+              <li><a href="#">Destination <span>(37)</span></a></li>
+              <li><a href="#">Drinks <span>(42)</span></a></li>
+              <li><a href="#">Foods <span>(14)</span></a></li>
+              <li><a href="#">Travel <span>(140)</span></a></li>
+            </div>
+          </div>
+
+          <div class="sidebar-box ftco-animate">
+            <h3>Recent Blog</h3>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
+              <div class="text">
+                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
+                </h3>
+                <div class="meta">
+                  <div><a href="#"><span class="fa fa-calendar"></span> September 11, 2020</a></div>
+                  <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
+                  <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                </div>
+              </div>
+            </div>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url('/images/image_2.jpg');"></a>
+              <div class="text">
+                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
+                </h3>
+                <div class="meta">
+                  <div><a href="#"><span class="fa fa-calendar"></span> September 11, 2020</a></div>
+                  <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
+                  <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                </div>
+              </div>
+            </div>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
+              <div class="text">
+                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
+                </h3>
+                <div class="meta">
+                  <div><a href="#"><span class="fa fa-calendar"></span> September 11, 2020</a></div>
+                  <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
+                  <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-box ftco-animate">
+            <h3>Tag Cloud</h3>
+            <div class="tagcloud">
+              <a href="#" class="tag-cloud-link">dish</a>
+              <a href="#" class="tag-cloud-link">menu</a>
+              <a href="#" class="tag-cloud-link">food</a>
+              <a href="#" class="tag-cloud-link">sweet</a>
+              <a href="#" class="tag-cloud-link">tasty</a>
+              <a href="#" class="tag-cloud-link">delicious</a>
+              <a href="#" class="tag-cloud-link">desserts</a>
+              <a href="#" class="tag-cloud-link">drinks</a>
+            </div>
+          </div>
+
+          <div class="sidebar-box ftco-animate">
+            <h3>Paragraph</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate
+              quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos
+              fugit cupiditate numquam!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section> <!-- .section -->
+
+  <section class="ftco-intro ftco-section ftco-no-pt">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+          <div class="img" style="background-image: url(images/bg_2.jpg);">
+            <div class="overlay"></div>
+            <h2>We Are Pacific A Travel Agency</h2>
+            <p>We can manage your dream building A small river named Duden flows by their place</p>
+            <p class="mb-0"><a href="#" class="btn btn-primary px-4 py-3">Ask For A Quote</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer th:insert="~{User/footer :: footer}"></footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" />
+    </svg></div>
+
+
+  <script src="/js/jquery.min1.js"></script>
+  <script src="/js/jquery-migrate-3.0.1.min1.js"></script>
+  <script src="/js/popper.min1.js"></script>
+  <script src="/js/bootstrap.min1.js"></script>
+  <script src="/js/jquery.easing.1.31.js"></script>
+  <script src="/js/jquery.waypoints.min1.js"></script>
+  <script src="/js/jquery.stellar.min1.js"></script>
+  <script src="/js/owl.carousel.min1.js"></script>
+  <script src="/js/jquery.magnific-popup.min1.js"></script>
+  <script src="/js/jquery.animateNumber.min1.js"></script>
+  <script src="/js/bootstrap-datepicker1.js"></script>
+  <script src="/js/scrollax.min1.js"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="/js/google-map1.js"></script>
+  <script src="/js/main1.js"></script>
+
+</body>
+
+</html>
