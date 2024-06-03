@@ -26,6 +26,7 @@ public class ImageRepository {
                     BaseConnection.password);
             Statement stsm = con.createStatement();
             ResultSet rs = stsm.executeQuery("select * from KDLST.Image");
+            System.out.println("cc");
             while (rs.next()) {
                 int imageID = rs.getInt("imageID");
                 String imageUrl = rs.getString("imageUrl");
@@ -111,9 +112,10 @@ public class ImageRepository {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement stsm = con.prepareStatement("SELECT * FROM KDLST.Image INNER JOIN KDLST.Blog ON Image.blogID = Blog.blogID WHERE MOD(Image.imageID, 2) = 1 AND Blog.blogTypeID = ? ORDER BY Image.imageID LIMIT 9 OFFSET ?");
+            PreparedStatement stsm = con.prepareStatement(
+                    "SELECT * FROM KDLST.Image INNER JOIN KDLST.Blog ON Image.blogID = Blog.blogID WHERE MOD(Image.imageID, 2) = 1 AND Blog.blogTypeID = ? ORDER BY Image.imageID LIMIT 9 OFFSET ?");
             stsm.setInt(1, blogTypeID);
-            stsm.setInt(2, (index-1)*6);
+            stsm.setInt(2, (index - 1) * 6);
             ResultSet rs = stsm.executeQuery();
             while (rs.next()) {
                 int imageID = rs.getInt("imageID");
@@ -155,6 +157,7 @@ public class ImageRepository {
         }
         return imageList;
     }
+
     public static void main(String[] args) {
         ImageRepository imageRepository = new ImageRepository();
         // Blog blog = new Blog(1, null, null, null, null, null, null);
@@ -163,6 +166,6 @@ public class ImageRepository {
         // Image image1 = new Image(2, "TTN2",blog , "hi truong tinh nghi");
         // imageRepository.add(image);
         // imageRepository.add(image1);
-        System.out.println(imageRepository.getPageImage(1, 2));
+        System.out.println(imageRepository.getAll());
     }
 }

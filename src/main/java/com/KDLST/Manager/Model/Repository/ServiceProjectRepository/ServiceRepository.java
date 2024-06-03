@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class ServiceRepository {
     private ArrayList<Services> serviceList = new ArrayList<>();
     @Autowired
-    private ServiceTypeRepository serviceTypeRepositories=new ServiceTypeRepository();
+    private ServiceTypeRepository serviceTypeRepositories = new ServiceTypeRepository();
+
     public ArrayList<Services> getAll() {
         try {
             serviceList.clear();
@@ -25,12 +26,12 @@ public class ServiceRepository {
             ResultSet rs = stsm.executeQuery("select * from KDLST.Service");
             while (rs.next()) {
                 int serviceID = rs.getInt("serviceID");
-                ServiceType serviceType =serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
-                String description=rs.getString("description");
-                String image=rs.getString("image");
-                java.sql.Date dateTimeEdit=rs.getDate("dateTimeEdit");
-
-                Services sv = new Services(serviceID,serviceType,description,image,dateTimeEdit);
+                ServiceType serviceType = serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                java.sql.Date dateTimeEdit = rs.getDate("dateTimeEdit");
+                String serviceName = rs.getString("serviceName");
+                Services sv = new Services(serviceID, serviceType, description, image, dateTimeEdit, serviceName);
                 serviceList.add(sv);
             }
             con.close();
@@ -39,6 +40,7 @@ public class ServiceRepository {
         }
         return serviceList;
     }
+
     public Services getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -52,29 +54,33 @@ public class ServiceRepository {
                 throw new ELException("Cannot find");
             }
             int serviceID = rs.getInt("serviceID");
-            ServiceType serviceType =serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
+            ServiceType serviceType = serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
             String description = rs.getString("description");
-            String image=rs.getString("image");
-            java.sql.Date dateTimeEdit= rs.getDate("dateTimeEdit");
-            Services service = new Services(serviceID, serviceType, description,image,dateTimeEdit);
+            String image = rs.getString("image");
+            java.sql.Date dateTimeEdit = rs.getDate("dateTimeEdit");
+            String serviceName = rs.getString("serviceName");
+            Services sv = new Services(serviceID, serviceType, description, image, dateTimeEdit, serviceName);
             st.close();
-            return service;
+            return sv;
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
+
     public boolean update(Services service) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.Service   set serviceTypeID =?, description=?,image=?,dateTimeEdit=? where serviceID =?");
+                    "update KDLST.Service   set serviceTypeID =?, description=?,image=?,dateTimeEdit=? serviceName =? where serviceID =?");
             prsm.setInt(1, service.getServiceTypeID().getServiceTypeID());
             prsm.setString(2, service.getDescription());
             prsm.setString(3, service.getImage());
-            prsm.setDate(4,service.getDateTimeEdit());
+            prsm.setDate(4, service.getDateTimeEdit());
+            prsm.setString(5, service.getServiceName());
+            prsm.setInt(6, service.getServiceID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -83,17 +89,19 @@ public class ServiceRepository {
         }
         return false;
     }
+
     public boolean add(Services service) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.Service (serviceTypeID, description,image,dateTimeEdit) values(?,?,?,?)");
+                    "insert into KDLST.Service (serviceTypeID, description,image,dateTimeEdit,serviceName) values(?,?,?,?,?)");
             prsm.setInt(1, service.getServiceTypeID().getServiceTypeID());
             prsm.setString(2, service.getDescription());
-            prsm.setString(3,service.getImage());
-            prsm.setDate(4,service.getDateTimeEdit());
+            prsm.setString(3, service.getImage());
+            prsm.setDate(4, service.getDateTimeEdit());
+            prsm.setString(5, service.getServiceName());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;

@@ -15,4 +15,5 @@ public class Services {
     private String description;
     private String image;
     private Date dateTimeEdit;
+    private String serviceName;
 }

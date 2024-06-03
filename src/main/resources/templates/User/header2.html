@@ -30,7 +30,7 @@
     <div th:fragment="header">
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
             <div class="container">
-                <a class="navbar-brand" th:href="@{/}">Pacific<span>Travel Agency</span></a>
+                <a class="navbar-brand" th:href="@{/}">NGU HANH<span>HILL</span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                     aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="oi oi-menu"></span> Menu
@@ -40,11 +40,12 @@
                         <li class="nav-item active"><a th:href="@{/}" class="nav-link">Home</a></li>
                         <li class="nav-item"><a th:href="@{/user/about}" class="nav-link">About</a></li>
                         <li class="nav-item"><a th:href="@{/user/service}" class="nav-link">Service</a></li>
-                        <li class="nav-item"><a th:href="@{/user/hotel}" class="nav-link">Hotel</a></li>
+                        <li class="nav-item"><a th:href="@{/hotel}" class="nav-link">Hotel</a></li>
                         <li class="nav-item dropdown">
                             <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">News</a></li>
+                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">News</a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
