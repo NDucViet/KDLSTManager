@@ -13,4 +13,6 @@ public ArrayList<Services> getAll();
 
     public boolean add(Services service);
 
+    public ArrayList<Services> getPageImage(int index, int serviceTypeID);
+
 }

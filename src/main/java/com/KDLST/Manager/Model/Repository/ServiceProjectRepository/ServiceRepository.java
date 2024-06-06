@@ -1,6 +1,8 @@
 package com.KDLST.Manager.Model.Repository.ServiceProjectRepository;
 
 import com.KDLST.Manager.Model.BaseConnection;
+import com.KDLST.Manager.Model.Entity.Blog.Blog;
+import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.ServiceProject.ServiceType;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import jakarta.el.ELException;
@@ -109,6 +111,40 @@ public class ServiceRepository {
             // TODO: handle exception
         }
         return false;
+    }
+
+        public ArrayList<Services> getPageImage(int index, int serviceTypeID) {
+        try {
+            serviceList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement stsm = con.prepareStatement(
+                    "SELECT * FROM KDLST.Service WHERE Service.serviceTypeID = ? ORDER BY Service.serviceID LIMIT 6 OFFSET ?");
+            stsm.setInt(1, serviceTypeID);
+            stsm.setInt(2, (index - 1) * 6);
+            ResultSet rs = stsm.executeQuery();
+            while (rs.next()) {
+                int serviceID = rs.getInt("serviceID");
+                ServiceType serviceType = serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                java.sql.Date dateTimeEdit = rs.getDate("dateTimeEdit");
+                String serviceName = rs.getString("serviceName");
+                Services sv = new Services(serviceID, serviceType, description, image, dateTimeEdit, serviceName);
+                serviceList.add(sv);
+            }
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return serviceList;
+    }
+
+    public static void main(String[] args) {
+        ServiceRepository serviceRepository = new ServiceRepository();
+        System.out.println(serviceRepository.getPageImage(1,1));
     }
 
 }

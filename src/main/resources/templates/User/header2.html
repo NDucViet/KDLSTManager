@@ -24,6 +24,22 @@
 
     <link rel="stylesheet" th:href="@{css/flaticon1.css}">
     <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/header.css}">
+    <!-- <style>
+        #ftco-navbar .navbar-nav .nav-link:hover,
+        #ftco-navbar .navbar-nav .nav-link:focus,
+        #ftco-navbar .navbar-nav .nav-link:active {
+            color: #f15d30 !important;
+            /* Change this to the color you want */
+        }
+
+        #ftco-navbar .dropdown-menu .dropdown-item:hover,
+        #ftco-navbar .dropdown-menu .dropdown-item:focus,
+        #ftco-navbar .dropdown-menu .dropdown-item:active {
+            color: #f15d30 !important;
+            /* Change this to the color you want */
+        }
+    </style> -->
 </head>
 
 <body>
@@ -37,35 +53,71 @@
                 </button>
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a th:href="@{/}" class="nav-link">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/user/about}" class="nav-link">About</a></li>
-                        <li class="nav-item"><a th:href="@{/service/getAll}" class="nav-link">Service</a></li>
-                        <li class="nav-item"><a th:href="@{/hotel}" class="nav-link">Hotel</a></li>
+                        <li class="nav-item"><a th:href="@{/}" class="nav-link">Trang chủ</a></li>
+                        <li class="nav-item"><a th:href="@{/user/about}" class="nav-link">Giới thiệu</a></li>
                         <li class="nav-item dropdown">
-                            <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
+                            <a th:href="@{/service/getAll}" class="nav-link dropdown-toggle">Dịch vụ</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">News</a>
+                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceType=1)}">Hoạt Động
+                                        Giải Trí</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Event</a>
+                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceType=2)}">Không
+                                        Gian Nghỉ Dưỡng</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceType=3)}">Không
+                                        Gian Ẩm Thực</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceType=4)}">Hoạt Động
+                                        Thư Giản</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceType=5)}">Phương
+                                        Tiện Di Chuyển</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceType=6)}">Không
+                                        Gian Văn Hóa</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a th:href="@{/user/contact}" class="nav-link">Contact</a></li>
-                        <li class="nav-item"><a th:href="@{/user/login}" class="nav-link">Book Now</a></li>
+                        <li class="nav-item"><a th:href="@{/hotel}" class="nav-link">Khách sạn</a></li>
+                        <li class="nav-item dropdown">
+                            <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">Tin tức nổi bật</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Sự kiện</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a th:href="@{/user/contact}" class="nav-link">Liên lạc</a></li>
+                        <li class="nav-item"><a th:href="@{/user/login}" class="nav-link">Vé</a></li>
                         <li class="nav-item"><a th:href="@{/#}" class="nav-link"><i
                                     class="fa-solid fa-cart-shopping"></i></a></li>
-                        <li class="nav-item">
-                            <!-- <input type="text"> -->
-                            <a href="#"><i class="fa-solid fa-magnifying-glass"></i> </a>
-                        </li>
                         <li th:if="${session.user == null}" class="nav-item"><a th:href="@{/user/showLogin}"
-                                class="nav-link">Login</a></li>
+                                class="nav-link">Đăng nhập</a></li>
                         <li th:if="${session.user != null}" class="nav-item dropdown">
                             <a th:href="@{/user/showLogin}" class="nav-link dropdown-toggle">Hi,<span
                                     th:text="${session.user.username}"></span>
@@ -74,7 +126,7 @@
                                 <li>
                                     <a class="dropdown-item" href="#">
                                         <i class="fa-solid fa-gear"></i>
-                                        Password
+                                        Đổi mật khẩu
                                     </a>
                                 </li>
                                 <li>
@@ -82,7 +134,7 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user-edit"></i> Edit Profile
+                                        <i class="fas fa-user-edit"></i> Chỉnh sửa hồ sơ
                                     </a>
                                 </li>
                                 <li>
@@ -90,7 +142,7 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" th:href="@{/user/logout}">
-                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                     </a>
                                 </li>
                             </ul>

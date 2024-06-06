@@ -8,27 +8,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/owl.carousel.min.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/owl.theme.default.min.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/magnific-popup.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.timepicker.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/flaticon.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{css/animate1.css}">
+
+  <link rel="stylesheet" th:href="@{css/owl.carousel.min1.css}">
+  <link rel="stylesheet" th:href="@{css/owl.theme.default.min1.css}">
+  <link rel="stylesheet" th:href="@{css/magnific-popup1.css}">
+
+  <link rel="stylesheet" th:href="@{css/bootstrap-datepicker1.css}">
+  <link rel="stylesheet" th:href="@{css/jquery.timepicker1.css}">
+
+  <link rel="stylesheet" th:href="@{css/flaticon1.css}">
+  <link rel="stylesheet" th:href="@{css/style.css}">
+  <link rel="stylesheet" th:href="@{css/header.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{css/header.css}">
+  <style>
+    .location {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 300px;
+    }
+  </style>
+
   <title>Service</title>
 </head>
 
 <body>
   <header th:insert="~{User/header2 :: header}"></header>
+
   <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_5.jpg');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
         <div class="col-md-7 ftco-animate">
-          <span class="subheading">Welcome to Ngu Hanh Hill</span>
-          <h1 class="mb-4">Discover Your Favorite Place with Us</h1>
-          <p class="caps">Travel to the any corner of the world, without going around in circles</p>
+          <span class="subheading">Chào mừng đến với Ngũ Hành Hill</span>
+          <h1 class="mb-4">Khám phá địa điểm yêu thích của bạn với chúng tôi</h1>
+          <p class="caps">Hòa mình vào thiên nhiên, trải nghiệm cuộc sống yên bình.</p>
         </div>
         <a href="https://vimeo.com/45830194"
           class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
@@ -37,14 +52,61 @@
       </div>
     </div>
   </div>
-  <div th:each="service : ${serviceList}">
-    <h3 th:text="${service.serviceTypeID.serviceName}"></h3>
-    <h5 th:text="${service.serviceName}"></h5>
-    <img th:src="@{'images/' + ${service.image}}" alt="">
-    <p th:text="${service.description}"></p>
-  </div>
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+        <th:block th:each="service : ${serviceList}">
+          <div class="col-md-4 ftco-animate">
+            <div class="project-wrap">
+              <a href="#" class="img" th:style="'background-image: url(images/' + ${service.image} + ');'">
+              </a>
+              <div class="text p-4">
+                <h3><a href="#" th:text="${service.serviceTypeID.serviceName}"></a></h3>
+                <p class="location"><span class="fa fa-map-marker"></span> [[${service.description}]]</p>
+                <ul>
+                  <li><span class="flaticon-mountains"></span>
+                    <button data-bs-toggle="modal" th:data-bs-target="'#modal' + ${service.serviceID}"
+                      th:text="${service.serviceName}" style="border: none; background-color: white;">Xem chi tiết</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+      <div class="row mt-5">
+        <div class="col text-center">
+          <div class="block-27">
+            <ul>
+              <li><a href="#">&lt;</a></li>
+              <th:block th:each="i:${#numbers.sequence(1, endPage)}">
+                <th:block th:if="${currentPage == i}">
+                  <li class="active">
+                    <th:block th:if="${serviceList != null}">
+                      <a
+                        th:href="@{/service/getAll(index=${i}, serviceTypeID=${serviceList.get(0).serviceTypeID.serviceTypeID})}">[[${i}]]</a>
+                    </th:block>
+                  </li>
+                </th:block>
+                <th:block th:unless="${currentPage == i}">
+                  <li class="">
+                    <th:block th:if="${serviceList != null}">
+                      <a
+                        th:href="@{/service/getAll(index=${i}, serviceTypeID=${serviceList.get(0).serviceTypeID.serviceTypeID})}">[[${i}]]</a>
+                    </th:block>
+                  </li>
+                </th:block>
+              </th:block>
+              <li><a href="#">&gt;</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer th:insert="~{User/footer :: footer}"></footer>
+
   <script src="js/jquery.min1.js"></script>
   <script src="js/jquery-migrate-3.0.1.min1.js"></script>
   <script src="js/popper.min1.js"></script>

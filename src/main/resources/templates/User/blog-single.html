@@ -24,83 +24,13 @@
 
   <link rel="stylesheet" th:href="@{../css/flaticon1.css}">
   <link rel="stylesheet" th:href="@{../css/style.css}">
-
+	<link rel="stylesheet" th:href="@{../css/header.css}">
 </head>
 
 <body>
-  <!-- header -->
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-      <a class="navbar-brand" th:href="@{/}">NGU HANH<span>HILL</span></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span> Menu
-      </button>
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item "><a th:href="@{/}" class="nav-link">Home</a></li>
-          <li class="nav-item"><a th:href="@{/user/about}" class="nav-link">About</a></li>
-          <li class="nav-item"><a th:href="@{/user/service}" class="nav-link">Service</a></li>
-          <li class="nav-item"><a th:href="@{/user/hotel}" class="nav-link">Hotel</a></li>
-          <li class="nav-item active dropdown">
-            <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">News</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Event</a>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item"><a th:href="@{/user/contact}" class="nav-link">Contact</a></li>
-          <li class="nav-item"><a th:href="@{/user/login}" class="nav-link">Book Now</a></li>
-          <li class="nav-item"><a th:href="@{/#}" class="nav-link"><i class="fa-solid fa-cart-shopping"></i></a></li>
-          <li class="nav-item">
-            <form action="/user/search" class="nav-link">
-              <!-- <input type="text"> -->
-              <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> </button>
-            </form>
-          </li>
-          <li th:if="${session.user == null}" class="nav-item"><a th:href="@{/user/showLogin}"
-              class="nav-link">Login</a></li>
-          <li th:if="${session.user != null}" class="nav-item dropdown">
-            <a th:href="@{/user/showLogin}" class="nav-link dropdown-toggle">Hi,<span
-                th:text="${session.user.username}"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="#">
-                  <i class="fa-solid fa-gear"></i>
-                  Password
-                </a>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user-edit"></i> Edit Profile
-                </a>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <a class="dropdown-item" th:href="@{/user/logout}">
-                  <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- END nav -->
+  	<!-- header -->
+    <header th:insert="~{User/header2 :: header}"></header>
+    <!-- END nav -->
 
   <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/bg_1.jpg');">
     <div class="overlay"></div>
