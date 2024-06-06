@@ -52,13 +52,14 @@
             <div class="row check-availabilty" id="next">
                 <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
 
-                    <form th:action="${id!=null} ? @{/hotel/getRoomByRoomType} : @{/hotel/getAllRoom}" th:method="get">
+                    <form id="bookingForm" th:action="${id!=null} ? @{/hotel/getRoomByRoomType} : @{/hotel/getAllRoom}"
+                        th:method="get" onsubmit="return validateForm()">
                         <div class="row">
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
                                 <label for="startDate" class="font-weight-bold text-black">Check In</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" name="startDate" id="checkin_date" class="form-control">
+                                    <input type="text" name="startDate" id="checkin_date" class="form-control" required>
                                 </div>
                             </div>
                             <input type="hidden" name="roomType" th:value="${id}" th:if="${id!=null}">
@@ -66,15 +67,61 @@
                                 <label for="endDate" class="font-weight-bold text-black">Check Out</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" name="endDate" id="checkout_date" class="form-control">
+                                    <input type="text" name="endDate" id="checkout_date" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3 align-self-end">
                                 <button type="submit" class="btn btn-primary btn-block text-white">Check
-                                    Availabilty</button>
+                                    Availability</button>
                             </div>
                         </div>
                     </form>
+
+                    <script>
+                        function parseDate(dateString) {
+                            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                            const parts = dateString.split(/[\s,]+/); // Tách bằng dấu cách và dấu phẩy
+                            if (parts.length !== 3) return null;
+
+                            const day = parseInt(parts[0]);
+                            const month = months.indexOf(parts[1]);
+                            const year = parseInt(parts[2]);
+
+                            if (isNaN(day) || isNaN(month) || isNaN(year) || month === -1) {
+                                return null;
+                            }
+
+                            return new Date(year, month, day);
+                        }
+
+                        function validateForm() {
+                            const checkinDateStr = document.getElementById("checkin_date").value;
+                            const checkoutDateStr = document.getElementById("checkout_date").value;
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0); // Ngày hiện tại mà không có phần giờ phút
+
+                            const checkinDate = parseDate(checkinDateStr);
+                            const checkoutDate = parseDate(checkoutDateStr);
+
+                            if (!checkinDate || !checkoutDate) {
+                                alert("Cả ngày nhận phòng và ngày trả phòng phải được cung cấp và đúng định dạng (e.g., 27 May, 2024).");
+                                return false; // Ngăn không cho gửi biểu mẫu
+                            }
+
+                            if (checkinDate < today || checkoutDate < today) {
+                                alert("Ngày nhận phòng và ngày trả phòng phải từ hôm nay trở đi.");
+                                return false; // Ngăn không cho gửi biểu mẫu
+                            }
+
+                            if (checkinDate >= checkoutDate) {
+                                alert("Ngày trả phòng phải sau ngày nhận phòng.");
+                                return false; // Ngăn không cho gửi biểu mẫu
+                            }
+
+                            return true; // Cho phép gửi biểu mẫu
+                        }
+                    </script>
+
                 </div>
 
 

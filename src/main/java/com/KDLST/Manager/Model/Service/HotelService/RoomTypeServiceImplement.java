@@ -30,4 +30,15 @@ public class RoomTypeServiceImplement implements RoomTypeService {
         return roomTypeRepository.getById(id);
     }
 
+    @Override
+    public ArrayList<RoomType> searchRoomType(String keyword) {
+        ArrayList<RoomType> filterRoomType = new ArrayList<>();
+        getAll();
+        for (RoomType roomType : roomTypeList) {
+            if (roomType.getRoomTypeName().toLowerCase().contains(keyword.toLowerCase())) {
+                filterRoomType.add(roomType);
+            }
+        }
+        return filterRoomType;
+    }
 }

@@ -8,9 +8,19 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../css/fancybox.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap-datepicker.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../css/jquery.timepicker.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../css/owl.carousel.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../fonts/ionicons/css/ionicons.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../fonts/fontawesome/css/font-awesome.min.css}">
 
+	<link rel="stylesheet" type="text/css" th:href="@{../css/animate.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../css/aos.css}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 	<link rel="stylesheet" th:href="@{css/animate1.css}">
@@ -23,7 +33,102 @@
 	<link rel="stylesheet" th:href="@{css/jquery.timepicker1.css}">
 	<link rel="stylesheet" th:href="@{css/flaticon1.css}">
 	<link rel="stylesheet" th:href="@{css/style.css}">
+	<!-- CSS của suggestion khi oninput search bar -->
+
+
 </head>
+<style>
+	#suggestionContainer {
+		position: relative;
+		/* Đổi thành relative để suggestion box nằm trong không gian của phần tử này */
+	}
+
+	#suggestionBoxForRoomType {
+		position: absolute;
+		z-index: 10;
+		/* Đặt z-index cao hơn để hiển thị phía trên */
+		background-color: white;
+		width: 100%;
+		/* Độ rộng bằng 100% của phần tử cha */
+		border: 1px solid #ccc;
+		border-top: none;
+		border-radius: 0 0 5px 5px;
+		max-height: 200px;
+		overflow-y: auto;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		margin-top: 5px;
+		/* Khoảng cách từ suggestion box đến input */
+
+		/* Các thuộc tính khác */
+	}
+
+	#suggestionBoxForRoomType button {
+		width: 100%;
+		text-align: left;
+		padding: 10px;
+		border: none;
+		background-color: transparent;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		transition: background-color 0.3s;
+	}
+
+	#suggestionBoxForRoomType button:hover {
+		background-color: #f0f0f0;
+	}
+
+	#suggestionBoxForRoomType button.active {
+		background-color: #e0e0e0;
+	}
+
+	#suggestionBoxForRoomType button:focus {
+		outline: none;
+	}
+
+	#suggestionBoxForRoomType img {
+		width: 80px;
+		height: 50px;
+		margin-right: 10px;
+	}
+
+	#suggestionBoxForRoomType span {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.modal-dialog-centered {
+		display: flex;
+		align-items: center;
+		min-height: calc(100% - 1rem);
+	}
+
+	.modal-content {
+		border: none;
+		border-radius: 0.5rem;
+	}
+
+	.modal-body {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.modal-body img {
+		height: 30rem;
+		/* Increase the image height */
+		width: 40rem;
+		/* Increase the image width */
+		object-fit: cover;
+		margin-right: 1rem;
+	}
+
+	.modal-backdrop.show {
+		opacity: 0.3 !important;
+	}
+</style>
 
 <body>
 
@@ -72,155 +177,67 @@
 
 									<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel"
 										aria-labelledby="v-pills-nextgen-tab">
-										<form action="#" class="search-property-1">
-											<div class="row no-gutters">
-												<div class="col-md d-flex">
-													<div class="form-group p-4 border-0">
-														<label for="#">Destination</label>
-														<div class="form-field">
-															<div class="icon"><span class="fa fa-search"></span></div>
-															<input type="text" class="form-control"
-																placeholder="Search place">
-														</div>
-													</div>
-												</div>
-												<div class="col-md d-flex">
-													<div class="form-group p-4">
-														<label for="#">Check-in date</label>
-														<div class="form-field">
-															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkin_date"
-																placeholder="Check In Date">
-														</div>
-													</div>
-												</div>
-												<div class="col-md d-flex">
-													<div class="form-group p-4">
-														<label for="#">Check-out date</label>
-														<div class="form-field">
-															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkout_date"
-																placeholder="Check Out Date">
-														</div>
-													</div>
-												</div>
-												<div class="col-md d-flex">
-													<div class="form-group p-4">
-														<label for="#">Price Limit</label>
-														<div class="form-field">
-															<div class="select-wrap">
-																<div class="icon"><span
-																		class="fa fa-chevron-down"></span></div>
-																<select name="" id="" class="form-control">
-																	<option value="">$100</option>
-																	<option value="">$10,000</option>
-																	<option value="">$50,000</option>
-																	<option value="">$100,000</option>
-																	<option value="">$200,000</option>
-																	<option value="">$300,000</option>
-																	<option value="">$400,000</option>
-																	<option value="">$500,000</option>
-																	<option value="">$600,000</option>
-																	<option value="">$700,000</option>
-																	<option value="">$800,000</option>
-																	<option value="">$900,000</option>
-																	<option value="">$1,000,000</option>
-																	<option value="">$2,000,000</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-md d-flex">
-													<div class="form-group d-flex w-100 border-0">
-														<div class="form-field w-100 align-items-center d-flex">
-															<input type="submit" value="Search"
-																class="align-self-stretch form-control btn btn-primary">
-														</div>
+										<div class="row no-gutters search-property-1">
+											<div class="col-md d-flex">
+												<div class="form-group p-4 border-0">
+													<label for="#">Destination</label>
+													<div class="form-field">
+														<div class="icon"><span class="fa fa-search"></span></div>
+														<input type="search" class="form-control"
+															placeholder="Search place">
 													</div>
 												</div>
 											</div>
-										</form>
+											<div class="col-md d-flex">
+												<div class="form-group d-flex w-100 border-0">
+													<div class="form-field w-100 align-items-center d-flex">
+														<input type="submit" value="Search"
+															class="align-self-stretch form-control btn btn-primary">
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 
 									<div class="tab-pane fade" id="v-pills-2" role="tabpanel"
 										aria-labelledby="v-pills-performance-tab">
-										<form action="#" class="search-property-1">
-											<div class="row no-gutters">
-												<div class="col-lg d-flex">
-													<div class="form-group p-4 border-0">
-														<label for="#">Destination</label>
-														<div class="form-field">
-															<div class="icon"><span class="fa fa-search"></span></div>
-															<input type="text" class="form-control"
-																placeholder="Search place">
-														</div>
+										<div class="row no-gutters search-property-1">
+											<div class="col-lg d-flex position-relative">
+												<div class="form-group p-4 border-0" id="suggestionContainer">
+													<label for="#">Room Type</label>
+													<!-- Thêm các sự kiện vào ô input khi search room type -->
+													<div class="form-field">
+														<div class="icon"><span class="fa fa-search"></span></div>
+														<input type="search" class="form-control" id="keywordRoomType"
+															placeholder="Search type of room"
+															oninput="handleInputRoomType()"
+															onkeyup="handleSearchRoomType(event)">
+														<div id="suggestionBoxForRoomType" style="border: none;"></div>
 													</div>
+
 												</div>
-												<div class="col-lg d-flex">
-													<div class="form-group p-4">
-														<label for="#">Check-in date</label>
-														<div class="form-field">
-															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkin_date"
-																placeholder="Check In Date">
-														</div>
-													</div>
-												</div>
-												<div class="col-lg d-flex">
-													<div class="form-group p-4">
-														<label for="#">Check-out date</label>
-														<div class="form-field">
-															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkout_date"
-																placeholder="Check Out Date">
-														</div>
-													</div>
-												</div>
-												<div class="col-lg d-flex">
-													<div class="form-group p-4">
-														<label for="#">Price Limit</label>
-														<div class="form-field">
-															<div class="select-wrap">
-																<div class="icon"><span
-																		class="fa fa-chevron-down"></span></div>
-																<select name="" id="" class="form-control">
-																	<option value="">$100</option>
-																	<option value="">$10,000</option>
-																	<option value="">$50,000</option>
-																	<option value="">$100,000</option>
-																	<option value="">$200,000</option>
-																	<option value="">$300,000</option>
-																	<option value="">$400,000</option>
-																	<option value="">$500,000</option>
-																	<option value="">$600,000</option>
-																	<option value="">$700,000</option>
-																	<option value="">$800,000</option>
-																	<option value="">$900,000</option>
-																	<option value="">$1,000,000</option>
-																	<option value="">$2,000,000</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg d-flex">
-													<div class="form-group d-flex w-100 border-0">
-														<div class="form-field w-100 align-items-center d-flex">
-															<input type="submit" value="Search"
-																class="align-self-stretch form-control btn btn-primary p-0">
-														</div>
+
+											</div>
+
+											<div class="col-lg d-flex">
+												<div class="form-group d-flex w-100 border-0">
+													<div class="form-field w-100 align-items-center d-flex">
+														<input type="button" value="Search" onclick="SearchRoomType()"
+															class="align-self-stretch form-control btn btn-primary p-0">
 													</div>
 												</div>
 											</div>
-										</form>
+										</div>
 									</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		</div>
 	</section>
 
 	<section class="ftco-section services-section">
@@ -322,30 +339,55 @@
 				<!-- Sử dụng vòng lặp Thymeleaf để duyệt qua danh sách service -->
 				<div class="col-xs-12 col-sm-6 col-md-4 ftco-animate" th:each="service : ${sList}">
 					<div class="project-wrap">
-						<a th:href="@{/service/getByID/{id}(id=${service.serviceID})}" class="img"
-							th:style="'background-image: url(images/' + ${service.image} + ');'">
+						<a class="img" th:style="'background-image: url(images/' + ${service.image} + ');'">
 							<span class="price">Recommend</span>
 						</a>
-
-
 						<div class="text p-4">
 							<h3>
-								<a th:href="@{/service/getByID/{id}(id=${service.serviceID})}"
-									th:text="${service.serviceName}"></a>
+								<button data-bs-toggle="modal" th:data-bs-target="'#modal' + ${service.serviceID}"
+									th:text="${service.serviceName}"
+									style="border: none; background-color: white;"></button>
 							</h3>
 							<p class="location"><span class="fa fa-map-marker"></span> Ngu Hanh Hill</p>
 							<ul>
 								<li><span class="flaticon-shower"></span>2</li>
 								<li><span class="flaticon-king-size"></span>3</li>
-								<li><span class="flaticon-sun-umbrella"></span><a th:href="@{/}">Book Now</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
+				<a th:href="@{/service/getAll}" style="text-decoration: none; color: green;">Xem Tất Cả >></a>
 				<!-- Kết thúc vòng lặp Thymeleaf -->
 			</div>
 		</div>
 	</section>
+	<div th:each="service : ${sList}">
+		<div th:id="'modal' + ${service.serviceID}" class="modal fade" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<!-- Dấu X ở góc trên bên phải của modal -->
+						<h3 th:text="${service.serviceTypeID.serviceName}"></h3>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+						<h3 style="color: black; cursor: pointer;" onmouseover="this.style.color='orange'"
+							onmouseout="this.style.color='black'" th:text="${service.serviceName}"></h3>
+						<img th:src="@{/images/{image}(image=${service.image})}" alt="Room Image">
+						<p><strong></strong> <span th:text="${service.description}"></span></p>
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
 
 
 	<section class="ftco-section ftco-about img" style="background-image: url(images/bg_4.jpg);">
@@ -573,6 +615,41 @@
 		</div>
 	</section>
 
+	<div th:each="roomType : ${roomTypeList}">
+		<div th:id="'modalRoomType' + ${roomType.roomTypeID}" class="modal fade" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<!-- Increase modal size -->
+				<div class="modal-content" style="height: 100%;">
+					<div class="modal-header">
+						<h4 class="modal-title" style="color: black; cursor: pointer;"
+							onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
+							th:text="${roomType.roomTypeName}"></h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<img th:src="@{/images/{image}(image=${roomType.images})}" class="img-fluid mb-3"
+							alt="Room Image">
+					</div>
+					<div class="modal-footer">
+						<div>
+							<p><strong>Price:</strong> <span th:text="${roomType.price} + ' VND'"></span></p>
+							<p><strong>Description:</strong> <span th:text="${roomType.details}"></span></p>
+							<div class="mt-4">
+								<form th:action="@{/hotel/getRoom}" th:method="get" class="d-inline-block">
+									<input type="hidden" name="roomType" th:value="${roomType.roomTypeID}">
+									<input type="hidden" name="hiddenStartDate" th:value="${startDate}">
+									<input type="hidden" name="hiddenEndDate" th:value="${endDate}">
+									<button type="submit" class="btn btn-primary">Book Room</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- footer -->
 	<footer th:insert="~{User/footer :: footer}"></footer>
 
@@ -584,7 +661,30 @@
 				stroke="#F96D00" />
 		</svg></div>
 
-
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.stellar.min.js"></script>
+	<script src="js/jquery.fancybox.min.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/jquery.timepicker.min.js"></script>
+	<script src="js/aos.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		const modals = document.querySelectorAll('.modal');
+		modals.forEach(modal => {
+			modal.addEventListener('show.bs.modal', () => {
+				document.getElementById('content').classList.add('blur-effect');
+			});
+			modal.addEventListener('hidden.bs.modal', () => {
+				document.getElementById('content').classList.remove('blur-effect');
+			});
+		});
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 	<script src="js/jquery.min1.js"></script>
 	<script src="js/jquery-migrate-3.0.1.min1.js"></script>
 	<script src="js/popper.min1.js"></script>
@@ -597,6 +697,7 @@
 	<script src="js/jquery.animateNumber.min1.js"></script>
 	<script src="js/bootstrap-datepicker1.js"></script>
 	<script src="js/scrollax.min1.js"></script>
+	<script src="js/searchRoomType.js"></script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="js/google-map1.js"></script>

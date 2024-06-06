@@ -21,15 +21,6 @@
     <title> Room</title>
 </head>
 <style>
-    img:hover {
-        box-shadow: 0 0 20px rgba(245, 101, 18, 0.8);
-        transform: translateY(-10px);
-    }
-
-    img {
-        cursor: pointer;
-    }
-
     h5:hover,
     p:hover {
         transform: translateY(-10px);
@@ -63,7 +54,7 @@
     }
 
     .modal-backdrop.show {
-        opacity: 0.9 !important;
+        opacity: 0.3 !important;
     }
 </style>
 
@@ -168,20 +159,25 @@
     <div th:each="roomType : ${roomTypeList}">
         <div th:id="'modal' + ${roomType.roomTypeID}" class="modal fade" data-bs-backdrop="static"
             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" style="max-width: 80%; height: 90%;">
+            <div class="modal-dialog modal-lg">
                 <!-- Increase modal size -->
                 <div class="modal-content" style="height: 100%;">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="color: black; cursor: pointer;"
+                            onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
+                            th:text="${roomType.roomTypeName}"></h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
                     <div class="modal-body">
                         <img th:src="@{/images/{image}(image=${roomType.images})}" class="img-fluid mb-3"
                             alt="Room Image">
+                    </div>
+                    <div class="modal-footer">
                         <div>
-                            <h3 style="color: black; cursor: pointer;" onmouseover="this.style.color='orange'"
-                                onmouseout="this.style.color='black'" th:text="${roomType.roomTypeName}"></h3>
                             <p><strong>Price:</strong> <span th:text="${roomType.price} + ' VND'"></span></p>
                             <p><strong>Description:</strong> <span th:text="${roomType.details}"></span></p>
                             <div class="mt-4">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <form th:action="@{/hotel/getRoomByRoomType}" th:method="get" class="d-inline-block">
+                                <form th:action="@{/hotel/getRoom}" th:method="get" class="d-inline-block">
                                     <input type="hidden" name="roomType" th:value="${roomType.roomTypeID}">
                                     <input type="hidden" name="hiddenStartDate" th:value="${startDate}">
                                     <input type="hidden" name="hiddenEndDate" th:value="${endDate}">

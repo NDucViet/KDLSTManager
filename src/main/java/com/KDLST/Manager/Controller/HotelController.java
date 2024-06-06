@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,6 @@ import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServ
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServiceImplement;
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomService;
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomServiceImplement;
-import com.KDLST.Manager.Model.Service.HotelService.HotelService;
-import com.KDLST.Manager.Model.Service.HotelService.HotelServiceImplement;
 import com.KDLST.Manager.Model.Service.HotelService.RoomService;
 import com.KDLST.Manager.Model.Service.HotelService.RoomServiceImplement;
 import com.KDLST.Manager.Model.Service.HotelService.RoomTypeServiceImplement;
@@ -41,14 +40,15 @@ public class HotelController {
     ArrayList<BookingRoomDetails> bookingRoomDetailsList = new ArrayList<>();
     ArrayList<Room> roomList = new ArrayList<>();
     @Autowired
-    private HotelService hotelService = new HotelServiceImplement();
     private RoomService roomService = new RoomServiceImplement();
     private RoomTypeServiceImplement roomTypeService = new RoomTypeServiceImplement();
     private BookingRoomDetailsService bookingRoomDetailsService = new BookingRoomDetailsServiceImplement();
     private BookingRoomService bookingroomService = new BookingRoomServiceImplement();
 
     @GetMapping({ "/", "" })
-    public String indexHotel() {
+    public String indexHotel(Model model) {
+        ArrayList<RoomType> roomTypeList = roomTypeService.getAll();
+        model.addAttribute("roomTypeList", roomTypeList);
         return "Hotel/index";
     }
 
@@ -84,12 +84,12 @@ public class HotelController {
     public String bookRoomByRoomType(Model model, @RequestParam(name = "roomType") int id,
             @RequestParam(name = "startDate") String startDate,
             @RequestParam(name = "endDate") String endDate) {
-        roomList = roomService.getByIdRoomType(id);
+        List<Room> roomList = roomService.getByIdRoomType(id);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
         java.util.Date utilDate;
         System.out.println(startDate);
-        Date sqlStartDate = null;
-        bookingRoomDetailsList = bookingRoomDetailsService.getAll();
+        Date sqlStartDate = new Date(0);
+        List<BookingRoomDetails> bookingRoomDetailsList = bookingRoomDetailsService.getAll();
         HashSet<Room> setRoom = new HashSet<>();
         try {
             utilDate = dateFormat.parse(startDate);
@@ -101,18 +101,27 @@ public class HotelController {
             if (bookingRoom.getBookingRoom() == null) {
                 continue;
             }
-            if (sqlStartDate.compareTo(bookingRoom.getBookingRoom().getEndDate()) >= 0
-                    && bookingRoom.getRoom().getRoomType().getRoomTypeID() == id) {
-                setRoom.add(bookingRoom.getRoom());
+            if (!(sqlStartDate.compareTo(bookingRoom.getBookingRoom().getEndDate()) >= 0)) {
+                RoomType roomType = bookingRoom.getRoom().getRoomType();
+                if (roomType != null && roomType.getRoomTypeID() == id) {
+                    roomList.remove(bookingRoom.getRoom());
+                }
             }
         }
         setRoom.addAll(roomList);
         List<Room> roomListss = new ArrayList<>(setRoom);
-        HashMap<List<Room>, String> rommHashMap = new HashMap<>();
-        rommHashMap.put(roomListss, roomListss.get(0).getRoomType().getRoomTypeName());
+        HashMap<List<Room>, String> roomHashMap = new HashMap<>();
+
+        if (!roomListss.isEmpty() && roomListss.get(0).getRoomType() != null) {
+            roomHashMap.put(roomListss, roomListss.get(0).getRoomType().getRoomTypeName());
+        } else {
+            // Handle the case where roomListss is empty or the room type is null
+            roomHashMap.put(roomListss, "Unknown Room Type");
+        }
+
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("setRoom", rommHashMap);
+        model.addAttribute("setRoom", roomHashMap);
         return "Hotel/bookRoomValid";
     }
 
@@ -121,7 +130,7 @@ public class HotelController {
             @RequestParam(name = "endDate") String endDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
         java.util.Date utilDate;
-        Date sqlStartDate = null;
+        Date sqlStartDate = new Date(0);
         bookingRoomDetailsList = bookingRoomDetailsService.getAll();
         HashMap<List<Room>, String> hashRoom = new HashMap<>();
         try {
@@ -170,4 +179,16 @@ public class HotelController {
         return "Hotel/history";
     }
 
+    @GetMapping("/searchRoomType")
+    public String searchRoomType(Model model, @RequestParam("keyword") String keyword) {
+        ArrayList<RoomType> roomTypeList = roomTypeService.searchRoomType(keyword);
+        model.addAttribute("roomTypeList", roomTypeList);
+        return "Hotel/getRoomType";
+    }
+
+    @GetMapping(value = "/roomTypeSuggestion")
+    public ResponseEntity<ArrayList<RoomType>> roomTypeSuggestion(@RequestParam("keyword") String keyword) {
+        ArrayList<RoomType> roomTypeList = roomTypeService.searchRoomType(keyword);
+        return ResponseEntity.ok().body(roomTypeList);
+    }
 }

@@ -224,16 +224,6 @@ public class UserController {
         return "User/about";
     }
 
-    @GetMapping("/service")
-    public String service() {
-        return "User/service";
-    }
-
-    @GetMapping("/hotel")
-    public String hotel() {
-        return "User/hotel";
-    }
-
     @GetMapping("/contact")
     public String contact() {
         return "User/contact";
