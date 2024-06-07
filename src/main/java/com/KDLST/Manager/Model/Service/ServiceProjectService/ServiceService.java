@@ -13,6 +13,8 @@ public ArrayList<Services> getAll();
 
     public boolean add(Services service);
 
-    public ArrayList<Services> getPageImage(int index, int serviceTypeID);
+    public ArrayList<Services> getPageService(int index, int serviceTypeID);
+
+    public ArrayList<Services> getSerBySerTypeID(int serviceTypeID) ;
 
 }

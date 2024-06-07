@@ -113,7 +113,7 @@ public class ServiceRepository {
         return false;
     }
 
-        public ArrayList<Services> getPageImage(int index, int serviceTypeID) {
+    public ArrayList<Services> getPageService(int index, int serviceTypeID) {
         try {
             serviceList.clear();
             Class.forName(BaseConnection.nameClass);
@@ -142,9 +142,37 @@ public class ServiceRepository {
         return serviceList;
     }
 
+    public ArrayList<Services> getSerBySerTypeID(int serviceTypeID) {
+        try {
+            serviceList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement stsm = con.prepareStatement(
+                    "select * from KDLST.Service where serviceTypeID = ?");
+            stsm.setInt(1, serviceTypeID);
+            ResultSet rs = stsm.executeQuery();
+            while (rs.next()) {
+                int serviceID = rs.getInt("serviceID");
+                ServiceType serviceType = serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                java.sql.Date dateTimeEdit = rs.getDate("dateTimeEdit");
+                String serviceName = rs.getString("serviceName");
+                Services sv = new Services(serviceID, serviceType, description, image, dateTimeEdit, serviceName);
+                serviceList.add(sv);
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return serviceList;
+    }
+
     public static void main(String[] args) {
         ServiceRepository serviceRepository = new ServiceRepository();
-        System.out.println(serviceRepository.getPageImage(1,1));
+        System.out.println(serviceRepository.getSerBySerTypeID(1).size());
+        System.out.println(serviceRepository.getPageService(1,1).size());
     }
 
 }

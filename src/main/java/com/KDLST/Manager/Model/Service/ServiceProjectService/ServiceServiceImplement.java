@@ -5,16 +5,16 @@ import org.springframework.stereotype.Service;
 import com.KDLST.Manager.Model.Repository.ServiceProjectRepository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
+
 @Service
 public class ServiceServiceImplement implements ServiceService {
-    ArrayList<Services> servicesList = new ArrayList<>();
+    private ArrayList<Services> servicesList = new ArrayList<>();
     @Autowired
-    ServiceRepository serviceRepository =new ServiceRepository();
-
+    ServiceRepository serviceRepository = new ServiceRepository();
 
     @Override
     public ArrayList<Services> getAll() {
-        this.servicesList=serviceRepository.getAll();
+        this.servicesList = serviceRepository.getAll();
         return servicesList;
     }
 
@@ -40,11 +40,26 @@ public class ServiceServiceImplement implements ServiceService {
     }
 
     @Override
-    public ArrayList<Services> getPageImage(int index, int serviceTypeID){
-        servicesList = serviceRepository.getPageImage(index, serviceTypeID);
-        if(!servicesList.isEmpty()){
-            return servicesList; 
+    public ArrayList<Services> getPageService(int index, int serviceTypeID) {
+        ArrayList<Services> serviceList = serviceRepository.getPageService(index, serviceTypeID);
+        if (!serviceList.isEmpty()) {
+            return serviceList;
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<Services> getSerBySerTypeID(int serviceTypeID) {
+        ArrayList<Services> serviceList = serviceRepository.getSerBySerTypeID(serviceTypeID);
+        if (!serviceList.isEmpty()) {
+            return serviceList;
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        ServiceServiceImplement serviceServiceImplement = new ServiceServiceImplement();
+        System.out.println(serviceServiceImplement.getPageService(1, 1).size());
+        System.out.println(serviceServiceImplement.getSerBySerTypeID(1).size());
     }
 }
