@@ -15,7 +15,7 @@ import jakarta.el.ELException;
 public class TicketRepository {
     private static ArrayList<Ticket> ticketList = new ArrayList<>();
     @Autowired
-    private TicketTypeRepository ticketTypeRepository;
+    private TicketTypeRepository ticketTypeRepository = new TicketTypeRepository();
 
     public ArrayList<Ticket> getAll() {
         try {
@@ -30,7 +30,7 @@ public class TicketRepository {
                 TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
                 String title = rs.getString("title");
                 String description = rs.getString("description");
-                double price = rs.getDouble("description");
+                double price = rs.getDouble("price");
                 String image = rs.getString("image");
                 Boolean status = rs.getBoolean("status");
                 Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);
@@ -41,9 +41,14 @@ public class TicketRepository {
 
         } catch (Exception e) {
             // TODO: handle exception
-            System.out.println(e);
+            System.out.println(e + " " + "cc");
         }
         return ticketList;
+    }
+
+    public static void main(String[] args) {
+        TicketRepository t = new TicketRepository();
+        System.out.println(t.getAll());
     }
 
     public Ticket getById(int id) {

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.KDLST.Manager.Model.Repository.ServiceProjectRepository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.function.Predicate;
 
 @Service
 public class ServiceServiceImplement implements ServiceService {
@@ -57,9 +59,30 @@ public class ServiceServiceImplement implements ServiceService {
         return null;
     }
 
-    public static void main(String[] args) {
-        ServiceServiceImplement serviceServiceImplement = new ServiceServiceImplement();
-        System.out.println(serviceServiceImplement.getPageService(1, 1).size());
-        System.out.println(serviceServiceImplement.getSerBySerTypeID(1).size());
+    private static Predicate<Services> filterByName(String keyword) {
+        return p -> p.getServiceName().toLowerCase().contains(keyword.toLowerCase());
+    }
+
+    private static Predicate<Services> filterByType(String keyword) {
+        return p -> p.getServiceTypeID().getServiceName().toLowerCase().contains(keyword.toLowerCase());
+    }
+
+    private ArrayList<Services> filterServices(String keyword, Predicate<Services> predicate) {
+        ArrayList<Services> filteredServices = new ArrayList<>();
+        getAll();
+        for (Services service : servicesList) {
+            if (predicate.test(service)) {
+                filteredServices.add(service);
+            }
+        }
+        return filteredServices;
+    }
+
+    @Override
+    public ArrayList<Services> searchService(String keyword) {
+        HashSet<Services> services = new HashSet<>();
+        services.addAll(filterServices(keyword, filterByName(keyword)));
+        services.addAll(filterServices(keyword, filterByType(keyword)));
+        return new ArrayList<>(services);
     }
 }

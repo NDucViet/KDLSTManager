@@ -17,4 +17,6 @@ public ArrayList<Services> getAll();
 
     public ArrayList<Services> getSerBySerTypeID(int serviceTypeID) ;
 
+    public ArrayList<Services> searchService(String keyword);
+
 }

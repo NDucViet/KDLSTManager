@@ -26,35 +26,56 @@
         transform: translateY(-10px);
     }
 
-    .modal-dialog-centered {
-        display: flex;
-        align-items: center;
-        min-height: calc(100% - 1rem);
+    .truncate {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+        /* Điều chỉnh theo nhu cầu của bạn */
+    }
+
+    .custom-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        max-height: 90vh;
+        /* Để modal không chiếm toàn bộ chiều cao màn hình */
+        overflow-y: auto;
+        /* Để modal có thể cuộn nếu nội dung quá dài */
+        z-index: 1050;
+        /* Để đảm bảo modal xuất hiện trên các thành phần khác */
+    }
+
+    .modal-dialog {
+        margin: 0;
+        max-width: 100%;
     }
 
     .modal-content {
-        border: none;
-        border-radius: 0.5rem;
+        border-radius: 0;
     }
 
-    .modal-body {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+    @media (min-width: 768px) {
+        .custom-modal {
+            width: 50%;
+        }
+    }
+
+    .custom-modal:not(:first-child) {
+        margin-bottom: 10px;
+        /* Khoảng cách giữa các modal */
     }
 
     .modal-body img {
         height: 30rem;
         /* Increase the image height */
-        width: 30rem;
+        width: 40rem;
         /* Increase the image width */
         object-fit: cover;
         margin-right: 1rem;
-    }
-
-    .modal-backdrop.show {
-        opacity: 0.3 !important;
     }
 </style>
 
@@ -156,23 +177,23 @@
             </div>
         </div>
     </section>
+
     <div th:each="roomType : ${roomTypeList}">
-        <div th:id="'modal' + ${roomType.roomTypeID}" class="modal fade" data-bs-backdrop="static"
+        <div th:id="'modal' + ${roomType.roomTypeID}" class="modal fade custom-modal" data-bs-backdrop="static"
             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <!-- Increase modal size -->
-                <div class="modal-content" style="height: 100%;">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" style="color: black; cursor: pointer;"
-                            onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
+                        <h4 onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
                             th:text="${roomType.roomTypeName}"></h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <img th:src="@{/images/{image}(image=${roomType.images})}" class="img-fluid mb-3"
-                            alt="Room Image">
-                    </div>
-                    <div class="modal-footer">
+                        <div class="mb-3 text-center">
+                            <img th:src="@{/images/{image}(image=${roomType.images})}" class="img-fluid mb-3"
+                                alt="Room Image">
+                        </div>
                         <div>
                             <p><strong>Price:</strong> <span th:text="${roomType.price} + ' VND'"></span></p>
                             <p><strong>Description:</strong> <span th:text="${roomType.details}"></span></p>

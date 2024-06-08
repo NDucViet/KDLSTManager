@@ -9,8 +9,6 @@ import com.KDLST.Manager.Model.Entity.Blog.Blog;
 import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Repository.BlogRepository.BlogRepository;
 
-import jakarta.el.ELException;
-
 @Repository
 public class ImageRepository {
     private ArrayList<Image> imageList = new ArrayList<>();
@@ -53,7 +51,7 @@ public class ImageRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                System.out.println("cannot find");
             }
             int imageID = rs.getInt("imageID");
             String imageUrl = rs.getString("imageUrl");
@@ -160,12 +158,7 @@ public class ImageRepository {
 
     public static void main(String[] args) {
         ImageRepository imageRepository = new ImageRepository();
-        // Blog blog = new Blog(1, null, null, null, null, null, null);
-        // Image image = new Image(1, "TTN1",blog , "hi truong tinh nghi");
-        // // Blog blog1 = new Blog(1, null, null, null, null, null, null);
-        // Image image1 = new Image(2, "TTN2",blog , "hi truong tinh nghi");
-        // imageRepository.add(image);
-        // imageRepository.add(image1);
-        System.out.println(imageRepository.getAll());
+
+        imageRepository.getAll();
     }
 }

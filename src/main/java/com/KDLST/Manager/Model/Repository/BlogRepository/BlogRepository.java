@@ -59,7 +59,7 @@ public class BlogRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                System.out.println("cannot find");
             }
             int blogID = rs.getInt("blogID");
             User userID = userRepository.getById(rs.getInt("userID"));
@@ -129,7 +129,7 @@ public class BlogRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement stsm = con.prepareStatement("select * from KDLST.Blog"
-            +"where blogTypeID = ?  order by blogID offset ? rows fetch next 9 rows only");
+                    + "where blogTypeID = ?  order by blogID offset ? rows fetch next 9 rows only");
             stsm.setInt(1, blogTypeID);
             stsm.setInt(2, (index - 1) * 9);
             ResultSet rs = stsm.executeQuery();
@@ -156,7 +156,8 @@ public class BlogRepository {
         // Date sqlDate = Date.valueOf("2023-05-29");
         // // Tạo đối tượng MyDateObject với thuộc tính ngày
         // BlogType blogType = new BlogType (1, "linh");
-        // User user = new User(3, null, null, null, null, null, null, null, sqlDate, 0, null, null, null, null);
+        // User user = new User(3, null, null, null, null, null, null, null, sqlDate, 0,
+        // null, null, null, null);
         // Blog blog = new Blog(1, user, blogType, "linh", "linh", sqlDate, "linh");
         BlogRepository blogRepository = new BlogRepository();
         // blogRepository.add(blog);

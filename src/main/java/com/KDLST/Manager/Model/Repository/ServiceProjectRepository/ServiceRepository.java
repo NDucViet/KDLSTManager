@@ -53,7 +53,7 @@ public class ServiceRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                throw new ELException("Cannot find Service");
             }
             int serviceID = rs.getInt("serviceID");
             ServiceType serviceType = serviceTypeRepositories.getById(rs.getInt("serviceTypeID"));
@@ -172,7 +172,7 @@ public class ServiceRepository {
     public static void main(String[] args) {
         ServiceRepository serviceRepository = new ServiceRepository();
         System.out.println(serviceRepository.getSerBySerTypeID(1).size());
-        System.out.println(serviceRepository.getPageService(1,1).size());
+        System.out.println(serviceRepository.getPageService(1, 1).size());
     }
 
 }

@@ -58,37 +58,39 @@
                         <li class="nav-item dropdown">
                             <a th:href="@{/service/getAll}" class="nav-link dropdown-toggle">Dịch vụ</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceTypeID=1)}">Hoạt Động
+                                <li><a class="dropdown-item" th:href="@{/service/getByID/__${1}__}">Hoạt
+                                        Động
                                         Giải Trí</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceTypeID=2)}">Không
+                                <li><a class="dropdown-item" th:href="@{/service/getByID/__${2}__}">Không
                                         Gian Nghỉ Dưỡng</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceTypeID=3)}">Không
+                                <li><a class="dropdown-item" th:href="@{/service/getByID/__${3}__}">Không
                                         Gian Ẩm Thực</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceTypeID=4)}">Hoạt Động
+                                <li><a class="dropdown-item" th:href="@{/service/getByID/__${4}__}">Hoạt
+                                        Động
                                         Thư Giản</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceTypeID=5)}">Phương
+                                <li><a class="dropdown-item" th:href="@{/service/getByID/__${5}__}">Phương
                                         Tiện Di Chuyển</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/service/getAll(index=1, serviceTypeID=6)}">Không
+                                <li><a class="dropdown-item" th:href="@{/service/getByID/__${6}__}">Không
                                         Gian Văn Hóa</a>
                                 </li>
                                 <li>
@@ -100,12 +102,14 @@
                         <li class="nav-item dropdown">
                             <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">Tin tức nổi bật</a>
+                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">Tin tức
+                                        nổi bật</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Sự kiện</a>
+                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Sự
+                                        kiện</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
@@ -113,7 +117,7 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a th:href="@{/user/contact}" class="nav-link">Liên lạc</a></li>
-                        <li class="nav-item"><a th:href="@{/user/login}" class="nav-link">Vé</a></li>
+                        <li class="nav-item"><a th:href="@{/ticket/getAll}" class="nav-link">Vé</a></li>
                         <li class="nav-item"><a th:href="@{/#}" class="nav-link"><i
                                     class="fa-solid fa-cart-shopping"></i></a></li>
                         <li th:if="${session.user == null}" class="nav-item"><a th:href="@{/user/showLogin}"

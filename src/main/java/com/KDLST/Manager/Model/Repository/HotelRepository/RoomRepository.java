@@ -54,7 +54,7 @@ public class RoomRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                throw new ELException("Cannot find room");
             }
             int roomID = rs.getInt("roomID");
             Hotel hotel = hotelRepository.getById(rs.getInt("hotelID"));

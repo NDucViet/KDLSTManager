@@ -56,6 +56,11 @@ public class TicketTypeRepository {
         return null;
     }
 
+    public static void main(String[] args) {
+        TicketTypeRepository t = new TicketTypeRepository();
+        System.out.println(t.getById(5).toString());
+    }
+
     public boolean update(TicketType ticketType) {
         try {
             Class.forName(BaseConnection.nameClass);

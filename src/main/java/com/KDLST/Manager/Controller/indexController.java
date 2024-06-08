@@ -1,4 +1,5 @@
 package com.KDLST.Manager.Controller;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,18 +36,19 @@ public class indexController {
     @GetMapping("/")
     public String index(Model model) {
         ArrayList<Services> sList = service.getAll();
-        ArrayList<Services> serviceList = new ArrayList<>();
-        for (int i = 5; i < 8; i++) {
-            serviceList.add(sList.get(i));
+        ArrayList<Services> sLists = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            sLists.add(sList.get(i));
         }
         ArrayList<Image> imgList = imageService.getAll();
         Set<Image> images = new HashSet<>();
         for (Image image : imgList) {
             images.add(image);
         }
+
         ArrayList<RoomType> roomTypeList = roomTypeService.getAll();
         model.addAttribute("roomTypeList", roomTypeList);
-        model.addAttribute("sList", serviceList);
+        model.addAttribute("sList", sLists);
         model.addAttribute("blogList", images);
         return "User/index";
     }

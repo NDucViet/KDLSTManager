@@ -44,35 +44,74 @@
       max-width: 300px;
     }
 
-    .modal-dialog-centered {
-      display: flex;
-      align-items: center;
-      min-height: calc(100% - 1rem);
+    .custom-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-height: 90vh;
+      /* Để modal không chiếm toàn bộ chiều cao màn hình */
+      overflow-y: auto;
+      /* Để modal có thể cuộn nếu nội dung quá dài */
+      z-index: 1050;
+      /* Để đảm bảo modal xuất hiện trên các thành phần khác */
+    }
+
+    .modal-dialog {
+      margin: 0;
+      max-width: 100%;
     }
 
     .modal-content {
-      border: none;
-      border-radius: 0.5rem;
+      border-radius: 0;
     }
 
-    .modal-body {
+    @media (min-width: 768px) {
+      .custom-modal {
+        width: 50%;
+      }
+    }
+
+    .custom-modal:not(:first-child) {
+      margin-bottom: 10px;
+      /* Khoảng cách giữa các modal */
+    }
+
+
+    .pagination {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      padding-left: 0;
+      list-style: none;
     }
 
-    .modal-body img {
-      height: 30rem;
-      /* Increase the image height */
-      width: 40rem;
-      /* Increase the image width */
-      object-fit: cover;
-      margin-right: 1rem;
+    .pagination li {
+      display: inline-block;
+      margin: 0 5px;
     }
 
-    .modal-backdrop.show {
-      opacity: 0.3 !important;
+    .pagination li a {
+      color: #007bff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+    }
+
+    .pagination li.active a {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    .truncate {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
+      /* Điều chỉnh theo nhu cầu của bạn */
     }
   </style>
 
@@ -107,7 +146,7 @@
               <a href="#" class="img" th:style="'background-image: url(images/' + ${service.image} + ');'">
               </a>
               <div class="text p-4">
-                <h3>
+                <h3 class="location">
                   <button data-bs-toggle="modal" th:data-bs-target="'#modal' + ${service.serviceID}"
                     th:text="${service.serviceName}" style="border: none; background-color: white;"></button>
                 </h3>
@@ -123,7 +162,7 @@
         </th:block>
       </div>
       <div th:each="service : ${serviceList}">
-        <div th:id="'modal' + ${service.serviceID}" class="modal fade" data-bs-backdrop="static"
+        <div th:id="'modal' + ${service.serviceID}" class="modal fade custom-modal" data-bs-backdrop="static"
           data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
@@ -149,34 +188,21 @@
         </div>
       </div>
 
+
       <div class="row mt-5">
         <div class="col text-center">
           <div class="block-27">
-            <ul>
-              <li><a href="#">&lt;</a></li>
-              <th:block th:each="i:${#numbers.sequence(1, endPage)}">
-                <th:block th:if="${currentPage == i}">
-                  <li class="active">
-                    <th:block th:if="${serviceList != null}">
-                      <a
-                        th:href="@{/service/getAll(index=${i}, serviceTypeID=${serviceList.get(0).serviceTypeID.serviceTypeID})}">[[${i}]]</a>
-                    </th:block>
-                  </li>
-                </th:block>
-                <th:block th:unless="${currentPage == i}">
-                  <li class="">
-                    <th:block th:if="${serviceList != null}">
-                      <a
-                        th:href="@{/service/getAll(index=${i}, serviceTypeID=${serviceList.get(0).serviceTypeID.serviceTypeID})}">[[${i}]]</a>
-                    </th:block>
-                  </li>
-                </th:block>
-              </th:block>
-              <li><a href="#">&gt;</a></li>
+            <ul class="pagination">
+              <li th:if="${currentPage > 1}"><a th:href="@{/service/getAll/__${Previous}__}">&lt;</a></li>
+              <li th:each="page, iterStat : ${numPage}" th:class="${currentPage == page} ? 'active'">
+                <a th:href="@{/service/getAll/__${page}__}" th:text="${page} "></a>
+              </li>
+              <li th:if="${numPage.length > currentPage}"><a th:href="@{/service/getAll/__${Next}__}">&gt;</a></li>
             </ul>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
