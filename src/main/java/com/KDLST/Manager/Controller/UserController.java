@@ -55,7 +55,7 @@ public class UserController {
                     session.setAttribute("user", user);
                     user = userServiceImplement.login(userStr);
                     model.addAttribute("user", user);
-                    return new indexController().index(model);
+                    return new IndexController().index(model);
                 }
             }
         }
@@ -96,7 +96,7 @@ public class UserController {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
                 session.setAttribute("userRole", user.getRole());
-                return new indexController().index(model);
+                return new IndexController().index(model);
             } else {
                 return showLogin(model, request);
             }
@@ -105,7 +105,7 @@ public class UserController {
                 user = userServiceImplement.login(user1.getEmail());
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
-                return new indexController().index(model);
+                return new IndexController().index(model);
             } else {
                 return showLogin(model, request);
             }

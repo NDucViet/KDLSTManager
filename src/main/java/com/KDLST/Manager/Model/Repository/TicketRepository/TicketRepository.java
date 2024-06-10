@@ -40,17 +40,11 @@ public class TicketRepository {
             con.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println(e + " " + "cc");
+            System.out.println(e);
         }
         return ticketList;
     }
-
-    public static void main(String[] args) {
-        TicketRepository t = new TicketRepository();
-        System.out.println(t.getAll());
-    }
-
+    
     public Ticket getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -101,7 +95,6 @@ public class TicketRepository {
             return result > 0;
         } catch (Exception e) {
             System.out.println(e);
-            // TODO: handle exception
         }
         return false;
     }

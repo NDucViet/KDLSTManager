@@ -34,7 +34,6 @@ public class RoomTypeRepository {
             }
             con.close();
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e);
         }
         return roomTypeList;
@@ -67,8 +66,4 @@ public class RoomTypeRepository {
         return null;
     }
 
-    public static void main(String[] args) {
-        RoomTypeRepository roomTypeRepository = new RoomTypeRepository();
-        System.out.println(roomTypeRepository.getAll());
-    }
 }

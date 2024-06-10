@@ -1,8 +1,6 @@
 package com.KDLST.Manager.Model.Repository.ServiceProjectRepository;
 
 import com.KDLST.Manager.Model.BaseConnection;
-import com.KDLST.Manager.Model.Entity.Blog.Blog;
-import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.ServiceProject.ServiceType;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import jakarta.el.ELException;
@@ -87,7 +85,7 @@ public class ServiceRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }
@@ -108,7 +106,7 @@ public class ServiceRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }
@@ -169,10 +167,5 @@ public class ServiceRepository {
         return serviceList;
     }
 
-    public static void main(String[] args) {
-        ServiceRepository serviceRepository = new ServiceRepository();
-        System.out.println(serviceRepository.getSerBySerTypeID(1).size());
-        System.out.println(serviceRepository.getPageService(1, 1).size());
-    }
 
 }

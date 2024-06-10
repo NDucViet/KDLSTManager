@@ -18,6 +18,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/ticket/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/ticket/getAll/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/ticket/getByID/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/blog/getByID/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/blog/getAll/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/blog/showBlogDetail/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/employee/**").addResourceLocations("classpath:/static/");
 
     }
 }

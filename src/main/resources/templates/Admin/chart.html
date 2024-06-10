@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Skydash Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" th:href="@{css/feather.css}">
+  <link rel="stylesheet" th:href="@{css/themify-icons.css}">
+  <link rel="stylesheet" th:href="@{css/vendor.bundle.base.css}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" th:href="@{css/dataTables.bootstrap4.css}">
+  <link rel="stylesheet" th:href="@{css/themify-icons.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{css/select.dataTables.min.css}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" th:href="@{css/style2.css}">
+  <!-- endinject -->
+  <link rel="shortcut icon" th:href="@{images/favicon.png}" />
+
+</head>
+
+<body>
+  <div class="container-scroller">
+    <header th:insert="~{Admin/header :: header}"></header>
+    <!-- partial:../../partials/_navbar.html -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_settings-panel.html -->
+      <partial th:insert="~{Admin/partial :: partial}"></partial>
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Line chart</h4>
+                  <canvas id="lineChart"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Bar chart</h4>
+                  <canvas id="barChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Area chart</h4>
+                  <canvas id="areaChart"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Doughnut chart</h4>
+                  <canvas id="doughnutChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Pie chart</h4>
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Scatter chart</h4>
+                  <canvas id="scatterChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer th:insert="~{Admin/footer :: footer}"></footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+
+  <script src="js/vendor.bundle.base.js"></script>
+  <script src="js/Chart.min.js"></script>
+  <script src="js/jquery.dataTables.js"></script>
+  <script src="js/dataTables.bootstrap4.js"></script>
+  <script src="js/dataTables.select.min.js"></script>
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="js/chart.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>

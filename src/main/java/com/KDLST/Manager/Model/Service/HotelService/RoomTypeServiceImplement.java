@@ -14,11 +14,6 @@ public class RoomTypeServiceImplement implements RoomTypeService {
     @Autowired
     RoomTypeRepository roomTypeRepository = new RoomTypeRepository();
 
-    public static void main(String[] args) {
-        RoomTypeServiceImplement r = new RoomTypeServiceImplement();
-        System.out.println(r.getAll());
-    }
-
     @Override
     public ArrayList<RoomType> getAll() {
         this.roomTypeList = roomTypeRepository.getAll();

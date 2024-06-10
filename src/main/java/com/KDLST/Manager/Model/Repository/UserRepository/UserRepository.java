@@ -48,7 +48,6 @@ public class UserRepository {
             con.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e);
         }
         return userList;
@@ -64,7 +63,7 @@ public class UserRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                throw new ELException("Cannot find userID");
             }
             int userID = rs.getInt("userID");
             String email = rs.getString("email");
@@ -119,7 +118,6 @@ public class UserRepository {
             return result > 0;
         } catch (Exception e) {
             System.out.println(e);
-            // TODO: handle exception
         }
         return false;
     }
@@ -152,5 +150,6 @@ public class UserRepository {
         }
         return false;
     }
+
 
 }

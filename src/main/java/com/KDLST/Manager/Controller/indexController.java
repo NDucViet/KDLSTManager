@@ -3,6 +3,8 @@ package com.KDLST.Manager.Controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,7 @@ import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImple
 
 @Controller
 @RequestMapping({ "/", "" })
-public class indexController {
+public class IndexController {
 
     @Autowired
     ServiceService service = new ServiceServiceImplement();
@@ -40,10 +42,21 @@ public class indexController {
         for (int i = 0; i < 3; i++) {
             sLists.add(sList.get(i));
         }
+
         ArrayList<Image> imgList = imageService.getAll();
+        Collections.sort(imgList, new Comparator<Image>() {
+            @Override
+            public int compare(Image img1, Image img2) {
+                return img2.getBlog().getDateTimeEdit().compareTo(img1.getBlog().getDateTimeEdit());
+            }
+        });
+
         Set<Image> images = new HashSet<>();
         for (Image image : imgList) {
             images.add(image);
+            if (images.size() == 3) {
+                break;
+            }
         }
 
         ArrayList<RoomType> roomTypeList = roomTypeService.getAll();

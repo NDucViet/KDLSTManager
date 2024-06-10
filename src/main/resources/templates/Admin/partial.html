@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/themify-icons/0.1.2/css/themify-icons.css">
+
+    <link rel="stylesheet" type="text/css" th:href="@{css/feather.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/themify-icons.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/vendor.bundle.base.css}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" type="text/css" th:href="@{css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/select.dataTables.min.css}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" type="text/css" th:href="@{css/style2.css}">
+    <!-- endinject -->
+    <link rel="shortcut icon" th:href="@{images/favicon.png}" />
+    <style>
+        /* Default anchor styles */
+        .nav-link {
+            background: transparent;
+            color: initial;
+            /* or whatever your default color should be */
+        }
+
+        /* Active and hover styles */
+        .nav-item.active .nav-link,
+        .nav-link:hover {
+            background: #4B49AC;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:fragment="partial">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/} " aria-expanded="false">
+                        <i class="icon-grid menu-icon"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getRevenue}" aria-expanded="false">
+                        <i class="ti-user menu-icon"></i>
+                        <span class="menu-title">Revenue</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllCustomer}" aria-expanded="false">
+                        <i class="ti-user menu-icon"></i>
+                        <span class="menu-title">Customer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllEmployee}" aria-expanded="false">
+                        <i class="icon-head menu-icon"></i>
+                        <span class="menu-title">Employee</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllBlog}" aria-expanded="false">
+                        <i class="icon-paper menu-icon"></i>
+                        <span class="menu-title">Blog</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllService}" aria-expanded="false">
+                        <i class="ti-stats-up menu-icon"></i>
+                        <span class="menu-title">Services</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllHotel}" aria-expanded="false">
+                        <i class="ti-home menu-icon"></i>
+                        <span class="menu-title">Hotel</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllComment}" aria-expanded="false">
+                        <i class="ti-file menu-icon"></i>
+                        <span class="menu-title">Comment</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllFeedback}" aria-expanded="false">
+                        <i class="ti-file menu-icon"></i>
+                        <span class="menu-title">Feedback</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false"
+                        aria-controls="error">
+                        <i class="icon-ban menu-icon"></i>
+                        <span class="menu-title">Error pages</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="error">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/error-404}"> 404 </a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/error-500}"> 500 </a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- partial -->
+    <!-- partial -->
+</body>
+
+</html>
+
+<script src="js/vendor.bundle.base.js"></script>
+<script src="js/Chart.min.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/dataTables.bootstrap4.js"></script>
+<script src="js/dataTables.select.min.js"></script>
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/Chart.roundedBarCharts.js"></script>
+<script src="js/chart.js"></script>

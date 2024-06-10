@@ -31,7 +31,6 @@ public class CustomerTypeRepository {
             }
             con.close();
         } catch (Exception e) {
-            // TODO: handle exception
         }
         return customerTypeList;
     }
@@ -46,7 +45,7 @@ public class CustomerTypeRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                throw new ELException("Cannot find customerType");
             }
             int customerID = rs.getInt("customerTypeID");
             String customerName = rs.getString("customerTypeName");
@@ -75,7 +74,6 @@ public class CustomerTypeRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
         }
         return false;
     }
@@ -93,7 +91,6 @@ public class CustomerTypeRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
         }
         return false;
     }

@@ -22,7 +22,7 @@
                 <!-- Fields for Blog -->
                 <div class="mb-3">
                     <label class="form-label" for="blogTypeID">Loại bài viết:</label><br>
-                    <select class="form-select" name="blogTypeID"  id="blogTypeID">
+                    <select class="form-select" name="blogTypeID"  id="blogTypeID" required>
                         <option value="" disabled selected>Loại bài viết</option>
                         <option value="1">Tin Nổi Bật</option>
                         <option value="2">Sự Kiện</option>
@@ -35,23 +35,23 @@
                 <div class="mb-3">
                     <label class="form-label" for="contentOpen">Content Open:</label><br>
                     <textarea class="form-select" id="contentOpen" name="contentOpen"
-                        th:field="*{contentOpen}"></textarea><br><br>
+                        th:field="*{contentOpen}" required></textarea><br><br>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="contentBody">Content Body:</label><br>
                     <textarea class="form-select" id="contentBody" name="contentBody"
-                        th:field="*{contentBody}"></textarea><br><br>
+                        th:field="*{contentBody}" required></textarea><br><br>
                 </div>
 
                 <!-- Fields for Image 1 -->
                 <div th:object="${image1}">
                     <div class="mb-3">
                         <label class="form-label" for="imageUrl1">Select image 1:</label><br>
-                        <input class="form-select" type="file" id="imageUrl1" name="imageUrl1"><br>
+                        <input class="form-select" type="file" id="imageUrl1" name="imageUrl1" required><br>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="imageDescript1">Descript image 1</label><br>
-                        <textarea class="form-select" id="imageDescript1" name="imageDescript1" th:field="*{imageDescript}"> </textarea><br>
+                        <textarea class="form-select" id="imageDescript1" name="imageDescript1" th:field="*{imageDescript}" required> </textarea><br>
                     </div>
                 </div>
 
@@ -59,11 +59,11 @@
                 <div th:object="${image2}">
                     <div class="mb-3">
                         <label class="form-label" for="imageUrl2">Select image 2:</label><br>
-                        <input class="form-select" type="file" id="imageUrl2" name="imageUrl2"><br>
+                        <input class="form-select" type="file" id="imageUrl2" name="imageUrl2" required><br>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="imageDescript2">Descript image 2</label><br>
-                        <textarea class="form-select" id="imageDescript2" name="imageDescript2" th:field="*{imageDescript}"></textarea><br>
+                        <textarea class="form-select" id="imageDescript2" name="imageDescript2" th:field="*{imageDescript}" required></textarea><br>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3 oval">Save Changes</button>

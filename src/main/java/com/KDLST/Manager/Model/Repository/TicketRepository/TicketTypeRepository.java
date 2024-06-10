@@ -28,7 +28,7 @@ public class TicketTypeRepository {
             }
             con.close();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return ticketTypeList;
     }
@@ -56,11 +56,6 @@ public class TicketTypeRepository {
         return null;
     }
 
-    public static void main(String[] args) {
-        TicketTypeRepository t = new TicketTypeRepository();
-        System.out.println(t.getById(5).toString());
-    }
-
     public boolean update(TicketType ticketType) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -75,7 +70,7 @@ public class TicketTypeRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }
@@ -92,7 +87,7 @@ public class TicketTypeRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }

@@ -37,7 +37,7 @@ public class BillDetailsRepository {
             con.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
             System.out.println(e);
         }
         return billDetailList;
@@ -83,7 +83,6 @@ public BillDetails getById(int id) {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
         }
         return false;
     }
@@ -109,8 +108,5 @@ public BillDetails getById(int id) {
         }
         return false;
     }
-    public static void main(String[] args) {
-        BillDetailsRepository billDetailsRepository = new BillDetailsRepository();
-        System.out.println(billDetailsRepository.getAll());
-    }
+    
 }

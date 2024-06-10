@@ -40,7 +40,6 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
             con.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e);
         }
         return feedBacks;
@@ -62,7 +61,6 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
             return result > 0;
         } catch (Exception e) {
             System.out.println(e);
-            // TODO: handle exception
         }
         return false;
     }

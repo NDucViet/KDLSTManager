@@ -14,7 +14,7 @@ public interface ImageService {
 
     public boolean add(Image image);
 
-    public ArrayList<Image> getPageImage(int index, int blogTypeID);
-    
     public ArrayList<Image> getImagesByBlogID(int blogID);
+
+    public ArrayList<Image> getImagesByBlogTypeID(int blogTypeID);
 }

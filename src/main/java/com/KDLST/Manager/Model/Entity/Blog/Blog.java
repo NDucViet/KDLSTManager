@@ -17,4 +17,5 @@ public class Blog {
     private String contentOpen;
     private Date dateTimeEdit;
     private String contentBody;
+    private Boolean status;
 }

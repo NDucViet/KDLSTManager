@@ -51,10 +51,9 @@ public class BlogServiceImplement implements BlogService {
     }
 
     @Override
-    public ArrayList<Blog> getPageBlog(int index, int blogTypeID) {
-        blogList = blogRepository.getPageBlog(index, blogTypeID);
-        if(!blogList.isEmpty()){
-           return blogList; 
+    public Blog getIdLastest(){
+        if (blogRepository.getIdLastest() != null) {
+            return blogRepository.getIdLastest();
         }
         return null;
     }

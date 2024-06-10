@@ -40,7 +40,6 @@ public class RateRepository {
             con.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e);
         }
         return rates;
@@ -59,7 +58,7 @@ public class RateRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }
@@ -77,7 +76,7 @@ public class RateRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }

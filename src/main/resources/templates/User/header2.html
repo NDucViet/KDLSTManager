@@ -25,21 +25,6 @@
     <link rel="stylesheet" th:href="@{css/flaticon1.css}">
     <link rel="stylesheet" th:href="@{css/style.css}">
     <link rel="stylesheet" th:href="@{css/header.css}">
-    <!-- <style>
-        #ftco-navbar .navbar-nav .nav-link:hover,
-        #ftco-navbar .navbar-nav .nav-link:focus,
-        #ftco-navbar .navbar-nav .nav-link:active {
-            color: #f15d30 !important;
-            /* Change this to the color you want */
-        }
-
-        #ftco-navbar .dropdown-menu .dropdown-item:hover,
-        #ftco-navbar .dropdown-menu .dropdown-item:focus,
-        #ftco-navbar .dropdown-menu .dropdown-item:active {
-            color: #f15d30 !important;
-            /* Change this to the color you want */
-        }
-    </style> -->
 </head>
 
 <body>
@@ -100,15 +85,15 @@
                         </li>
                         <li class="nav-item"><a th:href="@{/hotel}" class="nav-link">Khách sạn</a></li>
                         <li class="nav-item dropdown">
-                            <a th:href="@{/user/blog}" class="nav-link dropdown-toggle">Blog</a>
+                            <a th:href="@{/blog/getAll}" class="nav-link dropdown-toggle">Blog</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=1)}">Tin tức
+                                <li><a class="dropdown-item" th:href="@{/blog/getByID/__${1}__}">Tin tức
                                         nổi bật</a>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" th:href="@{/blog/showBlog(index=1,blogTypeID=2)}">Sự
+                                <li><a class="dropdown-item" th:href="@{/blog/getByID/__${2}__}">Sự
                                         kiện</a>
                                 </li>
                                 <li>

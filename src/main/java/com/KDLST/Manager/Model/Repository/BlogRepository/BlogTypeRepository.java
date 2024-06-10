@@ -45,7 +45,7 @@ public class BlogTypeRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                throw new ELException("Cannot find");
+                throw new ELException("Cannot find BlogType");
             }
             int blogTypeID = rs.getInt("blogTypeID");
             String blogTypeName = rs.getString("blogTypeName");
@@ -92,4 +92,5 @@ public class BlogTypeRepository {
         }
         return false;
     }
+   
 }

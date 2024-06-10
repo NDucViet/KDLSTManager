@@ -38,7 +38,6 @@ public class RoomRepository {
             }
             con.close();
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e);
         }
         return roomList;
@@ -113,7 +112,6 @@ public class RoomRepository {
             return result > 0;
         } catch (Exception e) {
             System.out.println(e);
-            // TODO: handle exception
         }
         return false;
     }

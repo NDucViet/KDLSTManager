@@ -13,9 +13,11 @@ public class FileSystemStorageService implements StorageService {
 
     
 
-    public FileSystemStorageService(){
-        this.rootLocation = Paths.get("KDLSTManager/src/main/resources/static/images");
+    public FileSystemStorageService() {
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
+        this.rootLocation = Paths.get("D:/newProject/new11/KDLSTManager/src/main/resources/static/images");
     }
+    
 
     @Override
     public void store(MultipartFile file) {

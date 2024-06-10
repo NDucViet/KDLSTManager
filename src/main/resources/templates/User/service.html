@@ -79,7 +79,7 @@
     }
 
 
-    .pagination {
+    /* .pagination {
       display: flex;
       justify-content: center;
       padding-left: 0;
@@ -103,7 +103,7 @@
       background-color: #007bff;
       color: white;
       border-color: #007bff;
-    }
+    } */
 
     .truncate {
       display: block;
@@ -146,8 +146,8 @@
               <a href="#" class="img" th:style="'background-image: url(images/' + ${service.image} + ');'">
               </a>
               <div class="text p-4">
-                <h3 class="location">
-                  <button data-bs-toggle="modal" th:data-bs-target="'#modal' + ${service.serviceID}"
+                <h3 >
+                  <button class="location" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${service.serviceID}"
                     th:text="${service.serviceName}" style="border: none; background-color: white;"></button>
                 </h3>
                 <p class="location"><span class="fa fa-map-marker"></span> [[${service.description}]]</p>

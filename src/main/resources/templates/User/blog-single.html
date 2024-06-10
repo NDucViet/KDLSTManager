@@ -13,24 +13,32 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <link rel="stylesheet" th:href="@{../css/animate1.css}">
+  <link rel="stylesheet" th:href="@{css/animate1.css}">
 
-  <link rel="stylesheet" th:href="@{../css/owl.carousel.min1.css}">
-  <link rel="stylesheet" th:href="@{../css/owl.theme.default.min1.css}">
-  <link rel="stylesheet" th:href="@{../css/magnific-popup1.css}">
+  <link rel="stylesheet" th:href="@{css/owl.carousel.min1.css}">
+  <link rel="stylesheet" th:href="@{css/owl.theme.default.min1.css}">
+  <link rel="stylesheet" th:href="@{css/magnific-popup1.css}">
 
-  <link rel="stylesheet" th:href="@{../css/bootstrap-datepicker1.css}">
-  <link rel="stylesheet" th:href="@{../css/jquery.timepicker1.css}">
+  <link rel="stylesheet" th:href="@{css/bootstrap-datepicker1.css}">
+  <link rel="stylesheet" th:href="@{css/jquery.timepicker1.css}">
 
-  <link rel="stylesheet" th:href="@{../css/flaticon1.css}">
-  <link rel="stylesheet" th:href="@{../css/style.css}">
-	<link rel="stylesheet" th:href="@{../css/header.css}">
+  <link rel="stylesheet" th:href="@{css/flaticon1.css}">
+  <link rel="stylesheet" th:href="@{css/style.css}">
+  <link rel="stylesheet" th:href="@{css/header.css}">
+  <style>
+    .heading{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 270px;
+    }
+  </style>
 </head>
 
 <body>
-  	<!-- header -->
-    <header th:insert="~{User/header2 :: header}"></header>
-    <!-- END nav -->
+  <!-- header -->
+  <header th:insert="~{User/header2 :: header}"></header>
+  <!-- END nav -->
 
   <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/bg_1.jpg');">
     <div class="overlay"></div>
@@ -63,27 +71,6 @@
             <img th:src="@{/images/{imageUrl}(imageUrl=${image2.imageUrl})}" alt="" class="img-fluid">
           </p>
           <p th:text="${image2.imageDescript}"></p>
-          <div class="tag-widget post-tag-container mb-5 mt-5">
-            <div class="tagcloud">
-              <a href="#" class="tag-cloud-link">Life</a>
-              <a href="#" class="tag-cloud-link">Sport</a>
-              <a href="#" class="tag-cloud-link">Tech</a>
-              <a href="#" class="tag-cloud-link">Travel</a>
-            </div>
-          </div>
-
-          <div class="about-author d-flex p-4 bg-light">
-            <div class="bio mr-5">
-              <img src="/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
-            </div>
-            <div class="desc">
-              <h3>George Washington</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus
-                voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique,
-                inventore eos fugit cupiditate numquam!</p>
-            </div>
-          </div>
-
 
           <div class="pt-5 mt-5">
             <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">[[${commentTotal}]] Comment(s)</h3>
@@ -121,88 +108,23 @@
 
         </div> <!-- .col-md-8 -->
         <div class="col-lg-4 sidebar ftco-animate bg-light py-md-5">
-          <div class="sidebar-box pt-md-5">
-            <form action="#" class="search-form">
-              <div class="form-group">
-                <span class="icon fa fa-search"></span>
-                <input type="text" class="form-control" placeholder="Search...">
-              </div>
-            </form>
-          </div>
           <div class="sidebar-box ftco-animate">
-            <div class="categories">
-              <h3>Categories</h3>
-              <li><a href="#">Travel <span>(12)</span></a></li>
-              <li><a href="#">Tour <span>(22)</span></a></li>
-              <li><a href="#">Destination <span>(37)</span></a></li>
-              <li><a href="#">Drinks <span>(42)</span></a></li>
-              <li><a href="#">Foods <span>(14)</span></a></li>
-              <li><a href="#">Travel <span>(140)</span></a></li>
-            </div>
-          </div>
-
-          <div class="sidebar-box ftco-animate">
-            <h3>Recent Blog</h3>
-            <div class="block-21 mb-4 d-flex">
-              <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
-              <div class="text">
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
-                </h3>
-                <div class="meta">
-                  <div><a href="#"><span class="fa fa-calendar"></span> September 11, 2020</a></div>
-                  <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
-                  <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+            <h3>Bài viết mới nhất</h3>
+            <th:block th:each="image : ${images}">
+              <div class="block-21 mb-4 d-flex">
+                <a class="blog-img mr-4"  th:href="@{/blog/showBlogDetail/{blogID}(blogID=${image.blog.blogID})}"  th:style="'background-image: url(images/' + ${image.imageUrl} +');'"></a>
+                <div class="text">
+                  <h3 class="heading"><a th:href="@{/blog/showBlogDetail/{blogID}(blogID=${image.blog.blogID})}" >[[${image.blog.title}]]</a>
+                  </h3>
+                  <div class="meta">
+                    <div><a href="#"><span class="fa fa-calendar"></span>[[${image.blog.dateTimeEdit}]]</a></div>
+                    <div><a href="#"><span class="fa fa-comment"></span> [[${commentTotal}]]</a></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="block-21 mb-4 d-flex">
-              <a class="blog-img mr-4" style="background-image: url('/images/image_2.jpg');"></a>
-              <div class="text">
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
-                </h3>
-                <div class="meta">
-                  <div><a href="#"><span class="fa fa-calendar"></span> September 11, 2020</a></div>
-                  <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
-                  <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-                </div>
-              </div>
-            </div>
-            <div class="block-21 mb-4 d-flex">
-              <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-              <div class="text">
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
-                </h3>
-                <div class="meta">
-                  <div><a href="#"><span class="fa fa-calendar"></span> September 11, 2020</a></div>
-                  <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
-                  <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="sidebar-box ftco-animate">
-            <h3>Tag Cloud</h3>
-            <div class="tagcloud">
-              <a href="#" class="tag-cloud-link">dish</a>
-              <a href="#" class="tag-cloud-link">menu</a>
-              <a href="#" class="tag-cloud-link">food</a>
-              <a href="#" class="tag-cloud-link">sweet</a>
-              <a href="#" class="tag-cloud-link">tasty</a>
-              <a href="#" class="tag-cloud-link">delicious</a>
-              <a href="#" class="tag-cloud-link">desserts</a>
-              <a href="#" class="tag-cloud-link">drinks</a>
-            </div>
-          </div>
-
-          <div class="sidebar-box ftco-animate">
-            <h3>Paragraph</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate
-              quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos
-              fugit cupiditate numquam!</p>
+            </th:block>
           </div>
         </div>
-
       </div>
     </div>
   </section> <!-- .section -->
@@ -215,7 +137,6 @@
             <div class="overlay"></div>
             <h2>We Are Pacific A Travel Agency</h2>
             <p>We can manage your dream building A small river named Duden flows by their place</p>
-            <p class="mb-0"><a href="#" class="btn btn-primary px-4 py-3">Ask For A Quote</a></p>
           </div>
         </div>
       </div>
@@ -234,23 +155,22 @@
         stroke="#F96D00" />
     </svg></div>
 
-
-  <script src="/js/jquery.min1.js"></script>
-  <script src="/js/jquery-migrate-3.0.1.min1.js"></script>
-  <script src="/js/popper.min1.js"></script>
-  <script src="/js/bootstrap.min1.js"></script>
-  <script src="/js/jquery.easing.1.31.js"></script>
-  <script src="/js/jquery.waypoints.min1.js"></script>
-  <script src="/js/jquery.stellar.min1.js"></script>
-  <script src="/js/owl.carousel.min1.js"></script>
-  <script src="/js/jquery.magnific-popup.min1.js"></script>
-  <script src="/js/jquery.animateNumber.min1.js"></script>
-  <script src="/js/bootstrap-datepicker1.js"></script>
-  <script src="/js/scrollax.min1.js"></script>
+  <script src="js/jquery.min1.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min1.js"></script>
+  <script src="js/popper.min1.js"></script>
+  <script src="js/bootstrap.min1.js"></script>
+  <script src="js/jquery.easing.1.31.js"></script>
+  <script src="js/jquery.waypoints.min1.js"></script>
+  <script src="js/jquery.stellar.min1.js"></script>
+  <script src="js/owl.carousel.min1.js"></script>
+  <script src="js/jquery.magnific-popup.min1.js"></script>
+  <script src="js/jquery.animateNumber.min1.js"></script>
+  <script src="js/bootstrap-datepicker1.js"></script>
+  <script src="js/scrollax.min1.js"></script>
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="/js/google-map1.js"></script>
-  <script src="/js/main1.js"></script>
+  <script src="js/google-map1.js"></script>
+  <script src="js/main1.js"></script>
 
 </body>
 

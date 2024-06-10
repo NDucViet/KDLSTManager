@@ -39,7 +39,7 @@ public class BookingRoomDetailsRepository {
             }
             con.close();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
             System.out.println(e);
         }
         return bookingRoomDetailsList;
@@ -65,7 +65,7 @@ public class BookingRoomDetailsRepository {
             }
             con.close();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
             System.out.println(e);
         }
         return bkrdt;
@@ -94,12 +94,7 @@ public class BookingRoomDetailsRepository {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-        BookingRoomDetailsRepository b = new BookingRoomDetailsRepository();
-        System.out.println(b.getByIDRoomDetails(2));
-    }
-
+    
     public boolean update(BookingRoomDetails bookingRoomDetails) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -116,7 +111,7 @@ public class BookingRoomDetailsRepository {
             return result > 0;
         } catch (Exception e) {
             System.out.println(e);
-            // TODO: handle exception
+            System.out.println(e);
         }
         return false;
     }

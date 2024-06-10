@@ -38,7 +38,6 @@ public class HotelRepository {
             con.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e);
         }
         return hotelList;

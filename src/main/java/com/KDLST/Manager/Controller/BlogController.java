@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 
 import com.KDLST.Manager.Model.Entity.User.User;
-
+import java.util.HashSet;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -38,6 +42,10 @@ import java.io.IOException;
 @Controller
 @RequestMapping(value = "/blog")
 public class BlogController {
+
+    private List<Image> iList = new ArrayList<>();
+    private Set<Image> images = new HashSet<>();
+
     @Autowired
     private BlogServiceImplement blogServiceImplement = new BlogServiceImplement();
     private ImageServiceImplement imageServiceImplement = new ImageServiceImplement();
@@ -70,19 +78,17 @@ public class BlogController {
             HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
         User user = new User(3, null, null, null, null, null, null, null, null, blogTypeID, null, null, null, null);
         BlogType blogType = blogTypeServiceImplement.getById(blogTypeID);
-        System.out.println(blogTypeID + "blogTypeID");
         blog1.setUser(user);
         blog1.setBlogType(blogType);
         // set time
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today);
         blog1.setDateTimeEdit(sqlDate);
+        blog1.setStatus(true);
         // add blog1
         blogServiceImplement.add(blog1);
-
-        int numOfBlog = blogServiceImplement.getAll().size();
-        blog1.setBlogID(numOfBlog);
-        System.out.println(numOfBlog);
+        Blog blogID = blogServiceImplement.getIdLastest();
+        blog1.setBlogID(blogID.getBlogID());
         // image1
         String imageUrl1Filename = "";
         this.storageService.store(imageUrl1);
@@ -101,31 +107,73 @@ public class BlogController {
         return "User/blogAdd";
     }
 
-    @GetMapping("/showBlog")
-    public String showBlog(Model model, @RequestParam(name = "index", defaultValue = "1") int index,
-            @RequestParam(name = "blogTypeID", defaultValue = "1") int blogTypeID, HttpServletRequest request) {
-        ArrayList<Image> imageList = imageServiceImplement.getPageImage(index, blogTypeID);
-        int endPage=1;
-        if (imageList != null) {
-            int count = imageList.size();
-             endPage = count / 6;
-            if (count % 6 != 0) {
-                endPage++;
-            }
+    @GetMapping("/getAll")
+    public String getAll(Model model) {
+        iList = imageServiceImplement.getAll();
+        for (Image image : iList) {
+            images.add(image);
         }
+        model.addAttribute("images", images);
+        return getPage(model, "1");
+    }
 
+    @GetMapping("/getAll/{page}")
+    public String getPage(Model model, @PathVariable(value = "page") String currentPage) {
+        ArrayList<Image> imageListt = new ArrayList<>(images);
+        int imagePerPage = 6;
+        int numPages = (int) Math.ceil((float) imageListt.size() / imagePerPage);
+        int[] numPage = new int[numPages];
+        for (int i = 0; i < numPages; i++) {
+            numPage[i] = i + 1;
+        }
+        List<Image> imageList = new ArrayList<>();
+        for (int i = (Integer.parseInt(currentPage) - 1) * imagePerPage; i < Integer.parseInt(currentPage)
+                * imagePerPage; i++) {
+            if (imageListt.size() <= i)
+                break;
+            imageList.add(imageListt.get(i));
+        }
         model.addAttribute("imageList", imageList);
-        model.addAttribute("currentPage", index);
-        model.addAttribute("endPage", endPage);
+        model.addAttribute("numPage", numPage);
+        model.addAttribute("currentPage", Integer.parseInt(currentPage));
+        model.addAttribute("Previous", Integer.parseInt(currentPage) - 1);
+        model.addAttribute("Next", Integer.parseInt(currentPage) + 1);
         return "User/blog";
+    }
+
+    @GetMapping("/getByID/{id}")
+    public String getByID(@PathVariable(value = "id") int id, Model model) {
+        iList = imageServiceImplement.getImagesByBlogTypeID(id);
+        images.clear();
+        for (Image image : iList) {
+            images.add(image);
+        }
+        model.addAttribute("images", images);
+        return getPage(model, "1");
     }
 
     @GetMapping("/showBlogDetail/{blogID}")
     public String showBlogDetail(Model model, @PathVariable("blogID") String blogID) {
         int blogIDInt = Integer.parseInt(blogID);
-        System.out.println(blogIDInt);
         ArrayList<Image> imageList = imageServiceImplement.getImagesByBlogID(blogIDInt);
         ArrayList<Comment> commentList = commentServiceImplement.getCommentByBlogID(blogIDInt);
+
+        ArrayList<Image> imgList = imageServiceImplement.getAll();
+        Collections.sort(imgList, new Comparator<Image>() {
+            @Override
+            public int compare(Image img1, Image img2) {
+                return img2.getBlog().getDateTimeEdit().compareTo(img1.getBlog().getDateTimeEdit());
+            }
+        });
+
+        Set<Image> images = new HashSet<>();
+        for (Image image : imgList) {
+            images.add(image);
+            if (images.size() == 3) {
+                break;
+            }
+        }
+
         int commentTotal = 0;
         if (commentList != null) {
             commentTotal = commentList.size();
@@ -142,6 +190,7 @@ public class BlogController {
             }
         }
 
+        model.addAttribute("images", images);
         model.addAttribute("commentTotal", commentTotal);
         model.addAttribute("image1", image1);
         model.addAttribute("image2", image2);

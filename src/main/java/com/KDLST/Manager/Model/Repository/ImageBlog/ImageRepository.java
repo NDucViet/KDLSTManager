@@ -24,7 +24,6 @@ public class ImageRepository {
                     BaseConnection.password);
             Statement stsm = con.createStatement();
             ResultSet rs = stsm.executeQuery("select * from KDLST.Image");
-            System.out.println("cc");
             while (rs.next()) {
                 int imageID = rs.getInt("imageID");
                 String imageUrl = rs.getString("imageUrl");
@@ -51,7 +50,7 @@ public class ImageRepository {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                System.out.println("cannot find");
+                System.out.println("cannot find  image");
             }
             int imageID = rs.getInt("imageID");
             String imageUrl = rs.getString("imageUrl");
@@ -104,32 +103,6 @@ public class ImageRepository {
         return false;
     }
 
-    public ArrayList<Image> getPageImage(int index, int blogTypeID) {
-        try {
-            imageList.clear();
-            Class.forName(BaseConnection.nameClass);
-            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
-                    BaseConnection.password);
-            PreparedStatement stsm = con.prepareStatement(
-                    "SELECT * FROM KDLST.Image INNER JOIN KDLST.Blog ON Image.blogID = Blog.blogID WHERE MOD(Image.imageID, 2) = 1 AND Blog.blogTypeID = ? ORDER BY Image.imageID LIMIT 9 OFFSET ?");
-            stsm.setInt(1, blogTypeID);
-            stsm.setInt(2, (index - 1) * 6);
-            ResultSet rs = stsm.executeQuery();
-            while (rs.next()) {
-                int imageID = rs.getInt("imageID");
-                String imageUrl = rs.getString("imageUrl");
-                Blog blog = blogRepository.getById(rs.getInt("blogID"));
-                String imageDescript = rs.getString("imageDescript");
-                Image image = new Image(imageID, imageUrl, blog, imageDescript);
-                imageList.add(image);
-            }
-            con.close();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return imageList;
-    }
 
     public ArrayList<Image> getImagesByBlogID(int blogID) {
         try {
@@ -156,9 +129,35 @@ public class ImageRepository {
         return imageList;
     }
 
-    public static void main(String[] args) {
-        ImageRepository imageRepository = new ImageRepository();
+    public ArrayList<Image> getImagesByBlogTypeID(int blogTypeID) {
+        try {
+            imageList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement stsm = con.prepareStatement(
+                    "select * from KDLST.Image inner join Blog on Image.blogID = Blog.blogID where blogTypeID = ?;");
+            stsm.setInt(1, blogTypeID);
+            ResultSet rs = stsm.executeQuery();
+            while (rs.next()) {
+                int imageID = rs.getInt("imageID");
+                String imageUrl = rs.getString("imageUrl");
+                Blog blog = blogRepository.getById(rs.getInt("blogID"));
+                String imageDescript = rs.getString("imageDescript");
+                Image image = new Image(imageID, imageUrl, blog, imageDescript);
+                imageList.add(image);
+            }
+            con.close();
 
-        imageRepository.getAll();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return imageList;
+    }
+
+    public static void main(String[] args) {
+    ImageRepository imageRepository = new ImageRepository();
+    System.out.println(imageRepository.getImagesByBlogTypeID(2).size());
+    System.out.println(imageRepository.getImagesByBlogTypeID(1).size());
     }
 }

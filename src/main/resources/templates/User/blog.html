@@ -25,12 +25,27 @@
   <link rel="stylesheet" th:href="@{css/flaticon1.css}">
   <link rel="stylesheet" th:href="@{css/style.css}">
   <link rel="stylesheet" th:href="@{css/header.css}">
+  <style>
+    .contentOpen {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 270px;
+    }
+
+    .blogTitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 270px;
+    }
+  </style>
 </head>
 
 <body>
-  	<!-- header -->
-    <header th:insert="~{User/header2 :: header}"></header>
-    <!-- END nav -->
+  <!-- header -->
+  <header th:insert="~{User/header2 :: header}"></header>
+  <!-- END nav -->
   <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/bg_1.jpg');">
     <div class="overlay"></div>
     <div class="container">
@@ -44,32 +59,28 @@
     </div>
   </section>
 
+
   <section class="ftco-section">
     <div class="container">
       <div class="row d-flex">
         <th:block th:each="image : ${imageList}">
           <div class="col-md-4 d-flex ftco-animate">
             <div class="blog-entry justify-content-end">
-              <!-- <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
-              </a> -->
-              <img th:src="@{/images/{imageUrl}(imageUrl=${image.imageUrl})}" class="block-20" alt="...">
+              <a th:href="@{/blog/showBlogDetail/{blogID}(blogID=${image.blog.blogID})}" class="block-20" th:style="'background-image: url(images/' + ${image.imageUrl} + ');'"  alt="Ảnh blog">
+              </a>
               <div class="text">
                 <div class="d-flex align-items-center mb-4 topp">
-                  <div class="one">
-                    <span class="day">11</span>
-                  </div>
-                  <div class="two">
-                    <span class="yr">2020</span>
-                    <span class="mos">September</span>
+                  <div >
+                    <span class="day" style="font-size: 12px;">[[${image.blog.dateTimeEdit}]]</span>
                   </div>
                 </div>
-                <h3 class="heading"> <a th:href="@{/blog/showBlogDetail/{blogID}(blogID=${image.blog.blogID})}">
-
+                <h3 class="heading blogTitle"> <a
+                    th:href="@{/blog/showBlogDetail/{blogID}(blogID=${image.blog.blogID})}">
                     [[${image.blog.title}]]
                   </a></h3>
-                <p>[[${image.blog.contentOpen}]]</p>
+                <p class="contentOpen">[[${image.blog.contentOpen}]]</p>
                 <p><a th:href="@{/blog/showBlogDetail/{blogID}(blogID=${image.blog.blogID})}"
-                    class="btn btn-primary">Read more</a>
+                    class="btn btn-primary">Đọc Thêm</a>
                 </p>
                 </p>
               </div>
@@ -77,30 +88,16 @@
           </div>
         </th:block>
       </div>
+
       <div class="row mt-5">
         <div class="col text-center">
           <div class="block-27">
-            <ul>
-              <li><a href="#">&lt;</a></li>
-              <th:block th:each="i : ${#numbers.sequence(1, endPage)}">
-                <th:block th:if="${currentPage == i}">
-                  <li class="active">
-                    <th:block th:if="${imageList != null}">
-                      <a
-                        th:href="@{/user/showBlog(index=${i}, blogTypeID=${imageList.get(0).blog.blogType.blogTypeID})}">[[${i}]]</a>
-                    </th:block>
-                  </li>
-                </th:block>
-                <th:block th:unless="${currentPage == i}">
-                  <li class="">
-                    <th:block th:if="${imageList != null}">
-                      <a
-                        th:href="@{/user/showBlog(index=${i}, blogTypeID=${imageList.get(0).blog.blogType.blogTypeID})}">[[${i}]]</a>
-                    </th:block>
-                  </li>
-                </th:block>
-              </th:block>
-              <li><a href="#">&gt;</a></li>
+            <ul class="pagination">
+              <li th:if="${currentPage > 1}"><a th:href="@{/blog/getAll/__${Previous}__}">&lt;</a></li>
+              <li th:each="page, iterStat : ${numPage}" th:class="${currentPage == page} ? 'active'">
+                <a th:href="@{/blog/getAll/__${page}__}" th:text="${page} "></a>
+              </li>
+              <li th:if="${numPage.length > currentPage}"><a th:href="@{/blog/getAll/__${Next}__}">&gt;</a></li>
             </ul>
           </div>
         </div>
@@ -116,7 +113,6 @@
             <div class="overlay"></div>
             <h2>We Are Pacific A Travel Agency</h2>
             <p>We can manage your dream building A small river named Duden flows by their place</p>
-            <p class="mb-0"><a href="#" class="btn btn-primary px-4 py-3">Ask For A Quote</a></p>
           </div>
         </div>
       </div>
