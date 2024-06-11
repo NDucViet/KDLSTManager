@@ -60,6 +60,34 @@
         color: white;
         border-color: #007bff;
     }
+
+    #popchat {
+        position: fixed;
+        background-color: black;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: auto;
+        min-width: 150px;
+        max-width: 300px;
+        color: white;
+        padding: 8px 16px;
+        font-weight: 500;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.5s;
+        z-index: 9999;
+    }
+
+    #popchat i {
+        margin-right: 8px;
+    }
+
+    #popchat.active {
+        opacity: 1;
+    }
 </style>
 
 <body>
@@ -110,13 +138,10 @@
                                 <h2 th:text="${ticket.title}">Single Room</h2>
                                 <span class="text-uppercase letter-spacing-1"
                                     th:text="${ticket.price} + ' VND/Per'"></span>
-                                <form th:action="@{/ticket/bookTicket}" th:method="get">
-                                    <input type="hidden" name="roomType" th:value="${ticket.ticketTypeID.ticketTypeID}">
-                                    <button type="submit"
-                                        style="color: black; font-weight: lighter; border: none; background-color: transparent;"
-                                        onmouseover="this.style.color='orange'"
-                                        onmouseout="this.style.color='black'">Đặt Vé</button>
-                                </form>
+                                <button type="button"
+                                    style="color: black; font-weight: lighter; border: none; background-color: transparent;"
+                                    onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
+                                    th:onclick="'addToCart(' + ${ticket.ticketID} + ',1)'">Thêm vào giỏ</button>
                                 <p th:text="${ticket.description}"></p>
                             </div>
                         </a>
@@ -141,6 +166,12 @@
             </div>
         </div>
     </div>
+
+    <div id="popchat">
+        <i class="fa-solid fa-square-check"></i>
+        Đã thêm thành công
+    </div>
+
     <footer th:insert="~{User/footer :: footer}"></footer>
 
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -168,6 +199,7 @@
     <script src="js/jquery.animateNumber.min1.js"></script>
     <script src="js/bootstrap-datepicker1.js"></script>
     <script src="js/scrollax.min1.js"></script>
+    <script src="js/Ticket.js"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
     <script src="js/google-map1.js"></script>

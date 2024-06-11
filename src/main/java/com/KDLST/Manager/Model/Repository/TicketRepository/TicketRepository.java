@@ -44,7 +44,7 @@ public class TicketRepository {
         }
         return ticketList;
     }
-    
+
     public Ticket getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -61,7 +61,7 @@ public class TicketRepository {
             TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
             String title = rs.getString("title");
             String description = rs.getString("description");
-            double price = rs.getDouble("description");
+            double price = rs.getDouble("price");
             String image = rs.getString("image");
             Boolean status = rs.getBoolean("status");
             Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);

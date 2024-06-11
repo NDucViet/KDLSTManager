@@ -61,6 +61,30 @@ public class CartRepository {
         return null;
     }
 
+    public Cart getByIdUser(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = conn.prepareStatement(
+                    "select * from KDLST.cart where KDLST.cart.userID = ?;");
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                throw new ELException("Cannot find");
+            }
+            int cartID = rs.getInt("cartID");
+            User user = userRepository.getById(rs.getInt("userID"));
+            Cart cart = new Cart(cartID, user);
+
+            st.close();
+            return cart;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public boolean update(Cart cart) {
         try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                 BaseConnection.password)) {

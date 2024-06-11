@@ -25,7 +25,7 @@ import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceService;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImplement;
 
 @Controller
-@RequestMapping({ "/", "" })
+@RequestMapping({ "" })
 public class IndexController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class IndexController {
     RoomTypeService roomTypeService = new RoomTypeServiceImplement();
 
     // service, blog
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model) {
         ArrayList<Services> sList = service.getAll();
         ArrayList<Services> sLists = new ArrayList<>();
@@ -43,26 +43,10 @@ public class IndexController {
             sLists.add(sList.get(i));
         }
 
-        ArrayList<Image> imgList = imageService.getAll();
-        Collections.sort(imgList, new Comparator<Image>() {
-            @Override
-            public int compare(Image img1, Image img2) {
-                return img2.getBlog().getDateTimeEdit().compareTo(img1.getBlog().getDateTimeEdit());
-            }
-        });
-
-        Set<Image> images = new HashSet<>();
-        for (Image image : imgList) {
-            images.add(image);
-            if (images.size() == 3) {
-                break;
-            }
-        }
-
         ArrayList<RoomType> roomTypeList = roomTypeService.getAll();
         model.addAttribute("roomTypeList", roomTypeList);
         model.addAttribute("sList", sLists);
-        model.addAttribute("blogList", images);
+        model.addAttribute("sListAll", sList);
         return "User/index";
     }
 

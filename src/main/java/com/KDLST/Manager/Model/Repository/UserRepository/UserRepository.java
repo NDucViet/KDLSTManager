@@ -73,13 +73,19 @@ public class UserRepository {
             int gender = rs.getInt("gender");
             String phoneNumber = rs.getString("phoneNumber");
             String avatar = rs.getString("avatar");
-            CustomerType CustomerType = customerTypeRepository.getById(rs.getInt("customerTypeID"));
             String role = rs.getString("role");
+            CustomerType customerType = new CustomerType();
+            if (role.equals("USER")) {
+                customerType = customerTypeRepository.getById(rs.getInt("customerTypeID"));
+            } else {
+                customerType = null;
+            }
+
             String password = rs.getString("password");
             String nation = rs.getString("nation");
             String idCard = rs.getString("IDCard");
             Boolean status = rs.getBoolean("status");
-            User user = new User(userID, CustomerType, userName, email, password, phoneNumber, idCard, address, dob,
+            User user = new User(userID, customerType, userName, email, password, phoneNumber, idCard, address, dob,
                     gender, avatar, nation, role, status);
 
             st.close();
@@ -150,6 +156,5 @@ public class UserRepository {
         }
         return false;
     }
-
 
 }
