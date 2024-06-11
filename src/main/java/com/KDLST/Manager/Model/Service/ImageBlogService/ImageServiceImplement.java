@@ -49,10 +49,9 @@ public class ImageServiceImplement implements ImageService {
         return false;
     }
 
-
     @Override
     public ArrayList<Image> getImagesByBlogID(int blogID) {
-        imageList = imageRepository.getImagesByBlogID(blogID);
+        ArrayList<Image> imageList = imageRepository.getImagesByBlogID(blogID);
         if (!imageList.isEmpty()) {
             return imageList;
         }
@@ -61,7 +60,16 @@ public class ImageServiceImplement implements ImageService {
 
     @Override
     public ArrayList<Image> getImagesByBlogTypeID(int blogTypeID) {
-        imageList = imageRepository.getImagesByBlogTypeID(blogTypeID);
+        ArrayList<Image> imageList = imageRepository.getImagesByBlogTypeID(blogTypeID);
+        if (!imageList.isEmpty()) {
+            return imageList;
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Image> getImagesSortDate() {
+        ArrayList<Image> imageList = imageRepository.getAll();
         if (!imageList.isEmpty()) {
             return imageList;
         }

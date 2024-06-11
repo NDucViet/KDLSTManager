@@ -155,9 +155,29 @@ public class ImageRepository {
         return imageList;
     }
 
-    public static void main(String[] args) {
-    ImageRepository imageRepository = new ImageRepository();
-    System.out.println(imageRepository.getImagesByBlogTypeID(2).size());
-    System.out.println(imageRepository.getImagesByBlogTypeID(1).size());
+    public ArrayList<Image> getImagesSortDate() {
+        try {
+            imageList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement stsm = con.prepareStatement(
+                    "select * from Image inner join Blog on Image.blogID = Blog.blogID order by dateTimeEdit desc limit 6;");
+            ResultSet rs = stsm.executeQuery();
+            while (rs.next()) {
+                int imageID = rs.getInt("imageID");
+                String imageUrl = rs.getString("imageUrl");
+                Blog blog = blogRepository.getById(rs.getInt("blogID"));
+                String imageDescript = rs.getString("imageDescript");
+                Image image = new Image(imageID, imageUrl, blog, imageDescript);
+                imageList.add(image);
+            }
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return imageList;
     }
+  
 }
