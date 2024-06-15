@@ -129,22 +129,21 @@
 
                 <div class="row">
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" th:each="ticket : ${ticketList}">
-                        <a href="#" class="room">
-                            <figure class="img-wrap">
-                                <img th:src="@{/images/{image}(image=${ticket.image})}" class="card-img-top"
-                                    alt="ticket Image" style="height: 20rem; object-fit: cover;">
-                            </figure>
-                            <div class="p-3 text-center room-info">
-                                <h2 th:text="${ticket.title}">Single Room</h2>
-                                <span class="text-uppercase letter-spacing-1"
-                                    th:text="${ticket.price} + ' VND/Per'"></span>
-                                <button type="button"
-                                    style="color: black; font-weight: lighter; border: none; background-color: transparent;"
-                                    onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
-                                    th:onclick="'addToCart(' + ${ticket.ticketID} + ',1)'">Thêm vào giỏ</button>
-                                <p th:text="${ticket.description}"></p>
-                            </div>
-                        </a>
+
+                        <figure class="img-wrap">
+                            <img th:src="@{/images/{image}(image=${ticket.image})}" class="card-img-top"
+                                alt="ticket Image" style="height: 20rem; object-fit: cover;">
+                        </figure>
+                        <div class="p-3 text-center room-info">
+                            <h2 th:text="${ticket.title}">Single Room</h2>
+                            <span class="text-uppercase letter-spacing-1" th:text="${ticket.price} + ' VND/Per'"></span>
+                            <button type="button"
+                                style="color: black; font-weight: lighter; border: none; background-color: transparent;"
+                                onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
+                                th:onclick="'addToCart(' + ${ticket.ticketID} + ',1)'">Thêm vào giỏ</button>
+                            <p th:text="${ticket.description}"></p>
+                        </div>
+
                     </div>
                 </div>
         </section>

@@ -43,7 +43,7 @@ public class BillDetailsRepository {
         return billDetailList;
     }
 
-public BillDetails getById(int id) {
+    public BillDetails getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
@@ -61,7 +61,7 @@ public BillDetails getById(int id) {
             double total = rs.getDouble("total");
             BillDetails billDetails = new BillDetails(billID, ticketID, quantity, total);
             st.close();
-            return billDetails ;
+            return billDetails;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -108,5 +108,5 @@ public BillDetails getById(int id) {
         }
         return false;
     }
-    
+
 }

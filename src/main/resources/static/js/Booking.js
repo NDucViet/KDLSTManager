@@ -29,8 +29,12 @@ function updateTotalPrice() {
     var orderTotalElement = document.getElementById('orderTotal');
     orderTotalElement.textContent = formatCurrency(totalAmount);
 
+    //Set value for total price for sent to payment
+    var bookingRoomInput = document.getElementById('total');
+    bookingRoomInput.value = totalAmount;
+
     // Enable/disable book button based on totalPrice
-    var bookButton = document.querySelector('.btn-primary');
+    var bookButton = document.querySelector('.buttonCheckout');
     if (totalAmount > 0) {
         bookButton.disabled = false;
     } else {
@@ -70,4 +74,17 @@ function calculateSelectedRoomsTotal() {
     });
 
     return totalPrice;
+}
+
+function toCheckout() {
+    var bookingRoomInput = document.getElementById("bookingRoom");
+    var checkboxes = document.querySelectorAll('input[name="checkBoxNoLabel"]:checked');
+    var selectedRooms = [];
+
+    checkboxes.forEach(function (checkbox) {
+        selectedRooms.push(checkbox.nextElementSibling.nextElementSibling.textContent);
+    });
+
+    bookingRoomInput.value = selectedRooms.join(",");
+    return true;
 }

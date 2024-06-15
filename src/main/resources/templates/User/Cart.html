@@ -255,7 +255,7 @@
                     <h5><b>Summary</b></h5>
                 </div>
                 <hr>
-                <form th:action="@{cart/checkOut}" th:method="post" onsubmit="return confirmCheckOut()">
+                <form th:action="@{/cart/checkOut}" th:method="post" onsubmit="return confirmCheckOut()">
                     <div>
                         <div class="row">
                             <div class="col" style="padding-left:0;">ITEMS: [[${cartItemList.size()}]]</div>
@@ -267,8 +267,7 @@
                             <div class="col text-right" id="total-price" name="total-price">0 &#8363;</div>
                         </div>
                     </div>
-                    <input type="hidden" name="info"
-                        th:value="'Thanh Toán Đơn Hàng ' + ${cartItemList.get(1).cart.cartID}">
+                    <input type="hidden" name="info" th:value="'Ma Don Hang ' + ${cartItemList.get(1).cart.cartID}">
                     <button type="submit" class="btn">CHECKOUT</button>
                 </form>
             </div>

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServ
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServiceImplement;
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomService;
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomServiceImplement;
+import com.KDLST.Manager.Model.Service.CartItemService.VNPayService;
 import com.KDLST.Manager.Model.Service.HotelService.RoomService;
 import com.KDLST.Manager.Model.Service.HotelService.RoomServiceImplement;
 import com.KDLST.Manager.Model.Service.HotelService.RoomTypeServiceImplement;
@@ -44,6 +46,7 @@ public class HotelController {
     private RoomTypeServiceImplement roomTypeService = new RoomTypeServiceImplement();
     private BookingRoomDetailsService bookingRoomDetailsService = new BookingRoomDetailsServiceImplement();
     private BookingRoomService bookingroomService = new BookingRoomServiceImplement();
+    private VNPayService vnPayService = new VNPayService();
 
     @GetMapping({ "/", "" })
     public String indexHotel(Model model) {
@@ -98,7 +101,7 @@ public class HotelController {
             System.out.println(e);
         }
         for (BookingRoomDetails bookingRoom : bookingRoomDetailsList) {
-            if (bookingRoom.getBookingRoom() == null) {
+            if (bookingRoom.getBookingRoom() == null || bookingRoom.getBookingRoom().isStatus() == false) {
                 continue;
             }
             if (!(sqlStartDate.compareTo(bookingRoom.getBookingRoom().getEndDate()) >= 0)) {
@@ -143,7 +146,7 @@ public class HotelController {
             HashSet<Room> setRoom = new HashSet<>();
             roomList = roomService.getByIdRoomType(roomType.getRoomTypeID());
             for (BookingRoomDetails bookingRoom : bookingRoomDetailsList) {
-                if (bookingRoom.getBookingRoom() == null) {
+                if (bookingRoom.getBookingRoom() == null || bookingRoom.getBookingRoom().isStatus() == false) {
                     continue;
                 }
                 if (!(sqlStartDate.compareTo(bookingRoom.getBookingRoom().getEndDate()) >= 0
@@ -190,5 +193,74 @@ public class HotelController {
     public ResponseEntity<ArrayList<RoomType>> roomTypeSuggestion(@RequestParam("keyword") String keyword) {
         ArrayList<RoomType> roomTypeList = roomTypeService.searchRoomType(keyword);
         return ResponseEntity.ok().body(roomTypeList);
+    }
+
+    @PostMapping("/checkOut")
+    public String checkOut(@RequestParam(name = "bookingRoom") String bookingRoom,
+            HttpServletRequest request, @RequestParam(name = "date") String date,
+            @RequestParam(name = "total") String price) {
+        String info = String.join("|", bookingRoom, date);
+        System.out.println(info);
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String vnpayUrl = vnPayService.createOrder(request, Integer.parseInt(price), info,
+                baseUrl + "/hotel/vnpay-payment-return");
+        return "redirect:" + vnpayUrl;
+    }
+
+    @GetMapping("/vnpay-payment-return")
+    public String paymentCompleted(HttpServletRequest request, Model model) {
+        int paymentStatus = vnPayService.orderReturn(request);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
+        java.util.Date utilDate;
+        java.util.Date utilDate1;
+        Date sqlStartDate = new Date(0);
+        Date sqlEndDate = new Date(0);
+        String orderInfo = request.getParameter("vnp_OrderInfo");
+        String paymentTime = request.getParameter("vnp_PayDate");
+        String transactionId = request.getParameter("vnp_TransactionNo");
+        String totalPrice = request.getParameter("vnp_Amount");
+        if (paymentStatus == 1) {
+            System.out.println(orderInfo);
+            String info[] = orderInfo.split("|");
+
+            // lấy ra id các phòng đã đặt
+            String roomsBooking[] = info[0].split(",");
+
+            // lấy ra ngày đặt
+            String date[] = info[1].split(";");
+            String startDate = date[0];
+            String endtDate = date[1];
+            try {
+                utilDate1 = dateFormat.parse(endtDate);
+                utilDate = dateFormat.parse(startDate);
+                sqlStartDate = new Date(utilDate.getTime());
+                sqlEndDate = new Date(utilDate1.getTime());
+            } catch (ParseException e) {
+                System.out.println(e);
+            }
+            // Tạo mới các bookingRoom và bookingRoomDetail
+            HttpSession session = request.getSession();
+            User userSession = (User) session.getAttribute("user");
+            BookingRoom bookingRoom = new BookingRoom(0, userSession, sqlStartDate, sqlEndDate, true);
+            ArrayList<BookingRoom> bolist = bookingroomService.getByIdUser(userSession.getIdUser());
+            if (bookingroomService.add(bookingRoom)) {
+                bookingRoom = bolist.get(bolist.size() - 1);
+                for (int i = 0; i < roomsBooking.length; i++) {
+                    BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(i, bookingRoom,
+                            roomService.getById(Integer.parseInt(roomsBooking[i])));
+                    bookingRoomDetailsService.add(bookingRoomDetails);
+                }
+            }
+            // ....
+        }
+        model.addAttribute("orderId", "Đặt phòng khách sạn");
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("paymentTime", paymentTime);
+        model.addAttribute("transactionId", transactionId);
+        if (paymentStatus == 1) {
+            return "User/ordersuccess";
+        } else {
+            return "User/orderfail";
+        }
     }
 }

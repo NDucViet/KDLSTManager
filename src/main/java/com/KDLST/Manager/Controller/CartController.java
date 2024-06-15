@@ -1,5 +1,6 @@
 package com.KDLST.Manager.Controller;
 
+import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
 
+import com.KDLST.Manager.Model.Entity.Bill.Bill;
+import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
 import com.KDLST.Manager.Model.Entity.CartItem.CartItem;
 import com.KDLST.Manager.Model.Entity.User.User;
+import com.KDLST.Manager.Model.Service.BillService.BillDetailsService;
+import com.KDLST.Manager.Model.Service.BillService.BillDetailsServiceImplement;
+import com.KDLST.Manager.Model.Service.BillService.BillService;
+import com.KDLST.Manager.Model.Service.BillService.BillServiceImplement;
 import com.KDLST.Manager.Model.Service.CartItemService.CartItemService;
 import com.KDLST.Manager.Model.Service.CartItemService.CartItemServiceImplement;
 import com.KDLST.Manager.Model.Service.CartItemService.CartService;
@@ -19,10 +26,11 @@ import com.KDLST.Manager.Model.Service.CartItemService.CartServiceImplement;
 import com.KDLST.Manager.Model.Service.CartItemService.VNPayService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketServiceImplement;
-
+import java.sql.Date;
 import java.util.ArrayList;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
 
 @Controller
 @RequestMapping("/cart")
@@ -90,29 +98,51 @@ public class CartController {
     }
 
     @PostMapping("/checkOut")
-    public String checkOut(@RequestParam(name = "total-price") int price, @RequestParam(name = "info") String info,
+    public String checkOut(@RequestParam(name = "info") String info,
             HttpServletRequest request) {
-
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        ArrayList<CartItem> itemList = cartItemService
+                .getByIdCart(cartService.getByIdUser(user.getIdUser()).getCartID());
+        int price = 0;
+        for (CartItem cartItem : itemList) {
+            price += cartItem.getPrice().intValue();
+        }
+        price += price * 0.1;
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnPayService.createOrder(price, info, baseUrl);
+
+        String vnpayUrl = vnPayService.createOrder(request, price, info, baseUrl + "/cart/vnpay-payment-return");
         return "redirect:" + vnpayUrl;
     }
 
-    @GetMapping("/vnpay-payment")
-    public String GetMapping(HttpServletRequest request, Model model) {
+    @GetMapping("/vnpay-payment-return")
+    public String paymentCompleted(HttpServletRequest request, Model model) {
         int paymentStatus = vnPayService.orderReturn(request);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
         String paymentTime = request.getParameter("vnp_PayDate");
         String transactionId = request.getParameter("vnp_TransactionNo");
         String totalPrice = request.getParameter("vnp_Amount");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
+        Date sqlStartDate = new Date(0);
+        java.util.Date utilDate;
+        try {
+            utilDate = dateFormat.parse(paymentTime);
+            sqlStartDate = new Date(utilDate.getTime());
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
 
         model.addAttribute("orderId", orderInfo);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
-
-        return paymentStatus == 1 ? "ordersuccess" : "orderfail";
+        if (paymentStatus == 1) {
+            return "User/ordersuccess";
+        } else {
+            return "User/orderfail";
+        }
     }
-
 }

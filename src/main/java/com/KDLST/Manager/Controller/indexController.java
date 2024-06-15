@@ -43,20 +43,10 @@ public class IndexController {
             sLists.add(sList.get(i));
         }
 
-        ArrayList<Image> imgList = imageService.getImagesSortDate();
-        Set<Image> images = new HashSet<>();
-        for (Image image : imgList) {
-            images.add(image);
-            if (images.size() == 3) {
-                break;
-            }
-        }
-
         ArrayList<RoomType> roomTypeList = roomTypeService.getAll();
         model.addAttribute("roomTypeList", roomTypeList);
         model.addAttribute("sList", sLists);
         model.addAttribute("sListAll", sList);
-        model.addAttribute("blogList", images);
         return "User/index";
     }
 
