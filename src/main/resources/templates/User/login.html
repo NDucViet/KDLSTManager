@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Ngu Hanh Hill</title>
-
     <link rel="stylesheet" th:href="@{/css/re.css}">
 </head>
 
@@ -18,12 +17,16 @@
             <label class="pom-agile">
                 <span class="fa fa-user-o" aria-hidden="true"></span>
                 <span>Email</span>
-                <input placeholder="Username" id="username" name="email" th:field="*{email}" class="user" type="text" required>
+                <input placeholder="Email" id="email" name="email" th:field="*{email}" class="user" type="text" required>
             </label>
             <label class="pom-agile">
                 <span class="fa fa-key" aria-hidden="true"></span>
                 <span>Password</span>
                 <input placeholder="Password" id="password" name="password" th:field="*{password}" class="pass" type="password" required>
+            </label>
+            <label class="remember-me">
+                <input type="checkbox" name="rememberMe" value="true">
+                <span>Remember Me</span>
             </label>
             <p class="forgot-pass">
                 <a th:href="@{/user/changePass}">Forgot Password?</a>
@@ -51,27 +54,69 @@
         </div>
         <div class="form sign-up">
             <h2>Time to feel like home,</h2>
-            <label>
-                <span>Name</span>
-                <input type="text" />
-            </label>
-            <label>
-                <span>Email</span>
-                <input type="email" />
-            </label>
-            <label>
-                <span>Password</span>
-                <input type="password" />
-            </label>
-            <button type="button" class="submit">Sign Up</button>
+            <form th:action="@{/user/register}" th:method="post" th:object="${user}">
+                <label>
+                    <span>Name</span>
+                    <input name="username" th:field="*{username}" type="text" placeholder="Username" autocomplete="off" required />
+                </label>
+                <label>
+                    <span>Email</span>
+                    <input name="email" th:field="*{email}" type="email" placeholder="Email" autocomplete="off" required />
+                </label>
+                <label>
+                    <span>Birth Date</span>
+                    <input type="date" name="birth" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" required />
+                </label>
+                <label>
+                    <span>Card ID</span>
+                    <input name="cardID" th:field="*{cardID}" type="text" placeholder="Card ID" required />
+                </label>
+                <label>
+                    <span>Address</span>
+                    <input name="address" th:field="*{address}" type="text" placeholder="Address" required />
+                </label>
+                <label>
+                    <span>Gender</span>
+                    <select name="gender" th:field="*{gender}" required>
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="3">Not public</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Phone</span>
+                    <input name="phone" th:field="*{phoneNumber}" type="text" placeholder="Phone" autocomplete="off" required />
+                </label>
+                <label>
+                    <span>Avatar</span>
+                    <input type="file" th:field="*{avatar}" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
+                </label>
+                <label>
+                    <span>Nation</span>
+                    <input name="nation" th:field="*{nation}" type="text" placeholder="Nation" required />
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input id="pw" name="password" th:field="*{password}" type="password" placeholder="Password" autocomplete="new-password" required />
+                </label>
+                <label>
+                    <span>Confirm Password</span>
+                    <input id="pwa" name="passAgain" type="password" placeholder="Password Again" autocomplete="new-password" required />
+                </label>
+                <label class="agree">
+                    <input id="agree" name="agree" type="checkbox" required>
+                    <span>Accept rules and conditions</span>
+                </label>
+                <button type="submit" class="submit">Sign Up</button>
+            </form>
         </div>
     </div>
 </div>
-</body>
 <script>
     document.querySelector('.img__btn').addEventListener('click', function () {
         document.querySelector('.cont').classList.toggle('s--signup');
     });
 </script>
+</body>
 
 </html>
