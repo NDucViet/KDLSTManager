@@ -48,7 +48,7 @@ public class TicketTypeRepository {
             int ticketTypeID = rs.getInt("ticketTypeID");
             String ticketTypeName = rs.getString("ticketTypeName");
             TicketType ticketType = new TicketType(ticketTypeID, ticketTypeName);
-            st.close();
+            conn.close();
             return ticketType;
         } catch (Exception e) {
             System.out.println(e);

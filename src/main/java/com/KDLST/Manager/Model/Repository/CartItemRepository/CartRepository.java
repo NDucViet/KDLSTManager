@@ -53,7 +53,7 @@ public class CartRepository {
             User user = userRepository.getById(rs.getInt("userID"));
             Cart cart = new Cart(cartID, user);
 
-            st.close();
+            conn.close();
             return cart;
         } catch (Exception e) {
             System.out.println(e);
@@ -77,7 +77,7 @@ public class CartRepository {
             User user = userRepository.getById(rs.getInt("userID"));
             Cart cart = new Cart(cartID, user);
 
-            st.close();
+            conn.close();
             return cart;
         } catch (Exception e) {
             System.out.println(e);
@@ -86,14 +86,16 @@ public class CartRepository {
     }
 
     public boolean update(Cart cart) {
-        try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
-                BaseConnection.password)) {
+        try {
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
                     "UPDATE KDLST.cart SET userID = ? WHERE cartID = ?");
             prsm.setInt(1, cart.getUser().getIdUser());
             prsm.setInt(2, cart.getCartID());
 
             int result = prsm.executeUpdate();
+            con.close();
             return result > 0;
         } catch (SQLException e) {
             e.printStackTrace();

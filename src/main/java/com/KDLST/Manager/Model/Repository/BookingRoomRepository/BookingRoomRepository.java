@@ -62,7 +62,7 @@ public class BookingRoomRepository {
                 bkrs.add(bookingRoom);
             }
 
-            st.close();
+            conn.close();
             return bkrs;
         } catch (Exception e) {
             System.out.println(e);
@@ -88,7 +88,7 @@ public class BookingRoomRepository {
             Date endDate = rs.getDate("checkOutDate");
             boolean status = rs.getBoolean("status");
             BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
-            st.close();
+            conn.close();
             return bookingRoom;
         } catch (Exception e) {
             System.out.println(e);
@@ -115,7 +115,7 @@ public class BookingRoomRepository {
                 BookingRoom bookingRoom = new BookingRoom(bookingRoomID, user, startDate, endDate, status);
                 bookingRoomLis.add(bookingRoom);
             }
-            st.close();
+            conn.close();
             return bookingRoomLis;
         } catch (Exception e) {
             System.out.println(e);

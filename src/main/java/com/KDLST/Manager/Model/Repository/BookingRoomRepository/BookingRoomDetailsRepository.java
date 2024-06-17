@@ -87,14 +87,14 @@ public class BookingRoomDetailsRepository {
             BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
             Room room = roomRepository.getById(rs.getInt("roomID"));
             BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
-            st.close();
+            conn.close();
             return bookingRoomDetails;
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
-    
+
     public boolean update(BookingRoomDetails bookingRoomDetails) {
         try {
             Class.forName(BaseConnection.nameClass);

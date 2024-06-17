@@ -57,7 +57,7 @@ public class ImageRepository {
             Blog blog = blogRepository.getById(rs.getInt("blogID"));
             String imageDescript = rs.getString("imageDescript");
             Image image = new Image(imageID, imageUrl, blog, imageDescript);
-            st.close();
+            conn.close();
             return image;
         } catch (Exception e) {
             System.out.println(e);
@@ -102,7 +102,6 @@ public class ImageRepository {
         }
         return false;
     }
-
 
     public ArrayList<Image> getImagesByBlogID(int blogID) {
         try {
@@ -155,9 +154,4 @@ public class ImageRepository {
         return imageList;
     }
 
-    public static void main(String[] args) {
-    ImageRepository imageRepository = new ImageRepository();
-    System.out.println(imageRepository.getImagesByBlogTypeID(2).size());
-    System.out.println(imageRepository.getImagesByBlogTypeID(1).size());
-    }
 }

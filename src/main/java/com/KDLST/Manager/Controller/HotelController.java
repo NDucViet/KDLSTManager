@@ -200,6 +200,7 @@ public class HotelController {
             HttpServletRequest request, @RequestParam(name = "date") String date,
             @RequestParam(name = "total") String price) {
         String info = String.join("|", bookingRoom, date);
+        System.out.println(price);
         System.out.println(info);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(request, Integer.parseInt(price), info,
@@ -221,7 +222,7 @@ public class HotelController {
         String totalPrice = request.getParameter("vnp_Amount");
         if (paymentStatus == 1) {
             System.out.println(orderInfo);
-            String info[] = orderInfo.split("|");
+            String info[] = orderInfo.split("\\|");
 
             // lấy ra id các phòng đã đặt
             String roomsBooking[] = info[0].split(",");
@@ -242,8 +243,8 @@ public class HotelController {
             HttpSession session = request.getSession();
             User userSession = (User) session.getAttribute("user");
             BookingRoom bookingRoom = new BookingRoom(0, userSession, sqlStartDate, sqlEndDate, true);
-            ArrayList<BookingRoom> bolist = bookingroomService.getByIdUser(userSession.getIdUser());
             if (bookingroomService.add(bookingRoom)) {
+                ArrayList<BookingRoom> bolist = bookingroomService.getByIdUser(userSession.getIdUser());
                 bookingRoom = bolist.get(bolist.size() - 1);
                 for (int i = 0; i < roomsBooking.length; i++) {
                     BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(i, bookingRoom,

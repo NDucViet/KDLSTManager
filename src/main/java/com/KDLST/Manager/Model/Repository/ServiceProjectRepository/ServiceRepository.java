@@ -60,7 +60,7 @@ public class ServiceRepository {
             java.sql.Date dateTimeEdit = rs.getDate("dateTimeEdit");
             String serviceName = rs.getString("serviceName");
             Services sv = new Services(serviceID, serviceType, description, image, dateTimeEdit, serviceName);
-            st.close();
+            conn.close();
             return sv;
         } catch (Exception e) {
             System.out.println(e);
@@ -166,6 +166,5 @@ public class ServiceRepository {
         }
         return serviceList;
     }
-
 
 }

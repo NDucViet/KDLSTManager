@@ -60,7 +60,7 @@ public class RoomRepository {
             RoomType roomType = roomTypeRepository.getById(rs.getInt("roomTypeID"));
             boolean status = rs.getBoolean("status");
             Room room = new Room(roomID, hotel, roomType, status);
-            st.close();
+            conn.close();
             return room;
         } catch (Exception e) {
             System.out.println(e);
@@ -87,7 +87,7 @@ public class RoomRepository {
                 Room room = new Room(roomID, hotel, roomType, status);
                 roList.add(room);
             }
-            st.close();
+            conn.close();
             return roList;
         } catch (Exception e) {
             System.out.println(e);

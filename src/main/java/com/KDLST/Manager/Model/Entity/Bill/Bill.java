@@ -13,5 +13,6 @@ public class Bill {
     private int billID;
     private User user;
     private Date datePay;
+    private Date dateUse;
     private boolean status;
 }

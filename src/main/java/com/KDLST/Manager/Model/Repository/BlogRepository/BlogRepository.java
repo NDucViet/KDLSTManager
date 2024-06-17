@@ -37,7 +37,7 @@ public class BlogRepository {
                 Date dateTimeEdit = rs.getDate("dateTimeEdit");
                 String contentBody = rs.getString("contentBody");
                 boolean status = rs.getBoolean("status");
-                Blog blog = new Blog(blogID, userID, blogType, title, contentOpen, dateTimeEdit, contentBody,status);
+                Blog blog = new Blog(blogID, userID, blogType, title, contentOpen, dateTimeEdit, contentBody, status);
                 blogList.add(blog);
             }
             con.close();
@@ -69,7 +69,7 @@ public class BlogRepository {
             String contentBody = rs.getString("contentBody");
             boolean status = rs.getBoolean("status");
             Blog blog = new Blog(blogID, userID, blogType, title, contentOpen, dateTimeEdit, contentBody, status);
-            st.close();
+            conn.close();
             return blog;
         } catch (Exception e) {
             System.out.println(e);
@@ -143,7 +143,7 @@ public class BlogRepository {
             String contentBody = rs.getString("contentBody");
             boolean status = rs.getBoolean("status");
             Blog blog = new Blog(blogID, userID, blogType, title, contentOpen, dateTimeEdit, contentBody, status);
-            st.close();
+            conn.close();
             return blog;
         } catch (Exception e) {
             System.out.println(e);

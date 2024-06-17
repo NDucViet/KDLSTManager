@@ -88,7 +88,7 @@ public class UserRepository {
             User user = new User(userID, customerType, userName, email, password, phoneNumber, idCard, address, dob,
                     gender, avatar, nation, role, status);
 
-            st.close();
+            conn.close();
             return user;
         } catch (Exception e) {
             System.out.println(e);

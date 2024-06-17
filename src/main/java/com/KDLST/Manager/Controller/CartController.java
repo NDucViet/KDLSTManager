@@ -41,6 +41,8 @@ public class CartController {
     CartService cartService = new CartServiceImplement();
     TicketService ticketService = new TicketServiceImplement();
     VNPayService vnPayService = new VNPayService();
+    BillService billService = new BillServiceImplement();
+    BillDetailsService billDetailsService = new BillDetailsServiceImplement();
 
     @GetMapping("/allItem")
     public String getAll(Model model, HttpServletRequest request) {
@@ -98,13 +100,22 @@ public class CartController {
     }
 
     @PostMapping("/checkOut")
-    public String checkOut(@RequestParam(name = "info") String info,
+    public String checkOut(@RequestParam(name = "info") String info, @RequestParam(name = "date") String date,
             HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         ArrayList<CartItem> itemList = cartItemService
                 .getByIdCart(cartService.getByIdUser(user.getIdUser()).getCartID());
         int price = 0;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Lấy thời gian hiện tại
+        java.util.Date utilDate = new java.util.Date();
+
+        // Chuyển đổi thời gian hiện tại sang chuỗi theo định dạng đã chỉ định
+        String formattedDate = dateFormat.format(utilDate);
+        info += "|" + date + "|" + formattedDate;
+
         for (CartItem cartItem : itemList) {
             price += cartItem.getPrice().intValue();
         }
@@ -124,17 +135,35 @@ public class CartController {
         String transactionId = request.getParameter("vnp_TransactionNo");
         String totalPrice = request.getParameter("vnp_Amount");
         HttpSession session = request.getSession();
+        String dateUse = orderInfo.split("\\|")[1];
+        String datePay = orderInfo.split("\\|")[2];
         User user = (User) session.getAttribute("user");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
-        Date sqlStartDate = new Date(0);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date sqlPayDate = new Date(0);
+        Date sqlUseDate = new Date(0);
         java.util.Date utilDate;
         try {
-            utilDate = dateFormat.parse(paymentTime);
-            sqlStartDate = new Date(utilDate.getTime());
+            utilDate = dateFormat.parse(datePay);
+            sqlPayDate = new Date(utilDate.getTime());
+            utilDate = dateFormat.parse(dateUse);
+            sqlUseDate = new Date(utilDate.getTime());
         } catch (ParseException e) {
             System.out.println(e);
         }
+        Bill bill = new Bill(0, user, sqlPayDate, sqlUseDate, true);
+        ArrayList<CartItem> itemList = cartItemService
+                .getByIdCart(cartService.getByIdUser(user.getIdUser()).getCartID());
+        if (billService.add(bill)) {
+            ArrayList<Bill> billList = billService.getByIdUser(user.getIdUser());
+            bill = billList.get(billList.size() - 1);
 
+            for (CartItem cartItem : itemList) {
+                BillDetails billDetails = new BillDetails(0, bill, cartItem.getTicketID(), cartItem.getQuantity(),
+                        cartItem.getPrice().intValue());
+                billDetailsService.add(billDetails);
+            }
+            cartItemService.delete(cartService.getByIdUser(user.getIdUser()).getCartID());
+        }
         model.addAttribute("orderId", orderInfo);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTime", paymentTime);

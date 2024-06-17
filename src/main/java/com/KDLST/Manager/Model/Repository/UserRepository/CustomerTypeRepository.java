@@ -51,7 +51,7 @@ public class CustomerTypeRepository {
             String customerName = rs.getString("customerTypeName");
             String detail = rs.getString("description");
             CustomerType customerType = new CustomerType(customerID, customerName, detail);
-            st.close();
+            conn.close();
             return customerType;
         } catch (Exception e) {
             System.out.println(e);

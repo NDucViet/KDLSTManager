@@ -58,7 +58,7 @@ public class RoomTypeRepository {
             int maxPeople = rs.getInt("maxOfPeople");
             int quantity = rs.getInt("quantity");
             RoomType roomType = new RoomType(id, name, price, images, details, maxPeople, quantity);
-            st.close();
+            conn.close();
             return roomType;
         } catch (Exception e) {
             System.out.println(e);

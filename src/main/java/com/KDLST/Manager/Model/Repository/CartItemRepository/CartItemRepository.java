@@ -69,7 +69,7 @@ public class CartItemRepository {
                 itemList.add(cartItem);
             }
 
-            st.close();
+            conn.close();
             return itemList;
         } catch (Exception e) {
             System.out.println(e);
@@ -94,7 +94,7 @@ public class CartItemRepository {
             int quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
             CartItem cartItem = new CartItem(id, cart, ticketID, quantity, price);
-            st.close();
+            conn.close();
             return cartItem;
         } catch (Exception e) {
             System.out.println(e);
@@ -107,7 +107,7 @@ public class CartItemRepository {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.cartitem where cartItemID = ?;");
+            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.cartitem where cartID = ?;");
             prsm.setInt(1, id);
             int result = prsm.executeUpdate();
             con.close();
@@ -119,8 +119,9 @@ public class CartItemRepository {
     }
 
     public boolean update(CartItem cartItem) {
-        try (Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
-                BaseConnection.password)) {
+        try {
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
                     "UPDATE KDLST.cartitem SET CartID = ?,ticketID = ?, quantity = ? ,price = ? WHERE cartItemID = ?");
             prsm.setInt(1, cartItem.getCart().getCartID());
@@ -129,6 +130,7 @@ public class CartItemRepository {
             prsm.setBigDecimal(4, cartItem.getPrice());
             prsm.setInt(5, cartItem.getCartItemID());
             int result = prsm.executeUpdate();
+            con.close();
             return result > 0;
         } catch (SQLException e) {
             e.printStackTrace();

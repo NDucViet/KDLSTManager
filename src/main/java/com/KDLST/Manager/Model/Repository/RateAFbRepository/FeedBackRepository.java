@@ -17,10 +17,11 @@ import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
 
 @Repository
 public class FeedBackRepository {
-private ArrayList<FeedBack> feedBacks= new ArrayList<>();
+    private ArrayList<FeedBack> feedBacks = new ArrayList<>();
     @Autowired
-    private ServiceRepository serviceRepository=new ServiceRepository();
-    private UserRepository userRepository=new UserRepository();
+    private ServiceRepository serviceRepository = new ServiceRepository();
+    private UserRepository userRepository = new UserRepository();
+
     public ArrayList<FeedBack> getAll() {
         try {
             feedBacks.clear();
@@ -31,10 +32,10 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
             ResultSet rs = stsm.executeQuery("select * from KDLST.Feedback");
             while (rs.next()) {
                 int feedbackID = rs.getInt("feedbackID");
-                User userID=userRepository.getById(rs.getInt("userID"));
-                Services serviceID=serviceRepository.getById(rs.getInt("serviceID"));
-                String content=rs.getString("content");
-                FeedBack feedBack = new FeedBack(feedbackID,userID,serviceID,content);
+                User userID = userRepository.getById(rs.getInt("userID"));
+                Services serviceID = serviceRepository.getById(rs.getInt("serviceID"));
+                String content = rs.getString("content");
+                FeedBack feedBack = new FeedBack(feedbackID, userID, serviceID, content);
                 feedBacks.add(feedBack);
             }
             con.close();
@@ -44,6 +45,7 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
         }
         return feedBacks;
     }
+
     public boolean update(FeedBack feedBack) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -64,6 +66,7 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
         }
         return false;
     }
+
     public boolean add(FeedBack feedBack) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -82,6 +85,5 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
         }
         return false;
     }
-
 
 }

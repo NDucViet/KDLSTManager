@@ -59,7 +59,7 @@ public class HotelRepository {
             ServiceType serviceType = serviceTypeRepository.getById(rs.getInt("serviceTypeID"));
             String hotelName = rs.getString("hotelName");
             Hotel hotel = new Hotel(hotelID, serviceType, hotelName);
-            st.close();
+            conn.close();
             return hotel;
         } catch (Exception e) {
             System.out.println(e);

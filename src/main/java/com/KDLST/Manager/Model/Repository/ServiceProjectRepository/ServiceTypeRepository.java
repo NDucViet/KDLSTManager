@@ -48,7 +48,7 @@ public class ServiceTypeRepository {
             int serviceTypeID = rs.getInt("serviceTypeID");
             String serviceName = rs.getString("serviceTypeName");
             ServiceType svtp = new ServiceType(serviceTypeID, serviceName);
-            st.close();
+            conn.close();
             return svtp;
         } catch (Exception e) {
             System.out.println(e);

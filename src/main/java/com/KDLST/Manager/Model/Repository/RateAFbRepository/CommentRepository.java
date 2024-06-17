@@ -65,7 +65,7 @@ public class CommentRepository {
             String content = rs.getString("content");
             Date commentDate = rs.getDate("commentDate");
             Comment comment = new Comment(commentID, user, blog, content, commentDate);
-            st.close();
+            conn.close();
             return comment;
         } catch (Exception e) {
             System.out.println(e);
@@ -133,7 +133,7 @@ public class CommentRepository {
                 Comment comment = new Comment(commentID, user, blog, content, commentDate);
                 commentList.add(comment);
             }
-            st.close();
+            conn.close();
             return commentList;
         } catch (Exception e) {
             System.out.println(e);
@@ -141,4 +141,3 @@ public class CommentRepository {
         return null;
     }
 }
-

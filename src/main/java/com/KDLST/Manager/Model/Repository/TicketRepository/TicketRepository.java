@@ -65,7 +65,7 @@ public class TicketRepository {
             String image = rs.getString("image");
             Boolean status = rs.getBoolean("status");
             Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);
-            st.close();
+            conn.close();
             return ticket;
         } catch (Exception e) {
             System.out.println(e);

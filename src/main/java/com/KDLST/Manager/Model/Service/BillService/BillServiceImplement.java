@@ -13,10 +13,11 @@ import com.KDLST.Manager.Model.Repository.BillRepository.BillRepository;
 @Service
 public class BillServiceImplement implements BillService {
 
-     ArrayList<Bill> billList = new ArrayList<>();
+    ArrayList<Bill> billList = new ArrayList<>();
     @Autowired
     BillRepository billRepository = new BillRepository();
-     private static final Predicate<Date> DATE_PAY_VALIDATOR = datePay -> datePay != null && !datePay.toLocalDate().isAfter(LocalDate.now());
+    private static final Predicate<Date> DATE_PAY_VALIDATOR = datePay -> datePay != null
+            && !datePay.toLocalDate().isAfter(LocalDate.now());
 
     private static final Predicate<Boolean> STATUS_VALIDATOR = status -> status != null;
 
@@ -38,6 +39,7 @@ public class BillServiceImplement implements BillService {
         }
         return false;
     }
+
     @Override
     public boolean add(Bill bill) {
         if (billRepository.add(bill)) {
@@ -45,6 +47,7 @@ public class BillServiceImplement implements BillService {
         }
         return false;
     }
+
     public ArrayList<String> getInvalidAttributes(Bill bill) {
         ArrayList<String> invalidAttributes = new ArrayList<>();
         if (!DATE_PAY_VALIDATOR.test(bill.getDatePay())) {
@@ -54,6 +57,11 @@ public class BillServiceImplement implements BillService {
             invalidAttributes.add("status");
         }
         return invalidAttributes;
+    }
+
+    @Override
+    public ArrayList<Bill> getByIdUser(int id) {
+        return billRepository.getByIdUser(id);
     }
 
 }
