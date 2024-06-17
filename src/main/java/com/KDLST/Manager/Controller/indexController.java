@@ -26,7 +26,7 @@ import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImple
 
 @Controller
 @RequestMapping({ "" })
-public class IndexController {
+public class indexController {
 
     @Autowired
     ServiceService service = new ServiceServiceImplement();
