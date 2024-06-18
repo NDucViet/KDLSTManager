@@ -139,8 +139,8 @@ public class UserController {
             e.printStackTrace();
         }
         user1.setAvatar(null);
-        user1.setRole("USER");
-        user1.setCustomerType(customerTypeServiceImplement.getById(6));
+        user1.setRole("CUSTOMER");
+        user1.setCustomerType(customerTypeServiceImplement.getById(1));
         user1.setIdUser(0);
         user1.setStatus(true);
         if (pass.equals(user1.getPassword())) {
