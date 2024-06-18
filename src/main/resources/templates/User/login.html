@@ -33,9 +33,7 @@
             </p>
             <button type="submit" class="submit">Login</button>
         </form>
-        <div class="forgot-w3l">
-            <a th:href="@{/user/showRegister}">Don't have an account?</a>
-        </div>
+       
     </div>
     <div class="sub-cont">
         <div class="img">
@@ -52,6 +50,7 @@
                 <span class="m--in">Sign In</span>
             </div>
         </div>
+        <div class="form-container">
         <div class="form sign-up">
             <h2>Time to feel like home,</h2>
             <form th:action="@{/user/register}" th:method="post" th:object="${user}">
@@ -111,6 +110,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 <script>
     document.querySelector('.img__btn').addEventListener('click', function () {

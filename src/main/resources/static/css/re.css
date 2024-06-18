@@ -260,6 +260,14 @@ input {
   margin: 0 10px;
   font-size: 0.9em;
 }
+.form-container {
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+
+  max-width: 100%;
+}
 
 .submit {
   margin-top: 40px;

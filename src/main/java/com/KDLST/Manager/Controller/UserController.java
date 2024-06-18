@@ -36,7 +36,9 @@ public class UserController {
     // Tiêm phụ thuộc
     @Autowired
     private UserServiceImplement userServiceImplement = new UserServiceImplement();
+    @Autowired
     private CustomerTypeServiceImplement customerTypeServiceImplement;
+    @Autowired
     private CartService cartService;
 
     // Hàm check cookie, trả về form đăng nhập

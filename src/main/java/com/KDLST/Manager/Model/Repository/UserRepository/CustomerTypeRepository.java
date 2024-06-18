@@ -94,4 +94,5 @@ public class CustomerTypeRepository {
         }
         return false;
     }
+
 }
