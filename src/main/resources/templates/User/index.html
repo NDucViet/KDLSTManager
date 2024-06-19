@@ -280,7 +280,8 @@
 											<div class="col-lg-3 d-flex">
 												<div class="form-group d-flex w-100 border-0">
 													<div class="form-field w-100 align-items-center d-flex">
-														<input type="button" value="Search" onclick="searchService()"
+														<input type="button" autocomplete="off" value="Search"
+															onclick="searchService()"
 															class="align-self-stretch form-control btn btn-primary p-0">
 													</div>
 												</div>
@@ -297,8 +298,8 @@
 													<!-- Thêm các sự kiện vào ô input khi search room type -->
 													<div class="form-field">
 														<div class="icon"><span class="fa fa-search"></span></div>
-														<input type="search" class="form-control" id="keywordRoomType"
-															placeholder="Search type of room"
+														<input type="search" autocomplete="off" class="form-control"
+															id="keywordRoomType" placeholder="Search type of room"
 															oninput="handleInputRoomType()"
 															onkeyup="handleSearchRoomType(event)">
 														<div id="suggestionBoxForRoomType" style="border: none;"></div>

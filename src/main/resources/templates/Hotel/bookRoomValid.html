@@ -73,29 +73,29 @@
 
     <section class="section bg-light pb-0">
         <div class="container">
-
             <div class="row check-availabilty" id="next">
                 <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
-
                     <form th:action="@{/hotel/getRoom}" th:method="get">
                         <div class="row">
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
                                 <label for="checkin_date" class="font-weight-bold text-black">Check In</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" th:value="${startDate}" id="startDate" class="form-control">
+                                    <input type="text" th:value="${startDate}" id="startDate" class="form-control"
+                                        readonly>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
                                 <label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" th:value="${endDate}" id="endDate" class="form-control">
+                                    <input type="text" th:value="${endDate}" id="endDate" class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3 align-self-end">
-                                <button type="submit" class="btn btn-primary btn-block text-white">Check
-                                    Availabilty</button>
+                                <button type="submit" class="btn btn-primary btn-block text-white" disabled>
+                                    Check Availabilty
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -103,6 +103,7 @@
             </div>
         </div>
     </section>
+
     <section>
         <div class="container">
             <h2 style="font-weight: lighter;">Our Rooms</h2>
@@ -147,98 +148,6 @@
             </div>
         </div>
     </section>
-    <script>
-
-        function toggleCheckbox(checkbox) {
-            var customCheckbox = checkbox.parentElement.querySelector('.custom-checkbox');
-            if (checkbox.checked) {
-                customCheckbox.classList.add('checked');
-            } else {
-                customCheckbox.classList.remove('checked');
-            }
-        }
-        function updateTotalPrice() {
-            var startDateString = document.getElementById('startDate').value;
-            var endDateString = document.getElementById('endDate').value;
-
-            // Phân tích chuỗi ngày thành đối tượng ngày
-            var startDate = parseDate(startDateString);
-            var endDate = parseDate(endDateString);
-
-            // Tính toán số ngày giữa startDate và endDate
-            var oneDay = 24 * 60 * 60 * 1000; // số mili giây trong một ngày
-            var diffDays = Math.round(Math.abs((endDate - startDate) / oneDay));
-
-            // Get total price from selected rooms
-            var totalPrice = calculateSelectedRoomsTotal();
-
-            // Tính tổng số tiền
-            var totalAmount = diffDays * totalPrice;
-
-            // Update the total price on the UI
-            var orderTotalElement = document.getElementById('orderTotal');
-            orderTotalElement.textContent = formatCurrency(totalAmount);
-
-            //Set value for total price for sent to payment
-            var bookingRoomInput = document.getElementById('total');
-            bookingRoomInput.value = totalAmount;
-
-            // Enable/disable book button based on totalPrice
-            var bookButton = document.querySelector('.buttonCheckout');
-            if (totalAmount > 0) {
-                bookButton.disabled = false;
-            } else {
-                bookButton.disabled = true;
-            }
-        }
-
-        function parseDate(dateString) {
-            var parts = dateString.split(/[\s,]+/);
-            var day = parseInt(parts[0]);
-            var monthIndex = getMonthIndex(parts[1]); // Lấy chỉ số của tháng
-            var year = parseInt(parts[2]);
-            return new Date(year, monthIndex, day);
-        }
-
-        function getMonthIndex(monthName) {
-            var months = [
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            return months.indexOf(monthName);
-        }
-        function formatCurrency(amount) {
-            // Assuming amount is in đồng (VND), format it as needed
-            return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-        }
-
-        function calculateSelectedRoomsTotal() {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var totalPrice = 0;
-
-            checkboxes.forEach(function (checkbox) {
-                if (checkbox.checked) {
-                    var price = parseFloat(checkbox.value);
-                    totalPrice += price;
-                }
-            });
-
-            return totalPrice;
-        }
-
-        function toCheckout() {
-            var bookingRoomInput = document.getElementById("bookingRoom");
-            var checkboxes = document.querySelectorAll('input[name="checkBoxNoLabel"]:checked');
-            var selectedRooms = [];
-
-            checkboxes.forEach(function (checkbox) {
-                selectedRooms.push(checkbox.nextElementSibling.nextElementSibling.textContent);
-            });
-
-            bookingRoomInput.value = selectedRooms.join(",");
-            return true;
-        }
-    </script>
     <footer th:insert="~{Hotel/footer1 :: footer}"></footer>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/jquery-migrate-3.0.1.min.js"></script>

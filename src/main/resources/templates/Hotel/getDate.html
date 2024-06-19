@@ -59,7 +59,8 @@
                                 <label for="startDate" class="font-weight-bold text-black">Check In</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" name="startDate" id="checkin_date" class="form-control" required>
+                                    <input type="text" autocomplete="off" name="startDate" id="checkin_date"
+                                        class="form-control" required>
                                 </div>
                             </div>
                             <input type="hidden" name="roomType" th:value="${id}" th:if="${id!=null}">
@@ -67,7 +68,8 @@
                                 <label for="endDate" class="font-weight-bold text-black">Check Out</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" name="endDate" id="checkout_date" class="form-control" required>
+                                    <input type="text" autocomplete="off" name="endDate" id="checkout_date"
+                                        class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3 align-self-end">
