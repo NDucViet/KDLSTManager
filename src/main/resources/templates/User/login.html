@@ -4,30 +4,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}">
-    <title>Document</title>
+    <title>Chào mừng bạn đến Ngũ Hành Hill</title>
+    <link rel="stylesheet" th:href="@{/css/re.css}">
 </head>
 
-
 <body>
-    <form th:action="@{/user/login}" th:method="post" th:object="${user}">
-        <div class='login'>
-            <h2>Log In</h2>
-            <input name='email' th:field="*{email}" placeholder='E-Mail Address' autocomplete="off" type='text'>
-
-            <input id='pw' name='password' th:field="*{password}" placeholder='Password' autocomplete="new-password"
-                type='password'>
-
-            <div class='agree'>
-                <input id='agree' name='agree' type='checkbox'>
-                <label for='agree'></label>Remember me?
+<div class="cont">
+    <div class="form sign-in">
+        <img src="images/profile.jpg" alt="" />
+        <h2>Chào mừng bạn đến Ngũ Hành Hill</h2>
+        <form th:action="@{/user/login}" th:method="post" th:object="${user}">
+            <label class="pom-agile">
+                <span class="fa fa-user-o" aria-hidden="true"></span>
+                <span>Email</span>
+                <input id="email" name="email" th:field="*{email}" class="user" type="text" required>
+            </label>
+            <label class="pom-agile">
+                <span class="fa fa-key" aria-hidden="true"></span>
+                <span>Mật Khẩu</span>
+                <input id="password" name="password" th:field="*{password}" class="pass" type="password" required>
+            </label>
+            <label class="remember-me">
+                <input type="checkbox" name="agree">
+                <span>Nhớ đăng nhập</span>
+            </label>
+            <button type="submit" class="submit">Đăng Nhập</button>
+            <p class="forgot-pass">
+                <a th:href="@{/user/changePass}">Quên Mật Khẩu?</a>
+            </p>
+        </form>
+       
+    </div>
+    <div class="sub-cont">
+        <div class="img">
+            <div class="img__text m--up">
+                <h2>Bạn chưa có tài khoản?</h2>
+                <p>Đăng ký và đặt vé để trải nghiệm những nơi thú vị!</p>
             </div>
-
-            <input class='animated' type='submit' value='Login'>
-            <a class='forgot' th:href="@{/user/changePass}">Forgot Password?</a>
-            <a class='forgot' th:href="@{/user/showRegister}">Don't Have A Account?</a>
+            <div class="img__text m--in">
+                <h2>Bạn đã đăng ký?</h2>
+                <p>Nếu bạn đã có tài khoản, chỉ cần đăng nhập. Chúng tôi nhớ bạn!</p>
+            </div>
+            <div class="img__btn">
+                <span class="m--up">Đăng Ký</span>
+                <span class="m--in">Đăng Nhập</span>
+            </div>
         </div>
-    </form>
+        <div class="form-container">
+        <div class="form sign-up">
+            <h2>Đăng Ký</h2>
+            <form th:action="@{/user/register}" th:method="post" th:object="${user}">
+                <label>
+                    <span>Tên</span>
+                    <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
+                </label>
+                <label>
+                    <span>Email</span>
+                    <input name="email" th:field="*{email}" type="email" autocomplete="off" required />
+                </label>
+                <label>
+                    <span>Ngày Sinh</span>
+                    <input type="date" name="birth" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" required />
+                </label>
+                <label>
+                    <span>CCCD</span>
+                    <input name="cardID" th:field="*{cardID}" type="text"  required />
+                </label>
+                <label>
+                    <span>Địa Chỉ</span>
+                    <input name="address" th:field="*{address}" type="text" required />
+                </label>
+                <label>
+                    <span>Giới Tính</span>
+                    <select name="gender" th:field="*{gender}" required>
+                        <option value="1">Nam</option>
+                        <option value="2">Nữ</option>
+                        <option value="3">Khác</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Số Điện Thoại</span>
+                    <input name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
+                </label>
+                <label>
+                    <span>Ảnh Đại Diện</span>
+                    <input type="file" th:field="*{avatar}" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
+                </label>
+                <label>
+                    <span>Quốc Gia</span>
+                    <input name="nation" th:field="*{nation}" type="text"  required />
+                </label>
+                <label>
+                    <span>Mật Khẩu</span>
+                    <input id="pw" name="password" th:field="*{password}" type="password" autocomplete="new-password" required />
+                </label>
+                <label>
+                    <span>Xác Nhận Mật Khẩu</span>
+                    <input id="pwa" name="passAgain" type="password"  autocomplete="new-password" required />
+                </label>
+                <label class="agree">
+                    <input id="agree" name="agree" type="checkbox" required>
+                    <span>Chập nhận điều khoản của chúng tôi</span>
+                </label>
+                <button type="submit" class="submit">Đăng Ký</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    document.querySelector('.img__btn').addEventListener('click', function () {
+        document.querySelector('.cont').classList.toggle('s--signup');
+    });
+</script>
 </body>
 
 </html>
