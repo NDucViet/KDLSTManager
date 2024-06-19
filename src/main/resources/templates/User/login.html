@@ -33,7 +33,7 @@
                 <a th:href="@{/user/changePass}">Quên Mật Khẩu?</a>
             </p>
         </form>
-       
+
     </div>
     <div class="sub-cont">
         <div class="img">
@@ -51,66 +51,66 @@
             </div>
         </div>
         <div class="form-container">
-        <div class="form sign-up">
-            <h2>Đăng Ký</h2>
-            <form th:action="@{/user/register}" th:method="post" th:object="${user}">
-                <label>
-                    <span>Tên</span>
-                    <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
-                </label>
-                <label>
-                    <span>Email</span>
-                    <input name="email" th:field="*{email}" type="email" autocomplete="off" required />
-                </label>
-                <label>
-                    <span>Ngày Sinh</span>
-                    <input type="date" name="birth" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" required />
-                </label>
-                <label>
-                    <span>CCCD</span>
-                    <input name="cardID" th:field="*{cardID}" type="text"  required />
-                </label>
-                <label>
-                    <span>Địa Chỉ</span>
-                    <input name="address" th:field="*{address}" type="text" required />
-                </label>
-                <label>
-                    <span>Giới Tính</span>
-                    <select name="gender" th:field="*{gender}" required>
-                        <option value="1">Nam</option>
-                        <option value="2">Nữ</option>
-                        <option value="3">Khác</option>
-                    </select>
-                </label>
-                <label>
-                    <span>Số Điện Thoại</span>
-                    <input name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
-                </label>
-                <label>
-                    <span>Ảnh Đại Diện</span>
-                    <input type="file" th:field="*{avatar}" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
-                </label>
-                <label>
-                    <span>Quốc Gia</span>
-                    <input name="nation" th:field="*{nation}" type="text"  required />
-                </label>
-                <label>
-                    <span>Mật Khẩu</span>
-                    <input id="pw" name="password" th:field="*{password}" type="password" autocomplete="new-password" required />
-                </label>
-                <label>
-                    <span>Xác Nhận Mật Khẩu</span>
-                    <input id="pwa" name="passAgain" type="password"  autocomplete="new-password" required />
-                </label>
-                <label class="agree">
-                    <input id="agree" name="agree" type="checkbox" required>
-                    <span>Chập nhận điều khoản của chúng tôi</span>
-                </label>
-                <button type="submit" class="submit">Đăng Ký</button>
-            </form>
+            <div class="form sign-up">
+                <h2>Đăng Ký</h2>
+                <form th:action="@{/user/register}" th:method="post" th:object="${user}">
+                    <label>
+                        <span>Tên</span>
+                        <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
+                    </label>
+                    <label>
+                        <span>Email</span>
+                        <input name="email" th:field="*{email}" type="email" autocomplete="off" required />
+                    </label>
+                    <label>
+                        <span>Ngày Sinh</span>
+                        <input type="date" name="birth" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" required />
+                    </label>
+                    <label>
+                        <span>CCCD</span>
+                        <input name="cardID" th:field="*{cardID}" type="text"  required />
+                    </label>
+                    <label>
+                        <span>Địa Chỉ</span>
+                        <input name="address" th:field="*{address}" type="text" required />
+                    </label>
+                    <label>
+                        <span>Giới Tính</span>
+                        <select name="gender" th:field="*{gender}" required>
+                            <option value="1">Nam</option>
+                            <option value="2">Nữ</option>
+                            <option value="3">Khác</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Số Điện Thoại</span>
+                        <input name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
+                    </label>
+                    <label>
+                        <span>Ảnh Đại Diện</span>
+                        <input type="file" th:field="*{avatar}" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
+                    </label>
+                    <label>
+                        <span>Quốc Gia</span>
+                        <input name="nation" th:field="*{nation}" type="text"  required />
+                    </label>
+                    <label>
+                        <span>Mật Khẩu</span>
+                        <input id="pw" name="password" th:field="*{password}" type="password" autocomplete="new-password" required />
+                    </label>
+                    <label>
+                        <span>Xác Nhận Mật Khẩu</span>
+                        <input id="pwa" name="passAgain" type="password"  autocomplete="new-password" required />
+                    </label>
+                    <label class="agree">
+                        <input id="agree" name="agree" type="checkbox" required>
+                        <span>Chập nhận điều khoản của chúng tôi</span>
+                    </label>
+                    <button type="submit" class="submit">Đăng Ký</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 <script>
     document.querySelector('.img__btn').addEventListener('click', function () {
