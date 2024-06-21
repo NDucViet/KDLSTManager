@@ -33,7 +33,6 @@
                 <a th:href="@{/user/changePass}">Quên Mật Khẩu?</a>
             </p>
         </form>
-
     </div>
     <div class="sub-cont">
         <div class="img">
@@ -53,14 +52,14 @@
         <div class="form-container">
             <div class="form sign-up">
                 <h2>Đăng Ký</h2>
-                <form th:action="@{/user/register}" th:method="post" th:object="${user}">
+                <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post" th:object="${user}">
                     <label>
                         <span>Tên</span>
                         <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
                     </label>
                     <label>
                         <span>Email</span>
-                        <input name="email" th:field="*{email}" type="email" autocomplete="off" required />
+                        <input id="em" name="email" th:field="*{email}" type="email" autocomplete="off" required />
                     </label>
                     <label>
                         <span>Ngày Sinh</span>
@@ -84,7 +83,7 @@
                     </label>
                     <label>
                         <span>Số Điện Thoại</span>
-                        <input name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
+                        <input id="ph" name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
                     </label>
                     <label>
                         <span>Ảnh Đại Diện</span>
@@ -116,7 +115,32 @@
     document.querySelector('.img__btn').addEventListener('click', function () {
         document.querySelector('.cont').classList.toggle('s--signup');
     });
+    
+
+    var mess = /*[[${mess}]]*/ {};
+    if (mess.trim() !== '') {
+        var errorFields = mess.split(' ');
+        errorFields.forEach(function (element) {
+            if (element.includes("password")) {
+                document.getElementById('pw').style.borderColor = "red";
+            }
+            if (element.includes("doublicate")) {
+                document.getElementById('em').style.borderColor = "red";
+                alert("Email aready exits");
+            }
+            if (element.includes("email")) {
+                document.getElementById('em').style.borderColor = "red";
+            }
+            if (element.includes("phone")) {
+                document.getElementById('ph').style.borderColor = "red";
+            }
+            if (element.includes("passAgain")) {
+                document.getElementById('pwa').style.borderColor = "red";
+            }
+        });
+    } else {
+        event.target.submit();
+    }
 </script>
 </body>
-
 </html>
