@@ -1,0 +1,41 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  .card {
+    background-color: rgb(215, 207, 207);  /* bg-white */
+    padding: 1.3rem;  
+    width: 300rem;          /* p-6 */
+    text-align: center;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .succesicon {
+    margin-bottom: 20px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .button {
+    padding: 0.75rem 3rem;
+    background-color: #4f46e5;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #4338ca;
+  }
+  
