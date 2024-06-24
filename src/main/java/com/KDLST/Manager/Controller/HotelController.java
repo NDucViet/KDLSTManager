@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 
@@ -212,8 +214,8 @@ public class HotelController {
     public String paymentCompleted(HttpServletRequest request, Model model) {
         int paymentStatus = vnPayService.orderReturn(request);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
-        java.util.Date utilDate;
-        java.util.Date utilDate1;
+        java.util.Date utilDate = new java.util.Date(0);
+        java.util.Date utilDate1 = new java.util.Date(0);
         Date sqlStartDate = new Date(0);
         Date sqlEndDate = new Date(0);
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -247,9 +249,14 @@ public class HotelController {
                 ArrayList<BookingRoom> bolist = bookingroomService.getByIdUser(userSession.getIdUser());
                 bookingRoom = bolist.get(bolist.size() - 1);
                 for (int i = 0; i < roomsBooking.length; i++) {
+                    Room room = roomService.getById(Integer.parseInt(roomsBooking[i]));
+                    LocalDate startLocalDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    LocalDate endLocalDate = utilDate1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(i, bookingRoom,
-                            roomService.getById(Integer.parseInt(roomsBooking[i])));
-                    bookingRoomDetailsService.add(bookingRoomDetails);
+                            room,
+                            ChronoUnit.DAYS.between(startLocalDate, endLocalDate) * room.getRoomType().getPrice());
+                    System.out.println(bookingRoomDetailsService.add(bookingRoomDetails));
+                    ;
                 }
             }
             // ....

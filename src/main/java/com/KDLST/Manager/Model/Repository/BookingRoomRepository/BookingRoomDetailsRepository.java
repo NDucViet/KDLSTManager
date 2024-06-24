@@ -34,7 +34,9 @@ public class BookingRoomDetailsRepository {
                 int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
                 BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
                 Room room = roomRepository.getById(rs.getInt("roomID"));
-                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+                double totals = rs.getDouble("totals");
+                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room,
+                        totals);
                 bookingRoomDetailsList.add(bookingRoomDetails);
             }
             con.close();
@@ -60,7 +62,9 @@ public class BookingRoomDetailsRepository {
                 int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
                 BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
                 Room room = roomRepository.getById(rs.getInt("roomID"));
-                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+                double totals = rs.getDouble("totals");
+                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room,
+                        totals);
                 bkrdt.add(bookingRoomDetails);
             }
             con.close();
@@ -86,7 +90,9 @@ public class BookingRoomDetailsRepository {
             int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
             BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
             Room room = roomRepository.getById(rs.getInt("roomID"));
-            BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+            double totals = rs.getDouble("totals");
+            BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room,
+                    totals);
             conn.close();
             return bookingRoomDetails;
         } catch (Exception e) {
@@ -101,10 +107,11 @@ public class BookingRoomDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.BookingRoomDetail set KDLST.BookingRoomDetail.bookingRoomID =?, KDLST.BookingRoomDetail.roomID = ? where KDLST.BookingRoomDetail.bookingRoomDetailID =?");
+                    "update KDLST.BookingRoomDetail set KDLST.BookingRoomDetail.bookingRoomID =?, KDLST.BookingRoomDetail.roomID = ?, KDLST.BookingRoomDetail.totals = ? where KDLST.BookingRoomDetail.bookingRoomDetailID =?");
             prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
             prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
-            prsm.setInt(3, bookingRoomDetails.getBookingRoomDetailsID());
+            prsm.setDouble(3, bookingRoomDetails.getTotals());
+            prsm.setInt(4, bookingRoomDetails.getBookingRoomDetailsID());
             int result = prsm.executeUpdate();
             System.out.println(result);
             con.close();
@@ -122,9 +129,10 @@ public class BookingRoomDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.BookingRoomDetail (bookingRoomID, roomID) values(?,?)");
+                    "insert into KDLST.BookingRoomDetail (bookingRoomID, roomID, totals) values(?,?,?)");
             prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
             prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
+            prsm.setDouble(3, bookingRoomDetails.getTotals());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -133,4 +141,5 @@ public class BookingRoomDetailsRepository {
         }
         return false;
     }
+
 }
