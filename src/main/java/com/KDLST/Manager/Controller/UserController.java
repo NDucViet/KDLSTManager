@@ -85,7 +85,6 @@ public class UserController {
         user1.setIdUser(0);
         user1.setStatus(null);
         user1.setRole(null);
-        System.out.println(user1.toString());
         boolean flag = userServiceImplement.toLogin(user1);
 
         if (Boolean.TRUE.equals(rememberme)) {
@@ -209,7 +208,17 @@ public class UserController {
 
     // logout
     @GetMapping("/logout")
-    public String index(HttpServletRequest request) {
+    public String index(Model model, HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("userCookie".equals(cookie.getName())) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+
         HttpSession session = request.getSession();
         session.removeAttribute("user");
         return "redirect:/";

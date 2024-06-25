@@ -12,4 +12,5 @@ public class BookingRoomDetails {
     private int bookingRoomDetailsID;
     private BookingRoom bookingRoom;
     private Room room;
+    private double totals;
 }

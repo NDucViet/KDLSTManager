@@ -233,49 +233,12 @@ input {
   text-align: center;
 }
 
-label.remember-me {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.forgot-pass {
   margin-top: 15px;
-  font-size: 14px;
-  color: #666;
-}
-
-label.remember-me input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #fff;
-  cursor: pointer;
-  position: relative;
-}
-
-label.remember-me input[type="checkbox"]:checked {
-  background-color: #d4af7a;
-  border: 2px solid #d4af7a;
-}
-
-label.remember-me input[type="checkbox"]:checked::before {
-  content: '✔';
-  display: block;
   text-align: center;
-  color: #fff;
-  position: absolute;
-  top: -2px;
-  left: -1px;
-  width: 18px;
-  height: 18px;
-  line-height: 16px;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 12px;
+  color: #cfcfcf;
 }
-
 .forgot-pass {
   margin-top: 15px;
   color: #999;
@@ -283,29 +246,26 @@ label.remember-me input[type="checkbox"]:checked::before {
   display: block;
   font-size: 0.9em;
 }
-
 .forgot-pass a {
   color: #666;
   text-decoration: none;
 }
-
 .forgot-w3l {
   text-align: center;
   margin-top: 20px;
 }
-
 .forgot-w3l a {
   color: #999;
   text-decoration: none;
   margin: 0 10px;
   font-size: 0.9em;
 }
-
 .form-container {
   height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
+
   max-width: 100%;
 }
 
@@ -345,45 +305,63 @@ label.remember-me input[type="checkbox"]:checked::before {
 }
 
 
-label.remember-me {
+/*trang gui code ve mail*/
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('path_to_forest_background.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: 15px;
-  font-size: 14px;
-  color: #666;
-  justify-content: flex-start;
+  height: 100vh;
 }
 
-label.remember-me input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #fff;
-  cursor: pointer;
-  position: relative;
-}
-
-label.remember-me input[type="checkbox"]:checked {
-  background-color: #d4af7a;
-  border: 2px solid #d4af7a;
-}
-
-label.remember-me input[type="checkbox"]:checked::before {
-  content: '✔';
-  display: block;
+.forgot-password-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  color: #fff;
-  position: absolute;
-  top: -2px;
-  left: -1px;
-  width: 18px;
-  height: 18px;
-  line-height: 16px;
-  font-size: 14px;
-  font-weight: bold;
+  width: 300px;
+}
+
+.forgot-password-form h2 {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
 }

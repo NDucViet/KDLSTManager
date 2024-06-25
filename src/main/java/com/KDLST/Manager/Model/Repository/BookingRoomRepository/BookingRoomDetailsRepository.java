@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import java.util.LinkedHashMap;
+import java.util.Map;
 import com.KDLST.Manager.Model.BaseConnection;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoom;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoomDetails;
@@ -34,7 +35,9 @@ public class BookingRoomDetailsRepository {
                 int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
                 BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
                 Room room = roomRepository.getById(rs.getInt("roomID"));
-                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+                double totals = rs.getDouble("totals");
+                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room,
+                        totals);
                 bookingRoomDetailsList.add(bookingRoomDetails);
             }
             con.close();
@@ -60,7 +63,9 @@ public class BookingRoomDetailsRepository {
                 int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
                 BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
                 Room room = roomRepository.getById(rs.getInt("roomID"));
-                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+                double totals = rs.getDouble("totals");
+                BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room,
+                        totals);
                 bkrdt.add(bookingRoomDetails);
             }
             con.close();
@@ -86,7 +91,9 @@ public class BookingRoomDetailsRepository {
             int bookingRoomDetailsID = rs.getInt("bookingRoomDetailID");
             BookingRoom bookingRoom = bookingRoomRepository.getById(rs.getInt("bookingRoomID"));
             Room room = roomRepository.getById(rs.getInt("roomID"));
-            BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room);
+            double totals = rs.getDouble("totals");
+            BookingRoomDetails bookingRoomDetails = new BookingRoomDetails(bookingRoomDetailsID, bookingRoom, room,
+                    totals);
             conn.close();
             return bookingRoomDetails;
         } catch (Exception e) {
@@ -101,10 +108,11 @@ public class BookingRoomDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.BookingRoomDetail set KDLST.BookingRoomDetail.bookingRoomID =?, KDLST.BookingRoomDetail.roomID = ? where KDLST.BookingRoomDetail.bookingRoomDetailID =?");
+                    "update KDLST.BookingRoomDetail set KDLST.BookingRoomDetail.bookingRoomID =?, KDLST.BookingRoomDetail.roomID = ?, KDLST.BookingRoomDetail.totals = ? where KDLST.BookingRoomDetail.bookingRoomDetailID =?");
             prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
             prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
-            prsm.setInt(3, bookingRoomDetails.getBookingRoomDetailsID());
+            prsm.setDouble(3, bookingRoomDetails.getTotals());
+            prsm.setInt(4, bookingRoomDetails.getBookingRoomDetailsID());
             int result = prsm.executeUpdate();
             System.out.println(result);
             con.close();
@@ -122,9 +130,10 @@ public class BookingRoomDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.BookingRoomDetail (bookingRoomID, roomID) values(?,?)");
+                    "insert into KDLST.BookingRoomDetail (bookingRoomID, roomID, totals) values(?,?,?)");
             prsm.setInt(1, bookingRoomDetails.getBookingRoom().getBookingRoomID());
             prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
+            prsm.setDouble(3, bookingRoomDetails.getTotals());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -133,4 +142,93 @@ public class BookingRoomDetailsRepository {
         }
         return false;
     }
+
+    public Map<String, Double> getMonthlyRevenue(String year) {
+        Map<String, Double> revenueList = new LinkedHashMap<>();
+        Connection con = null;
+        PreparedStatement prsm = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName(BaseConnection.nameClass);
+            con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password);
+            prsm = con.prepareStatement(
+                    "SELECT DATE_FORMAT(br.checkInDate, '%Y-%m') AS month, SUM(brd.totals) AS total_amount " +
+                            "FROM bookingRoomDetail brd " +
+                            "JOIN bookingRoom br ON brd.bookingRoomID = br.bookingRoomID " +
+                            "GROUP BY DATE_FORMAT(br.checkInDate, '%Y-%m') " +
+                            "ORDER BY month");
+
+            rs = prsm.executeQuery();
+
+            while (rs.next()) {
+                String month = rs.getString("month");
+                if (month.split("-")[0].equals(year)) {
+                    double totalAmount = rs.getDouble("total_amount");
+                    revenueList.put(String.valueOf(Integer.parseInt(month.split("-")[1])), totalAmount);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            // Đóng ResultSet, PreparedStatement và Connection
+            try {
+                if (rs != null)
+                    rs.close();
+                if (prsm != null)
+                    prsm.close();
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return revenueList;
+    }
+
+    public Map<String, Double> getYearsRevenue() {
+        Map<String, Double> revenueList = new LinkedHashMap<>();
+        Connection con = null;
+        PreparedStatement prsm = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName(BaseConnection.nameClass);
+            con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username, BaseConnection.password);
+            prsm = con.prepareStatement(
+                    "SELECT DATE_FORMAT(br.checkInDate, '%Y-%m') AS month, SUM(brd.totals) AS total_amount " +
+                            "FROM bookingRoomDetail brd " +
+                            "JOIN bookingRoom br ON brd.bookingRoomID = br.bookingRoomID " +
+                            "GROUP BY DATE_FORMAT(br.checkInDate, '%Y-%m') " +
+                            "ORDER BY month");
+
+            rs = prsm.executeQuery();
+
+            while (rs.next()) {
+                String month = rs.getString("month");
+
+                double totalAmount = rs.getDouble("total_amount");
+                revenueList.put(String.valueOf(Integer.parseInt(month.split("-")[0])), totalAmount);
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            // Đóng ResultSet, PreparedStatement và Connection
+            try {
+                if (rs != null)
+                    rs.close();
+                if (prsm != null)
+                    prsm.close();
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return revenueList;
+    }
+
 }

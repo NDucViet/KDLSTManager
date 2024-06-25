@@ -5,6 +5,7 @@ import com.KDLST.Manager.Model.Entity.User.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.sql.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,4 +15,5 @@ public class FeedBack {
     private User user;
     private Services services;
     private String content;
+    private Date date;
 }

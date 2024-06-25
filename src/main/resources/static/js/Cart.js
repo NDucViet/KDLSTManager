@@ -82,11 +82,6 @@ function confirmCheckOut() {
     }
 
     // Kiểm tra nếu giỏ hàng rỗng
-    var cartItems = /*[[${ cartItemList != null ? cartItemList.size() : 0}]]*/ 0;
-    if (cartItems === 0) {
-        alert("Your cart is empty.");
-        return false; // Ngăn chặn việc gửi form
-    }
 
     // Nếu tất cả các kiểm tra đều vượt qua, cho phép gửi form
     return confirm("Are you sure you want to proceed to checkout?");

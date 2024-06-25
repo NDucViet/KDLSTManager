@@ -1,8 +1,6 @@
 package com.KDLST.Manager.Model.Repository.RateAFbRepository;
 
 import java.sql.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,8 @@ public class FeedBackRepository {
                 User userID = userRepository.getById(rs.getInt("userID"));
                 Services serviceID = serviceRepository.getById(rs.getInt("serviceID"));
                 String content = rs.getString("content");
-                FeedBack feedBack = new FeedBack(feedbackID, userID, serviceID, content);
+                Date date = rs.getDate("feedbackDate");
+                FeedBack feedBack = new FeedBack(feedbackID, userID, serviceID, content, date);
                 feedBacks.add(feedBack);
             }
             con.close();
@@ -52,10 +51,12 @@ public class FeedBackRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.Feedback set KDLST.Feedback.userID =?, KDLST.Feedback.serviceID=?, KDLST.Feedback.content = ?,where KDLST.Feedback.feedbackID =?");
+                    "update KDLST.Feedback set KDLST.Feedback.userID =?, KDLST.Feedback.serviceID=?, KDLST.Feedback.content = ?, KDLST.Feedback.feedbackDate=? where KDLST.Feedback.feedbackID =?");
             prsm.setInt(1, feedBack.getUser().getIdUser());
             prsm.setInt(2, feedBack.getServices().getServiceID());
             prsm.setString(3, feedBack.getContent());
+            prsm.setDate(4, feedBack.getDate());
+            prsm.setInt(5, feedBack.getFeedbackID());
             System.out.println(feedBack.toString());
             int result = prsm.executeUpdate();
             System.out.println(result);
@@ -73,10 +74,11 @@ public class FeedBackRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.Feedback (userID,serviceID,content) values(?,?,?)");
+                    "insert into KDLST.Feedback (userID,serviceID,content,feedbackDate) values(?,?,?,?)");
             prsm.setInt(1, feedBack.getUser().getIdUser());
             prsm.setInt(2, feedBack.getServices().getServiceID());
             prsm.setString(3, feedBack.getContent());
+            prsm.setDate(4, feedBack.getDate());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -86,4 +88,19 @@ public class FeedBackRepository {
         return false;
     }
 
+    public boolean delete(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.Feedback where KDLST.Feedback.feedbackID =?");
+            prsm.setInt(1, id);
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return false;
+    }
 }

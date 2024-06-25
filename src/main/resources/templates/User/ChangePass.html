@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quên Mật Khẩu</title>
     <link rel="stylesheet" th:href="@{/css/re1.css}">
 </head>
+
 <body>
-<div class="container">
-    <div class="forgot-password-form">
-        <h2>Quên Mật Khẩu</h2>
-        <form th:action="@{/user/toChangePass}" th:method="post">
-            <div class="input-group">
-                <label for="email">EMAIL</label>
-                <input type="email" id="email" name="email" placeholder="Nhập email" required>
-            </div>
-            <button type="submit" class="submit-btn">Gửi</button>
-        </form>
+    <div class="container">
+        <div class="forgot-password-form">
+            <h2>Quên Mật Khẩu</h2>
+            <form th:action="@{/user/toChangePass}" th:method="post">
+                <div class="input-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email" required>
+                </div>
+                <button type="submit" class="submit-btn">Gửi</button>
+            </form>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

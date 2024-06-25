@@ -35,4 +35,12 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
         }
         return false;
     }
+
+    @Override
+    public boolean delete(int id) {
+        if (feedBackRepository.delete(id)) {
+            return true;
+        }
+        return false;
+    }
 }

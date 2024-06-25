@@ -27,41 +27,41 @@
 
 
 <body>
-<div class="container">
-    <div class="forgot-password-form">
-        <h2>Change Password</h2>
-        <div id="codeBlock" class="input-group">
-            <input name="code" id="code" placeholder='Enter code' type='text'>
-            <button class='submit-btn' id="btncode" onclick="checkCode()">Submit Code</button>
-        </div>
+    <div class="container">
+        <div class="forgot-password-form">
+            <h2>Change Password</h2>
+            <div id="codeBlock" class="input-group">
+                <input name="code" id="code" placeholder='Enter code' type='text'>
+                <button class='submit-btn' id="btncode" onclick="checkCode()">Submit Code</button>
+            </div>
 
-        <div style="display: none;" id="password">
-            <form onsubmit="return checkPass()" th:action="@{/user/changePassword}" th:method="post">
-                <div class="input-group">
-                    <input name="password" placeholder='Enter password' type='password'>
-                </div>
-                <div class="input-group">
-                    <input name="passAgain" placeholder='Enter password again' type='password'>
-                </div>
-                <button class='submit-btn' type="submit">Submit Password</button>
-            </form>
+            <div style="display: none;" id="password">
+                <form onsubmit="return checkPass()" th:action="@{/user/changePassword}" th:method="post">
+                    <div class="input-group">
+                        <input name="password" placeholder='Enter password' type='password'>
+                    </div>
+                    <div class="input-group">
+                        <input name="passAgain" placeholder='Enter password again' type='password'>
+                    </div>
+                    <button class='submit-btn' type="submit">Submit Password</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    function checkPass() {
-        var pass = document.getElementsByName("password")[0].value;
-        var passAgain = document.getElementsByName("passAgain")[0].value;
+    <script>
+        function checkPass() {
+            var pass = document.getElementsByName("password")[0].value;
+            var passAgain = document.getElementsByName("passAgain")[0].value;
 
-        if (pass === passAgain) {
-            return true;
-        } else {
-            alert("Password Again not equals with password, please input again");
-            return false;
+            if (pass === passAgain) {
+                return true;
+            } else {
+                alert("Password Again not equals with password, please input again");
+                return false;
+            }
         }
-    }
-</script>
+    </script>
 </body>
 
 </html>

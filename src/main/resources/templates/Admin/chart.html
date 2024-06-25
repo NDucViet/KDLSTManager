@@ -17,11 +17,19 @@
   <link rel="stylesheet" type="text/css" th:href="@{css/select.dataTables.min.css}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <link rel="stylesheet" th:href="@{css/style2.css}">
   <!-- endinject -->
   <link rel="shortcut icon" th:href="@{images/favicon.png}" />
 
 </head>
+<style>
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    /* Điều chỉnh giá trị box shadow theo ý muốn */
+  }
+</style>
 
 <body>
   <div class="container-scroller">
@@ -38,7 +46,7 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Line chart</h4>
+                  <h4 class="card-title">Biểu Đồ Đường Tổng Doanh Thu</h4>
                   <canvas id="lineChart"></canvas>
                 </div>
               </div>
@@ -46,44 +54,40 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Bar chart</h4>
+                  <h4 class="card-title">Biểu Đồ Cột Tổng Doanh Thu</h4>
                   <canvas id="barChart"></canvas>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Area chart</h4>
-                  <canvas id="areaChart"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Doughnut chart</h4>
-                  <canvas id="doughnutChart"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
+
           <div class="row">
             <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Pie chart</h4>
+                  <h4 class="card-title">Biểu Đồ Tròn Tỉ Trọng Doanh Thu</h4>
                   <canvas id="pieChart"></canvas>
                 </div>
               </div>
             </div>
+
             <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Scatter chart</h4>
-                  <canvas id="scatterChart"></canvas>
+                  <h4 class="card-title">Biểu Đồ Tròn Tỉ Trọng Doanh Thu Hotel</h4>
+                  <canvas id="pieChartRoom"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Biểu Đồ Tròn Tỉ Trọng Doanh Thu</h4>
+                  <canvas id="pieChartTicket"></canvas>
                 </div>
               </div>
             </div>
@@ -99,7 +103,184 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
+  <script th:inline="javascript">
 
+    var hotelData =/*[[${hotelTotals}]]*/{};
+    var serviceData = /*[[${serviceTotals}]]*/ {};
+    var totals = /*[[${totalsMap}]]*/ {};
+    var pieMap = /*[[${pieMap}]]*/ {};
+    var roomType = /*[[${roomType}]]*/ {};
+    var ticket = /*[[${ticket}]]*/ {};
+
+
+    // Biểu đồ Line chart
+    var ctxLine = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: Object.keys(totals),
+        datasets: [{
+          label: 'Doanh Thu Theo Năm',
+          data: Object.values(totals),
+          borderColor: ['rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#FFE333',
+            '#D09FFA',
+            '#AAAAAF'],
+          borderWidth: 2,
+          fill: false
+        }]
+      },
+      options: {
+        // Cấu hình tùy chọn
+      }
+    });
+
+    // Biểu đồ Bar chart
+    var ctxBar = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(totals), // Các nhãn cho biểu đồ (năm)
+        datasets: [{
+          label: 'Doanh Thu Theo Năm',
+          data: Object.values(totals), // Dữ liệu doanh thu dịch vụ
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#0BEDF8',
+            '#D09FFA',
+            '#AAAAAF'
+          ],
+          borderColor: [
+            '#AAAAAF'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        // Cấu hình tùy chọn
+      }
+    });
+
+
+
+
+    // Biểu đồ Pie chart
+    var ctxPie = document.getElementById('pieChart').getContext('2d');
+    var pieChart = new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(pieMap), // Các nhãn cho biểu đồ (tên dịch vụ)
+        datasets: [{
+          label: 'Tỉ Trọng',
+          data: Object.values(pieMap), // Dữ liệu phân bổ doanh thu dịch vụ
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#FFE333',
+            '#D09FFA',
+            '#AAAAAF'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#0BEDF8',
+            '#D09FFA',
+            '#AAAAAF'
+          ],
+          borderWidth: 0.5
+        }]
+      },
+      options: {
+        // Cấu hình tùy chọn
+      }
+    });
+
+    var ctxPie = document.getElementById('pieChartRoom').getContext('2d');
+    var pieChart = new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(roomType), // Các nhãn cho biểu đồ (tên dịch vụ)
+        datasets: [{
+          label: 'Tỉ Trọng ',
+          data: Object.values(roomType), // Dữ liệu phân bổ doanh thu dịch vụ
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#0BEDF8',
+            '#D09FFA',
+            '#AAAAAF'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#0BEDF8',
+            '#D09FFA',
+            '#AAAAAF'
+          ],
+          borderWidth: 0.5
+        }]
+      },
+      options: {
+        // Cấu hình tùy chọn
+      }
+    });
+
+    var ctxPie = document.getElementById('pieChartTicket').getContext('2d');
+    var pieChart = new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(ticket), // Các nhãn cho biểu đồ (tên dịch vụ)
+        datasets: [{
+          label: 'Tỉ Trọng ',
+          data: Object.values(ticket), // Dữ liệu phân bổ doanh thu dịch vụ
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#FFBE80',
+            'rgba(153, 102, 255, 0.2)',
+            '#0BEDF8',
+            '#7CF9B3',
+            '#8D8D9D'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            '#F9F9F9',
+            'rgba(153, 102, 255, 0.2)',
+            '#0BEDF8',
+            '#7CF9B3',
+            '#8D8D9D'
+          ],
+          borderWidth: 0.5
+        }]
+      },
+      options: {
+        // Cấu hình tùy chọn
+      }
+    });
+  </script>
 
   <script src="js/vendor.bundle.base.js"></script>
   <script src="js/Chart.min.js"></script>
@@ -112,7 +293,6 @@
   <script src="js/settings.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
-  <script src="js/chart.js"></script>
   <!-- End custom js for this page-->
 </body>
 

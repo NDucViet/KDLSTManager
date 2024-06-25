@@ -107,7 +107,7 @@ public class CartItemRepository {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.cartitem where cartID = ?;");
+            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.cartitem where cartItemID = ?;");
             prsm.setInt(1, id);
             int result = prsm.executeUpdate();
             con.close();

@@ -129,7 +129,6 @@ public class CartController {
     @GetMapping("/vnpay-payment-return")
     public String paymentCompleted(HttpServletRequest request, Model model) {
         int paymentStatus = vnPayService.orderReturn(request);
-
         String orderInfo = request.getParameter("vnp_OrderInfo");
         String paymentTime = request.getParameter("vnp_PayDate");
         String transactionId = request.getParameter("vnp_TransactionNo");
@@ -173,5 +172,12 @@ public class CartController {
         } else {
             return "User/orderfail";
         }
+    }
+
+    @GetMapping("/history")
+    public String getHistory(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        return "User/History";
     }
 }

@@ -35,7 +35,9 @@
   <link rel="stylesheet" th:href="@{css/flaticon1.css}">
   <link rel="stylesheet" th:href="@{css/style.css}">
   <link rel="stylesheet" th:href="@{css/header.css}">
+  <link rel="stylesheet" th:href="@{css/service.css}">
   <link rel="stylesheet" type="text/css" th:href="@{css/header.css}">
+
   <style>
     .location {
       white-space: nowrap;
@@ -78,32 +80,31 @@
       /* Khoảng cách giữa các modal */
     }
 
-
     /* .pagination {
-      display: flex;
-      justify-content: center;
-      padding-left: 0;
-      list-style: none;
-    }
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+  }
 
-    .pagination li {
-      display: inline-block;
-      margin: 0 5px;
-    }
+  .pagination li {
+    display: inline-block;
+    margin: 0 5px;
+  }
 
-    .pagination li a {
-      color: #007bff;
-      text-decoration: none;
-      padding: 8px 12px;
-      border: 1px solid #dee2e6;
-      border-radius: 4px;
-    }
+  .pagination li a {
+    color: #007bff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
 
-    .pagination li.active a {
-      background-color: #007bff;
-      color: white;
-      border-color: #007bff;
-    } */
+  .pagination li.active a {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  } */
 
     .truncate {
       display: block;
@@ -143,17 +144,18 @@
         <th:block th:each="service : ${serviceList}">
           <div class="col-md-4 ftco-animate">
             <div class="project-wrap">
-              <a href="#" class="img" th:style="'background-image: url(images/' + ${service.image} + ');'">
+              <a href="#" class="img" th:style="'background-image: url(images/' + ${service.key.key.image} + ');'">
               </a>
               <div class="text p-4">
-                <h3 >
-                  <button class="location" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${service.serviceID}"
-                    th:text="${service.serviceName}" style="border: none; background-color: white;"></button>
+                <h3>
+                  <button class="location" data-bs-toggle="modal"
+                    th:data-bs-target="'#modal' + ${service.key.key.serviceID}" th:text="${service.key.key.serviceName}"
+                    style="border: none; background-color: white;"></button>
                 </h3>
-                <p class="location"><span class="fa fa-map-marker"></span> [[${service.description}]]</p>
+                <p class="location"><span class="fa fa-map-marker"></span> [[${service.key.key.description}]]</p>
                 <ul>
                   <li><span class="flaticon-mountains"></span>
-                    <a href="#" th:text="${service.serviceTypeID.serviceName}"></a>
+                    <a href="#" th:text="${service.key.key.serviceTypeID.serviceName}"></a>
                   </li>
                 </ul>
               </div>
@@ -162,25 +164,78 @@
         </th:block>
       </div>
       <div th:each="service : ${serviceList}">
-        <div th:id="'modal' + ${service.serviceID}" class="modal fade custom-modal" data-bs-backdrop="static"
+        <div th:id="'modal' + ${service.key.key.serviceID}" class="modal fade custom-modal" data-bs-backdrop="static"
           data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h3 th:text="${service.serviceTypeID.serviceName}"></h3>
+                <h3 th:text="${service.key.key.serviceTypeID.serviceName}"></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="mb-3">
                   <h3 style="color: black; cursor: pointer;" onmouseover="this.style.color='orange'"
-                    onmouseout="this.style.color='black'" th:text="${service.serviceName}"></h3>
+                    onmouseout="this.style.color='black'" th:text="${service.key.key.serviceName}"></h3>
+                  <i class="fa-solid fa-star" style="color: #FF9529;display: inline;font-size: larger;"></i>
+                  <p class="h5" th:text="${service.value}" style="display: inline;color: #FF9529;"></p>
                 </div>
                 <div class="mb-3 text-center">
-                  <img th:src="@{/images/{image}(image=${service.image})}" alt="Service Image" class="img-fluid">
+                  <img th:src="@{/images/{image}(image=${service.key.key.image})}" alt="Service Image"
+                    class="img-fluid">
                 </div>
                 <div>
                   <p><strong>Description:</strong></p>
-                  <p th:text="${service.description}"></p>
+                  <p th:text="${service.key.key.description}"></p>
+                </div>
+
+                <div style="padding-top: 20px;">
+                  <hr style="background-color: black;">
+                  <div class="row">
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-7" style="padding-top: 20px;">
+                      <strong class="h4">ĐÁNH GIÁ</strong>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <div class="d-flex flex-row add-comment-section mt-4 mb-4" th:if="${session.user != null}">
+                        <img class="img-fluid img-responsive rounded-circle mr-2"
+                          th:src="|@{/images/${session.user.avatar}}|" width="38"
+                          onerror="this.onerror=null; this.src='/images/UserAvatarDefault.jpg';">
+                        <input type="text" class="form-control mr-3" placeholder="Add your feedback"
+                          th:id="|content${service.key.key.serviceID}|">
+                        <button class="btn" style="background-color: black; color: #fafafa;" type="button"
+                          th:onclick="|addFeedback(${service.key.key.serviceID})|">Send</button>
+                      </div>
+                      <div th:if="${service.key.value.isEmpty()}" class="media g-mb-30 media-comment noneComment">
+                        <p>Không có bình luận.</p>
+                      </div>
+                      <div th:each="feedback : ${service.key.value}">
+                        <div class="media g-mb-30 media-comment" th:id="|feedback${feedback.feedbackID}|">
+                          <img class="rounded-circle shadow-1-strong me-3"
+                            th:src="|@{/images/${service.key.key.user.avatar}}|" width="65" height="65"
+                            style="display: inline-flex;"
+                            onerror="this.onerror=null; this.src='/images/UserAvatarDefault.jpg';" />
+                          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                            <div class="g-mb-15">
+                              <p class="h5 g-color-gray-dark-v1 mb-0" style="display: inline-flex;"
+                                th:text="${feedback.user.username}"></p>
+                              <p th:text="${feedback.date}"
+                                style="color: rgba(0, 0, 0, .54);font-size: .75rem;display: inline-flex"></p>
+                            </div>
+                            <p th:text="${feedback.content}" style="padding-top: 10px;"></p>
+                            <div th:if="${session.user != null}">
+                              <button th:onclick="|deleteFeedback(${feedback.feedbackID})|"
+                                style="color: black;float: right;cursor: pointer; border: none;"
+                                th:if="${session.user.idUser == feedback.user.idUser}"><i class="fa-solid fa-trash"
+                                  style="color: black;"></i> Remove</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,10 +299,29 @@
   <script src="js/jquery.animateNumber.min1.js"></script>
   <script src="js/bootstrap-datepicker1.js"></script>
   <script src="js/scrollax.min1.js"></script>
+  <script src="js/Service.js"></script>
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="js/google-map1.js"></script>
   <script src="js/main1.js"></script>
+
+  <script>
+    function deleteFeedback(idFeedback) {
+      var xhr1 = new XMLHttpRequest();
+      xhr1.open("POST", "/service/deleteFeedback?idFeedback=" + idFeedback, true);
+      xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr1.onreadystatechange = function () {
+        if (xhr1.readyState === 4 && xhr1.status === 200) {
+          // Xóa thẻ div có id là feedback + idFeedback
+          var feedbackDiv = document.getElementById('feedback' + idFeedback);
+          if (feedbackDiv) {
+            feedbackDiv.parentNode.removeChild(feedbackDiv);
+          }
+        }
+      };
+      xhr1.send();
+    }
+  </script>
 </body>
 
 

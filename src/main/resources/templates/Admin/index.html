@@ -33,54 +33,108 @@
       <!-- partial:partials/_sidebar.html -->
       <partial th:insert="~{Admin/partial :: partial}"></partial>
       <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-title">Order Details</p>
-                  <p class="font-weight-500">The total number of sessions within the date range. It is the period time a
-                    user is actively engaged with your website, page or app, etc</p>
-                  <div class="d-flex flex-wrap mb-5">
-                    <div class="mr-5 mt-3">
-                      <p class="text-muted">Order value</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">12.3k</h3>
-                    </div>
-                    <div class="mr-5 mt-3">
-                      <p class="text-muted">Orders</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">14k</h3>
-                    </div>
-                    <div class="mr-5 mt-3">
-                      <p class="text-muted">Users</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">71.56%</h3>
-                    </div>
-                    <div class="mt-3">
-                      <p class="text-muted">Downloads</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">34040</h3>
-                    </div>
-                  </div>
-                  <canvas id="order-chart"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <p class="card-title">Sales Report</p>
-                    <a href="#" class="text-info">View all</a>
-                  </div>
-                  <p class="font-weight-500">The total number of sessions within the date range. It is the period time a
-                    user is actively engaged with your website, page or app, etc</p>
-                  <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
-                  <canvas id="sales-chart"></canvas>
-                </div>
-              </div>
-            </div>
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <canvas id="chart1"></canvas>
+          </div>
+          <div class="col-lg-6">
+            <canvas id="chart2"></canvas>
           </div>
         </div>
       </div>
+      <a th:href="@{/admin/chart}">Xem Tất Cả >></a>
+
+
+
+      <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+          var data = /*[[${data1}]]*/ {};
+          var data2 = /*[[${data2}]]*/ {}; // Lấy dữ liệu từ Spring Controller
+          // Kiểm tra dữ liệu trong console
+          data = JSON.parse(data);
+          data2 = JSON.parse(data2);
+          console.log(data);
+          // Chuyển đổi dữ liệu sang định dạng phù hợp để vẽ biểu đồ
+          var months = [];
+          var totals = [];
+          var totals2 = [];
+          for (var key in data2) {
+            // Thêm tháng vào mảng months
+            totals2.push(data2[key]); // Thêm số tiền vào mảng totals
+          }
+          for (var key in data) {
+            months.push(key); // Thêm tháng vào mảng months
+            totals.push(data[key]); // Thêm số tiền vào mảng totals
+          }
+          var ctx = document.getElementById('chart2').getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'bar', // Thay đổi loại biểu đồ thành cột (bar)
+            data: {
+              labels: months, // Các tháng là nhãn trục x
+              datasets: [{
+                label: 'Doanh Thu Hotel Theo Tháng',
+                data: totals2, // Dữ liệu là các giá trị số tiền
+                backgroundColor: '#D8BFD8', // Màu nền của các cột
+                borderColor: '#D8BFD8', // Màu viền của các cột
+                borderWidth: 1 // Độ dày viền của các cột
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true, // Bắt đầu trục y từ 0
+                  title: {
+                    display: true,
+                    text: 'Tiền' // Nhãn trục y là "Tiền"
+                  }
+                },
+                x: {
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Tháng' // Nhãn trục x là "Tháng"
+                  }
+                }
+              }
+            }
+          });
+          // Lấy đối tượng canvas và vẽ biểu đồ
+          var ctx = document.getElementById('chart1').getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'bar', // Thay đổi loại biểu đồ thành cột (bar)
+            data: {
+              labels: months, // Các tháng là nhãn trục x
+              datasets: [{
+                label: 'Doanh Thu Dịch Vụ Theo Tháng',
+                data: totals, // Dữ liệu là các giá trị số tiền
+                backgroundColor: '#6A5ACD', // Màu nền của các cột
+                borderColor: '#6A5ACD', // Màu viền của các cột
+                borderWidth: 1 // Độ dày viền của các cột
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true, // Bắt đầu trục y từ 0
+                  title: {
+                    display: true,
+                    text: 'Tiền' // Nhãn trục y là "Tiền"
+                  }
+                },
+                x: {
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Tháng' // Nhãn trục x là "Tháng"
+                  }
+                }
+              }
+            }
+          });
+        });
+      </script>
+
     </div>
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->

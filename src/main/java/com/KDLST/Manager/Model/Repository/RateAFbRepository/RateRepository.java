@@ -16,9 +16,40 @@ import java.util.ArrayList;
 public class RateRepository {
     private ArrayList<Rate> rates = new ArrayList<>();
     @Autowired
-    private ServiceRepository serviceRepository=new ServiceRepository();
-    private UserRepository userRepository=new UserRepository();
+    private ServiceRepository serviceRepository = new ServiceRepository();
+    private UserRepository userRepository = new UserRepository();
 
+    public float getScoreByService(Services service) {
+        try {
+            rates.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement preparedStatement = con.prepareStatement("select * from KDLST.Rate where serviceID = ?");
+            preparedStatement.setInt(1, service.getServiceID());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int rateID = rs.getInt("rateID");
+                User userID = userRepository.getById(rs.getInt("userID"));
+                int amountStar = rs.getInt("amountStar");
+                Services serviceID = service;
+                Rate rate = new Rate(rateID, userID, amountStar, serviceID);
+                rates.add(rate);
+            }
+            con.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        if (rates.isEmpty() || rates == null) {
+            return 0;
+        }
+        float score = 0;
+        for (Rate rate : rates) {
+            score += rate.getAmountStar();
+        }
+        score /= rates.size();
+        return score;
+    }
 
     public ArrayList<Rate> getAll() {
         try {
@@ -30,11 +61,11 @@ public class RateRepository {
             ResultSet rs = stsm.executeQuery("select * from KDLST.Rate");
             while (rs.next()) {
                 int rateID = rs.getInt("rateID");
-                User userID=userRepository.getById(rs.getInt("userID"));
-                int amountStar=rs.getInt("amountStar");
-                Services serviceID=serviceRepository.getById(rs.getInt("serviceID"));
+                User userID = userRepository.getById(rs.getInt("userID"));
+                int amountStar = rs.getInt("amountStar");
+                Services serviceID = serviceRepository.getById(rs.getInt("serviceID"));
 
-                Rate rate = new Rate(rateID,userID,amountStar,serviceID);
+                Rate rate = new Rate(rateID, userID, amountStar, serviceID);
                 rates.add(rate);
             }
             con.close();
@@ -44,6 +75,7 @@ public class RateRepository {
         }
         return rates;
     }
+
     public boolean update(Rate rate) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -62,6 +94,7 @@ public class RateRepository {
         }
         return false;
     }
+
     public boolean add(Rate rate) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -71,7 +104,7 @@ public class RateRepository {
                     "insert into KDLST.Rate (userID, serviceID,amountStar) values(?,?,?)");
             prsm.setInt(1, rate.getUser().getIdUser());
             prsm.setInt(2, rate.getServices().getServiceID());
-            prsm.setInt(3,rate.getAmountStar());
+            prsm.setInt(3, rate.getAmountStar());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -80,6 +113,5 @@ public class RateRepository {
         }
         return false;
     }
-
 
 }

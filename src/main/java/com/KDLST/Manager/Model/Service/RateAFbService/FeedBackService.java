@@ -11,4 +11,6 @@ public interface FeedBackService {
 
     public boolean add(FeedBack feedBack);
 
+    public boolean delete(int id);
+
 }
