@@ -9,6 +9,10 @@
 body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   background: #ededed;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 input,
@@ -35,8 +39,8 @@ button {
   overflow: hidden;
   position: relative;
   width: 900px;
-  height: 550px;
-  margin: 0 auto ;
+  height: 600px;
+  margin: 100px auto;
   background: #fff;
 }
 
@@ -44,6 +48,8 @@ button {
   position: relative;
   width: 640px;
   height: 100%;
+  max-height: 500px;
+  overflow-y: auto;
   transition: transform 1.2s ease-in-out;
   padding: 50px 30px 0;
 }
@@ -302,9 +308,8 @@ label.remember-me input[type="checkbox"]:checked::before {
 }
 
 .form-container {
-  height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: auto; /* Set height to auto */
+  overflow: visible; /* Remove scrolling */
   padding: 20px;
   max-width: 100%;
 }
@@ -337,13 +342,12 @@ label.remember-me input[type="checkbox"]:checked::before {
 }
 
 .sign-up {
-  transform: translate3d(-900px, 0, 0);
+  transform: translate3d(-700px, 0, 0);
 }
 
 .cont.s--signup .sign-up {
   transform: translate3d(0, 0, 0);
 }
-
 
 label.remember-me {
   display: flex;

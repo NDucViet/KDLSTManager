@@ -52,7 +52,7 @@
         <div class="form-container">
             <div class="form sign-up">
                 <h2>Đăng Ký</h2>
-                <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post" th:object="${user}">
+                <form id="signUpForm" th:action="@{/user/register}" th:method="post" th:object="${user}">
                     <label>
                         <span>Tên</span>
                         <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
@@ -115,32 +115,58 @@
     document.querySelector('.img__btn').addEventListener('click', function () {
         document.querySelector('.cont').classList.toggle('s--signup');
     });
-    
 
-    var mess = /*[[${mess}]]*/ {};
-    if (mess.trim() !== '') {
-        var errorFields = mess.split(' ');
-        errorFields.forEach(function (element) {
-            if (element.includes("password")) {
-                document.getElementById('pw').style.borderColor = "red";
-            }
-            if (element.includes("doublicate")) {
-                document.getElementById('em').style.borderColor = "red";
-                alert("Email aready exits");
-            }
-            if (element.includes("email")) {
-                document.getElementById('em').style.borderColor = "red";
-            }
-            if (element.includes("phone")) {
-                document.getElementById('ph').style.borderColor = "red";
-            }
-            if (element.includes("passAgain")) {
-                document.getElementById('pwa').style.borderColor = "red";
-            }
-        });
-    } else {
-        event.target.submit();
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
     }
+
+    function validatePhone(phone) {
+        const re = /^[0-9]{10,11}$/;
+        return re.test(phone);
+    }
+
+    function validateForm() {
+        let valid = true;
+
+        // Validate email
+        const email = document.getElementById('em').value;
+        if (!validateEmail(email)) {
+            document.getElementById('em').style.borderColor = "red";
+            valid = false;
+        } else {
+            document.getElementById('em').style.borderColor = "";
+        }
+
+        // Validate phone
+        const phone = document.getElementById('ph').value;
+        if (!validatePhone(phone)) {
+            document.getElementById('ph').style.borderColor = "red";
+            valid = false;
+        } else {
+            document.getElementById('ph').style.borderColor = "";
+        }
+
+        // Validate password match
+        const password = document.getElementById('pw').value;
+        const passAgain = document.getElementById('pwa').value;
+        if (password !== passAgain) {
+            document.getElementById('pw').style.borderColor = "red";
+            document.getElementById('pwa').style.borderColor = "red";
+            valid = false;
+        } else {
+            document.getElementById('pw').style.borderColor = "";
+            document.getElementById('pwa').style.borderColor = "";
+        }
+
+        return valid;
+    }
+
+    document.getElementById('signUpForm').onsubmit = function(event) {
+        if (!validateForm()) {
+            event.preventDefault();
+        }
+    };
 </script>
 </body>
 </html>
