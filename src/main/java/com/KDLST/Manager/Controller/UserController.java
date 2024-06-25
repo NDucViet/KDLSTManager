@@ -120,7 +120,7 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("mess", mess);
-        return "User/register";
+        return "User/login";
     }
 
     // Hàm check form đăng kí
