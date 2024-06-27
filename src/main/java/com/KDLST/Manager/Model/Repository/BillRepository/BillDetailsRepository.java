@@ -2,7 +2,6 @@
 package com.KDLST.Manager.Model.Repository.BillRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.sql.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -114,6 +113,33 @@ public class BillDetailsRepository {
             System.out.println(e);
         }
         return false;
+    }
+
+    public ArrayList<BillDetails> getByBillID(int id) {
+        ArrayList<BillDetails> billDetailListt = new ArrayList<>();
+        try {
+            billDetailListt.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = con
+                    .prepareStatement("select * from KDLST.BillDetails where KDLST.BillDetails.BillID = ?");
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int billDetailsID = rs.getInt("billDetailsID");
+                Bill billID = billRepository.getById(rs.getInt("billID"));
+                Ticket ticketID = ticketRepository.getById(rs.getInt("ticketID"));
+                int quantity = rs.getInt("quantity");
+                double total = rs.getDouble("total");
+                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total);
+                billDetailListt.add(billDetails);
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return billDetailListt;
     }
 
     public Map<String, Double> getMonthlyRevenue(String year) {

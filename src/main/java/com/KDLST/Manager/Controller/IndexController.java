@@ -3,9 +3,10 @@ package com.KDLST.Manager.Controller;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.KDLST.Manager.Model.Entity.Hotel.RoomType;
+import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Service.BlogService.BlogService;
@@ -57,8 +59,18 @@ public class IndexController {
             Map.Entry<Services, ArrayList<FeedBack>> SFHashMap = new AbstractMap.SimpleEntry<>(service, feedBacks);
             serviceListAll.put(SFHashMap, rateService.getScoreByService(service));
             count++;
-            if (count==3) {
+            if (count == 3) {
                 serviceListRecommend.putAll(serviceListAll);
+            }
+        }
+
+        // blog
+        ArrayList<Image> imgList = imageService.getImagesSortDate();
+        Set<Image> images = new HashSet<>();
+        for (Image image : imgList) {
+            images.add(image);
+            if (images.size() == 3) {
+                break;
             }
         }
 
@@ -69,7 +81,7 @@ public class IndexController {
         model.addAttribute("roomTypeList", roomTypeList);
         model.addAttribute("sList", serviceListRecommend);
         model.addAttribute("sListAll", serviceListAll);
-
+        model.addAttribute("blogList", images);
         return "User/index";
     }
 

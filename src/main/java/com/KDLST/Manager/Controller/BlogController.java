@@ -156,16 +156,11 @@ public class BlogController {
     public String showBlogDetail(Model model, @PathVariable("blogID") String blogID) {
         int blogIDInt = Integer.parseInt(blogID);
         ArrayList<Image> imageList = imageServiceImplement.getImagesByBlogID(blogIDInt);
+        Image image1 = imageList.get(0);
+        Image image2 = imageList.get(1);
         ArrayList<Comment> commentList = commentServiceImplement.getCommentByBlogID(blogIDInt);
 
-        ArrayList<Image> imgList = imageServiceImplement.getAll();
-        Collections.sort(imgList, new Comparator<Image>() {
-            @Override
-            public int compare(Image img1, Image img2) {
-                return img2.getBlog().getDateTimeEdit().compareTo(img1.getBlog().getDateTimeEdit());
-            }
-        });
-
+        ArrayList<Image> imgList = imageServiceImplement.getImagesSortDate();
         Set<Image> images = new HashSet<>();
         for (Image image : imgList) {
             images.add(image);
@@ -174,21 +169,28 @@ public class BlogController {
             }
         }
 
+        // ArrayList<Image> imgList = imageServiceImplement.getAll();
+
+        // Collections.sort(imgList, new Comparator<Image>() {
+        //     @Override
+        //     public int compare(Image img1, Image img2) {
+        //         return img2.getBlog().getDateTimeEdit().compareTo(img1.getBlog().getDateTimeEdit());
+        //     }
+        // });
+
+        // Set<Image> images = new HashSet<>();
+        // for (Image image : imgList) {
+        //     images.add(image);
+        //     if (images.size() == 3) {
+        //         break;
+        //     }
+        // }
+
         int commentTotal = 0;
         if (commentList != null) {
             commentTotal = commentList.size();
         }
-        Image image1 = null;
-        Image image2 = null;
-        if (imageList != null) {
-            for (Image image : imageList) {
-                if (image1 == null) {
-                    image1 = image;
-                } else {
-                    image2 = image;
-                }
-            }
-        }
+     
 
         model.addAttribute("images", images);
         model.addAttribute("commentTotal", commentTotal);

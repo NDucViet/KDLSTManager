@@ -17,4 +17,6 @@ public interface ImageService {
     public ArrayList<Image> getImagesByBlogID(int blogID);
 
     public ArrayList<Image> getImagesByBlogTypeID(int blogTypeID);
+    
+    public ArrayList<Image> getImagesSortDate();
 }

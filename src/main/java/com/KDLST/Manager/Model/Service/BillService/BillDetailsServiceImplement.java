@@ -49,4 +49,10 @@ public class BillDetailsServiceImplement implements BillDetailsService {
     public Map<String, Double> getYearsRevenue() {
         return billDetailsRepository.getYearsRevenue();
     }
+
+    @Override 
+    public ArrayList<BillDetails> getByBillID(int id){
+        this.billDetailsList = billDetailsRepository.getByBillID(id);
+        return billDetailsList;
+    }
 }

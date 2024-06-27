@@ -67,4 +67,13 @@ public class ImageServiceImplement implements ImageService {
         }
         return null;
     }
+
+    @Override
+    public ArrayList<Image> getImagesSortDate() {
+        ArrayList<Image> imageList = imageRepository.getAll();
+        if (!imageList.isEmpty()) {
+            return imageList;
+        }
+        return null;
+    }
 }

@@ -83,9 +83,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a th:href="@{/hotel}" class="nav-link">Khách sạn</a></li>
+                        <li class="nav-item"><a th:href="@{/hotel}" target="_blank" class="nav-link">Khách sạn</a></li>
                         <li class="nav-item dropdown">
-                            <a th:href="@{/blog/getAll}" class="nav-link dropdown-toggle">Blog</a>
+                            <a th:href="@{/blog/getAll}" class="nav-link dropdown-toggle">Tin tức</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" th:href="@{/blog/getByID/__${1}__}">Tin tức
                                         nổi bật</a>
@@ -117,6 +117,9 @@
                                         <i class="fa-solid fa-gear"></i>
                                         Đổi mật khẩu
                                     </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
                                 </li>
                                 <li>
                                     <a class="dropdown-item" th:href="@{/cart/history}">

@@ -28,6 +28,9 @@ import com.KDLST.Manager.Model.Service.TicketService.TicketService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketServiceImplement;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -176,8 +179,18 @@ public class CartController {
 
     @GetMapping("/history")
     public String getHistory(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
+
+        Map<ArrayList<BillDetails>, Date> billArrayList = new HashMap<>();
+        HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
-        return "User/History";
+        ArrayList<Bill> billListt = billService.getByIdUser(user.getIdUser());
+
+        for (Bill bill2 : billListt) {
+            ArrayList<BillDetails> bArrayList = billDetailsService.getByBillID(bill2.getBillID());
+            billArrayList.put(bArrayList, bill2.getDatePay());
+        }
+
+        model.addAttribute("history", billArrayList);
+        return "User/history";
     }
 }

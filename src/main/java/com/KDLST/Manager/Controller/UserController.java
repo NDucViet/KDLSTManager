@@ -201,11 +201,15 @@ public class UserController {
     // Hàm generate code đổi mk
     @PostMapping("/toChangePass")
     public String toChangePass(@RequestParam(name = "email") String email, Model model) {
+        user = userServiceImplement.login(email);
+        if (user == null) {
+            model.addAttribute("error", "Email không tồn tại");
+            return "User/ChangePass";
+        }
         int randomNumber = random.nextInt(90000) + 10000;
         model.addAttribute("code", randomNumber);
         userServiceImplement.sendMail(email, "Code change password for you",
                 randomNumber + "");
-        user = userServiceImplement.login(email);
         return "User/ToChangePass";
     }
 

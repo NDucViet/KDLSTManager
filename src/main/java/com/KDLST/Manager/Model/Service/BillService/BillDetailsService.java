@@ -17,4 +17,6 @@ public interface BillDetailsService {
     public boolean update(BillDetails billDetails);
 
     public boolean add(BillDetails billDetails);
+
+    public ArrayList<BillDetails> getByBillID(int id);
 }
