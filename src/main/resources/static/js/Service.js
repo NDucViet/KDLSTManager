@@ -25,17 +25,14 @@ function showFeedbackAdded(feedback, idService) {
 
     var feedbackDiv = document.createElement("div");
     feedbackDiv.className = "media g-mb-30 media-comment";
+    feedbackDiv.id = "feedback" + feedback.feedbackID;
 
     var img = document.createElement("img");
     img.className = "rounded-circle shadow-1-strong me-3";
     img.src = '/images/' + feedback.user.avatar;
-    img.width = 65;
-    img.height = 65;
     img.style.display = "inline-flex";
-    img.onerror = function () {
-        this.onerror = null;
-        this.src = '/images/UserAvatarDefault.jpg';
-    };
+    img.style.width = "65px";
+    img.style.height = "65px";
 
     var mediaBodyDiv = document.createElement("div");
     mediaBodyDiv.className = "media-body u-shadow-v18 g-bg-secondary g-pa-30";
@@ -57,8 +54,22 @@ function showFeedbackAdded(feedback, idService) {
     contentP.style.paddingTop = "10px";
     contentP.textContent = feedback.content;
 
+    var removeButton = document.createElement("button");
+    removeButton.setAttribute("onclick", `deleteFeedback(${feedback.feedbackID})`);
+    removeButton.style.color = "black";
+    removeButton.style.float = "right";
+    removeButton.style.cursor = "pointer";
+    removeButton.style.border = "none";
+
+    var removeIcon = document.createElement("i");
+    removeIcon.className = "fa-solid fa-trash";
+    removeIcon.style.color = "black";
+    removeButton.appendChild(removeIcon);
+    removeButton.appendChild(document.createTextNode(" Remove"));
+
     headerDiv.appendChild(userNameP);
     headerDiv.appendChild(dateP);
+    headerDiv.appendChild(removeButton); // Append the remove button to the header
 
     mediaBodyDiv.appendChild(headerDiv);
     mediaBodyDiv.appendChild(contentP);
@@ -66,10 +77,52 @@ function showFeedbackAdded(feedback, idService) {
     feedbackDiv.appendChild(img);
     feedbackDiv.appendChild(mediaBodyDiv);
 
-    if (!(document.querySelector(`#modal${idService} .noneComment`))) {
+    var noneCommentElement = document.querySelector(`#modal${idService} .noneComment`);
+    if ((noneCommentElement.style.display === 'none' || noneCommentElement.hidden)) {
+        feedbackList.appendChild(feedbackDiv); // Nếu danh sách rỗng, thêm vào cuối danh sách
+    } else {
         var firstChild = feedbackList.firstChild;
         feedbackList.insertBefore(feedbackDiv, firstChild);
-    } else {
-        feedbackList.appendChild(feedbackDiv); // Nếu danh sách rỗng, thêm vào cuối danh sách
+    }
+
+
+}
+
+function deleteFeedback(idFeedback) {
+    if (confirm("Are you sure you want to delete this feedback?")) {
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", "/service/deleteFeedback?idFeedback=" + idFeedback, true);
+        xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr1.onreadystatechange = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                // Remove the div with id feedback + idFeedback
+                var feedbackDiv = document.getElementById('feedback' + idFeedback);
+                if (feedbackDiv) {
+                    var feedbackList = feedbackDiv.parentNode;
+                    feedbackList.removeChild(feedbackDiv);
+                }
+            }
+        };
+        xhr1.send();
+    }
+}
+
+
+function deleteFeedback(idFeedback) {
+    if (confirm("Are you sure you want to delete this feedback?")) {
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", "/service/deleteFeedback?idFeedback=" + idFeedback, true);
+        xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr1.onreadystatechange = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                // Remove the div with id feedback + idFeedback
+                var feedbackDiv = document.getElementById('feedback' + idFeedback);
+                if (feedbackDiv) {
+                    var feedbackList = feedbackDiv.parentNode;
+                    feedbackList.removeChild(feedbackDiv);
+                }
+            }
+        };
+        xhr1.send();
     }
 }

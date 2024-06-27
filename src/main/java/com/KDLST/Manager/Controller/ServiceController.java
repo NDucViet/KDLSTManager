@@ -111,6 +111,10 @@ public class ServiceController {
         FeedBack feedBack = new FeedBack(0, user, serviceService.getById(Integer.parseInt(id)), content,
                 Date.valueOf(formattedNow));
         feedBackService.add(feedBack);
+
+        ArrayList<FeedBack> feedBacks = feedBackService.getAll();
+        feedBack = feedBacks.get(feedBacks.size()-1);
+
         return ResponseEntity.ok().body(feedBack);
     }
 

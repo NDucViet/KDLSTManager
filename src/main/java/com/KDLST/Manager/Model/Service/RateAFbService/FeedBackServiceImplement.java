@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
+import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Repository.RateAFbRepository.FeedBackRepository;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,10 @@ private ArrayList<FeedBack> feedBacks= new ArrayList<>();
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<FeedBack> getByIdService(Services service) {
+        return feedBackRepository.getByIdService(service);
     }
 }

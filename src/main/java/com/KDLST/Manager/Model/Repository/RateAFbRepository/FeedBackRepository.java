@@ -1,5 +1,6 @@
 package com.KDLST.Manager.Model.Repository.RateAFbRepository;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.KDLST.Manager.Model.BaseConnection;
+import com.KDLST.Manager.Model.Entity.CartItem.Cart;
+import com.KDLST.Manager.Model.Entity.CartItem.CartItem;
 import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
+import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.ServiceProjectRepository.ServiceRepository;
 import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
@@ -68,6 +72,32 @@ public class FeedBackRepository {
         return false;
     }
 
+    public ArrayList<FeedBack> getByIdService(Services service) {
+        ArrayList<FeedBack> feedBacks = new ArrayList<>();
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = conn.prepareStatement(
+                    "select * from KDLST.Feedback where KDLST.Feedback.serviceID=?;");
+            st.setInt(1, service.getServiceID());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int feedbackID = rs.getInt("feedbackID");
+                User userID = userRepository.getById(rs.getInt("userID"));
+                String content = rs.getString("content");
+                Date date = rs.getDate("feedbackDate");
+                FeedBack feedBack = new FeedBack(feedbackID, userID, service, content, date);
+                feedBacks.add(feedBack);
+            }
+            conn.close();
+            return feedBacks;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public boolean add(FeedBack feedBack) {
         try {
             Class.forName(BaseConnection.nameClass);
@@ -93,7 +123,8 @@ public class FeedBackRepository {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.Feedback where KDLST.Feedback.feedbackID =?");
+            PreparedStatement prsm = con
+                    .prepareStatement("Delete from KDLST.Feedback where KDLST.Feedback.feedbackID =?");
             prsm.setInt(1, id);
             int result = prsm.executeUpdate();
             con.close();
