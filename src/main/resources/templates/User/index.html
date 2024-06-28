@@ -302,9 +302,9 @@
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
-					<span class="subheading">Welcome to Ngu Hanh Hill</span>
-					<h1 class="mb-4">Discover Your Favorite Place with Us</h1>
-					<p class="caps">Travel to the any corner of the world, without going around in circles</p>
+					<span class="subheading">Chào mừng bạn đến với Ngũ Hành Hill</span>
+					<h1 class="mb-4">Khám phá địa điểm yêu thích của bạn với bạn</h1>
+					<p class="caps">Khám phá vẻ đẹp thiên nhiên</p>
 				</div>
 				<a href="../../static/video/1.mp4"
 					class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
@@ -345,7 +345,7 @@
 													<div class="form-field">
 														<div class="icon"><span class="fa fa-search"></span></div>
 														<input type="search" class="form-control" id="keywordService"
-															placeholder="Search service" oninput="handleInputService()"
+															placeholder="Nhập dịch vụ" oninput="handleInputService()"
 															onkeyup="handleSearchService(event)">
 														<div id="suggestionBoxForService" style="border: none;"></div>
 													</div>
@@ -357,7 +357,7 @@
 											<div class="col-lg-3 d-flex">
 												<div class="form-group d-flex w-100 border-0">
 													<div class="form-field w-100 align-items-center d-flex">
-														<input type="button" autocomplete="off" value="Search"
+														<input type="button" autocomplete="off" value="Tìm Kiếm"
 															onclick="searchService()"
 															class="align-self-stretch form-control btn btn-primary p-0">
 													</div>
@@ -376,7 +376,7 @@
 													<div class="form-field">
 														<div class="icon"><span class="fa fa-search"></span></div>
 														<input type="search" autocomplete="off" class="form-control"
-															id="keywordRoomType" placeholder="Search type of room"
+															id="keywordRoomType" placeholder="Nhập loại phòng"
 															oninput="handleInputRoomType()"
 															onkeyup="handleSearchRoomType(event)">
 														<div id="suggestionBoxForRoomType" style="border: none;"></div>
@@ -389,7 +389,7 @@
 											<div class="col-lg-3 d-flex">
 												<div class="form-group d-flex w-100 border-0">
 													<div class="form-field w-100 align-items-center d-flex">
-														<input type="button" value="Search" onclick="SearchRoomType()"
+														<input type="button" value="Tìm kiếm" onclick="SearchRoomType()"
 															class="align-self-stretch form-control btn btn-primary p-0">
 													</div>
 												</div>
@@ -437,7 +437,6 @@
 							như một cuộc hành trình kỳ diệu, mời gọi bạn trải nghiệm sự hòa hợp của thiên nhiên
 							ở dạng tinh khiết nhất của nó. Hãy đến và đắm mình trong chuyến trốn thoát thiên đường này,
 							nơi những kỳ quan của thế giới tự nhiên dễ dàng thu hút các giác quan của bạn.</p>
-						<p><a href="#" class="btn btn-primary py-3 px-4">Search Destination</a></p>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -559,7 +558,7 @@
 								class="img-fluid">
 						</div>
 						<div>
-							<p><strong>Description:</strong></p>
+							<p><strong>Mô Tả:</strong></p>
 							<p th:text="${service.key.key.description}"></p>
 						</div>
 
@@ -568,7 +567,7 @@
 							<div class="row">
 								<div class="col-sm-5"></div>
 								<div class="col-sm-7" style="padding-top: 20px;">
-									<strong class="h4">ĐÁNH GIÁ</strong>
+									<strong class="h4">Đánh Giá</strong>
 								</div>
 							</div>
 							<div class="row">
@@ -583,7 +582,7 @@
 											th:id="|content${service.key.key.serviceID}|">
 										<button class="btn" style="background-color: black; color: #fafafa;"
 											type="button"
-											th:onclick="|addFeedback(${service.key.key.serviceID})|">Send</button>
+											th:onclick="|addFeedback(${service.key.key.serviceID})|">Gửi</button>
 									</div>
 									<div>
 										<div class="media g-mb-30 media-comment noneComment"
@@ -614,7 +613,7 @@
 														style="color: black;float: right;cursor: pointer; border: none;"
 														th:if="${session.user.idUser == feedback.user.idUser}"><i
 															class="fa-solid fa-trash" style="color: black;"></i>
-														Remove</button>
+														Xóa </button>
 												</div>
 											</div>
 										</div>
@@ -658,12 +657,11 @@
 						<div class="col-md-6 pl-md-5 py-5">
 							<div class="row justify-content-start pb-3">
 								<div class="col-md-12 heading-section ftco-animate">
-									<span class="subheading">About Us</span>
-									<h2 class="mb-4">Make Your Tour Memorable and Safe With Us</h2>
-									<p>Far far away, behind the word mountains, far from the countries Vokalia and
-										Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-										right at the coast of the Semantics, a large language ocean.</p>
-									<p><a href="#" class="btn btn-primary">Book Your Destination</a></p>
+									<span class="subheading">Giới thiệu</span>
+									<h2 class="mb-4">Làm cho chuyến tham quan của bạn trở nên đáng nhớ và an toàn</h2>
+									<p>Thiên đường bình dị này là một thiên đường đích thực, nơi những giai điệu của thiên nhiên
+										khiến bạn say mê .</p>
+									<p><a href="#" class="btn btn-primary">Đặt ngay</a></p>
 								</div>
 							</div>
 						</div>
@@ -673,6 +671,8 @@
 		</div>
 	</section>
 
+
+    
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center pb-4">
@@ -712,14 +712,15 @@
 		</div>
 	</section>
 
-	<section class="ftco-intro ftco-section ftco-no-pt">
+
+    <section class="ftco-intro ftco-section ftco-no-pt">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-12 text-center">
 					<div class="img" style="background-image: url(images/bg_2.jpg);">
 						<div class="overlay"></div>
-						<h2>We Are Pacific A Travel Agency</h2>
-						<p>We can manage your dream building A small river named Duden flows by their place</p>
+						<h2>Chúng tôi là Ngũ Hành Hill</h2>
+						<p>Chúng tôi sẽ mang đến cho bạn những trải nghiệm đáng quý nhất</p>
 					</div>
 				</div>
 			</div>
@@ -743,14 +744,14 @@
 								alt="Room Image">
 						</div>
 						<div>
-							<p><strong>Price:</strong> <span th:text="${roomType.price} + ' VND'"></span></p>
-							<p><strong>Description:</strong> <span th:text="${roomType.details}"></span></p>
+							<p><strong>Giá:</strong> <span th:text="${roomType.price} + ' VND'"></span></p>
+							<p><strong>Mô tả:</strong> <span th:text="${roomType.details}"></span></p>
 							<div class="mt-4">
 								<form th:action="@{/hotel/getRoom}" th:method="get" class="d-inline-block">
 									<input type="hidden" name="roomType" th:value="${roomType.roomTypeID}">
 									<input type="hidden" name="hiddenStartDate" th:value="${startDate}">
 									<input type="hidden" name="hiddenEndDate" th:value="${endDate}">
-									<button type="submit" class="btn btn-primary">Book Room</button>
+									<button type="submit" class="btn btn-primary">Đặt ngay</button>
 								</form>
 							</div>
 						</div>

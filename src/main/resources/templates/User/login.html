@@ -52,26 +52,28 @@
         <div class="form-container">
             <div class="form sign-up">
                 <h2>Đăng Ký</h2>
-                <form id="signUpForm" th:action="@{/user/register}" th:method="post" th:object="${user}">
+                <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post" th:object="${user}">
                     <label>
                         <span>Tên</span>
-                        <input name="username" th:field="*{username}" type="text" autocomplete="off" value="Nguyen Van A" required />
+                        <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
                     </label>
                     <label>
                         <span>Email</span>
-                        <input id="em" name="email" th:field="*{email}" type="email" autocomplete="off" value="nguyenvana@example.com" required />
+                        <input id="em" name="email" th:field="*{email}" type="email" autocomplete="off" required />
                     </label>
                     <label>
                         <span>Ngày Sinh</span>
-                        <input type="date" name="birth" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" value="1990-01-01" required />
+                        <input id="birth" type="date" name="birth"
+                               style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;"
+                               required />
                     </label>
                     <label>
                         <span>CCCD</span>
-                        <input name="cardID" th:field="*{cardID}" type="text" value="123456789" required />
+                        <input name="cardID" th:field="*{cardID}" type="text" required />
                     </label>
                     <label>
                         <span>Địa Chỉ</span>
-                        <input name="address" th:field="*{address}" type="text" value="123 Đường ABC, Quận XYZ, Thành phố HCM" required />
+                        <input name="address" th:field="*{address}" type="text" required />
                     </label>
                     <label>
                         <span>Giới Tính</span>
@@ -83,129 +85,105 @@
                     </label>
                     <label>
                         <span>Số Điện Thoại</span>
-                        <input id="ph" name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" value="0901234567" required />
+                        <input id="ph" name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
                     </label>
                     <label>
                         <span>Ảnh Đại Diện</span>
-                        <input type="file" th:field="*{avatar}" style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
+                        <input type="file" th:field="*{avatar}"
+                               style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
                     </label>
                     <label>
                         <span>Quốc Gia</span>
-                        <input name="nation" th:field="*{nation}" type="text" value="Vietnam" required />
+                        <input name="nation" th:field="*{nation}" type="text" required />
                     </label>
                     <label>
                         <span>Mật Khẩu</span>
-                        <input id="pw" name="password" th:field="*{password}" type="password" autocomplete="new-password" value="password123" required />
+                        <input id="pw" name="password" th:field="*{password}" type="password" autocomplete="new-password" required />
                     </label>
                     <label>
                         <span>Xác Nhận Mật Khẩu</span>
-                        <input id="pwa" name="passAgain" type="password" autocomplete="new-password" value="password123" required />
+                        <input id="pwa" name="passAgain" type="password" autocomplete="new-password" required />
                     </label>
                     <label class="agree">
-                        <input id="agree" name="agree" type="checkbox" required checked>
-                        <span>Chấp nhận điều khoản của chúng tôi</span>
+                        <input id="agree" name="agree" type="checkbox" required>
+                        <span>Chập nhận điều khoản của chúng tôi</span>
                     </label>
+
+                    <script th:inline="javascript">
+                        function validateForm() {
+                            var inputs = document.getElementsByTagName("input"); // Lấy tất cả các input trong form
+                            for (var i = 0; i < inputs.length; i++) {
+                                if (inputs[i].value.trim() === "") { // Kiểm tra xem mỗi input có giá trị rỗng không
+                                    alert("Vui lòng điền đầy đủ thông tin.");
+                                    return false; // Ngăn chặn form được gửi đi
+                                }
+                            }
+
+                            var birthDate = new Date(document.getElementById('birth').value);
+                            var today = new Date();
+                            if (birthDate >= today) {
+                                alert("Ngày sinh phải là ngày của quá khứ.");
+                                document.getElementById('birth').style.borderColor = "red";
+                                return false;
+                            }
+
+                            var password = document.getElementById('pw').value;
+                            if (password.length < 8) {
+                                alert("Mật khẩu phải có ít nhất 8 ký tự.");
+                                document.getElementById('pw').style.borderColor = "red";
+                                return false;
+                            }
+
+                            var confirmPassword = document.getElementById('pwa').value;
+                            if (password !== confirmPassword) {
+                                alert("Mật khẩu xác nhận không khớp.");
+                                document.getElementById('pwa').style.borderColor = "red";
+                                return false;
+                            }
+
+                            return true;
+                        }
+
+
+                    var mess = /*[[${mess}]]*/ {};
+                        // Nếu có lỗi, hiển thị chúng
+                        if (mess.trim() !== '') {
+                            var errorFields = mess.split(' ');
+                            errorFields.forEach(function (element) {
+                                if (element.includes("password")) {
+                                    document.getElementById('pw').style.borderColor = "red";
+                                }
+                                if (element.includes("doublicate")) {
+                                    document.getElementById('em').style.borderColor = "red";
+                                    alert("Email đã tồn tại");
+                                }
+                                if (element.includes("email")) {
+                                    document.getElementById('em').style.borderColor = "red";
+                                }
+                                if (element.includes("phone")) {
+                                    document.getElementById('ph').style.borderColor = "red";
+                                }
+                                if (element.includes("passAgain")) {
+                                    document.getElementById('pwa').style.borderColor = "red";
+                                }
+                            });
+                        } else {
+                            // Nếu không có lỗi, gửi form đi
+                            event.target.submit();
+                        }
+                    </script>
                     <button type="submit" class="submit">Đăng Ký</button>
                 </form>
-                <script>
-                    function validateEmail(email) {
-                        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                        return re.test(email);
-                    }
-
-                    function validatePhone(phone) {
-                        const re = /^[0-9]{10,11}$/;
-                        return re.test(phone);
-                    }
-
-                    function validateForm(event) {
-                        let valid = true;
-
-                        // Validate email
-                        const email = document.getElementById('em').value;
-                        if (!validateEmail(email)) {
-                            document.getElementById('em').style.borderColor = "red";
-                            valid = false;
-                        } else {
-                            document.getElementById('em').style.borderColor = "";
-                        }
-
-                        // Validate phone
-                        const phone = document.getElementById('ph').value;
-                        if (!validatePhone(phone)) {
-                            document.getElementById('ph').style.borderColor = "red";
-                            valid = false;
-                        } else {
-                            document.getElementById('ph').style.borderColor = "";
-                        }
-
-                        // Validate password match
-                        const password = document.getElementById('pw').value;
-                        const passAgain = document.getElementById('pwa').value;
-                        if (password !== passAgain) {
-                            document.getElementById('pw').style.borderColor = "red";
-                            document.getElementById('pwa').style.borderColor = "red";
-                            valid = false;
-                        } else {
-                            document.getElementById('pw').style.borderColor = "";
-                            document.getElementById('pwa').style.borderColor = "";
-                        }
-
-                        // Validate empty fields
-                        const inputs = document.getElementsByTagName("input");
-                        for (let i = 0; i < inputs.length; i++) {
-                            if (inputs[i].value.trim() === "") {
-                                alert("Vui lòng điền đầy đủ thông tin.");
-                                inputs[i].style.borderColor = "red";
-                                valid = false;
-                            } else {
-                                inputs[i].style.borderColor = "";
-                            }
-                        }
-
-                        if (!valid) {
-                            event.preventDefault();
-                        }
-
-                        return valid;
-                    }
-
-                    document.getElementById('signUpForm').onsubmit = function(event) {
-                        validateForm(event);
-                    };
-
-                    var mess = /*[[${mess}]]*/ '';
-                    if (mess && mess.trim() !== '') {
-                        var errorFields = mess.split(' ');
-                        errorFields.forEach(function(element) {
-                            if (element.includes("password")) {
-                                document.getElementById('pw').style.borderColor = "red";
-                            }
-                            if (element.includes("doublicate")) {
-                                document.getElementById('em').style.borderColor = "red";
-                                alert("Email already exists");
-                            }
-                            if (element.includes("email")) {
-                                document.getElementById('em').style.borderColor = "red";
-                            }
-                            if (element.includes("phone")) {
-                                document.getElementById('ph').style.borderColor = "red";
-                            }
-                            if (element.includes("passAgain")) {
-                                document.getElementById('pwa').style.borderColor = "red";
-                            }
-                        });
-                    }
-                </script>
-                <script>
-                    document.querySelector('.img__btn').addEventListener('click', function () {
-                        document.querySelector('.cont').classList.toggle('s--signup');
-                    });
-                </script>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.querySelector('.img__btn').addEventListener('click', function () {
+        document.querySelector('.cont').classList.toggle('s--signup');
+    });
+</script>
 
 </body>
+
 </html>

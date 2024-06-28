@@ -1,7 +1,6 @@
 package com.KDLST.Manager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,12 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -48,12 +41,6 @@ public class UserController {
     @Autowired
     private CartService cartService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
-    @Value("${liveUpload.path}")
-    private String liveUploadPath;
-
     // Hàm check cookie, trả về form đăng nhập
     @GetMapping("/showLogin")
     public String showLogin(Model model, HttpServletRequest request) {
@@ -84,6 +71,7 @@ public class UserController {
             @RequestParam(value = "agree", required = false) Boolean rememberme,
             HttpServletResponse response,
             HttpServletRequest request) {
+
         User user = new User();
         user1.setAddress(null);
         user1.setAvatar(null);
@@ -97,10 +85,10 @@ public class UserController {
         user1.setIdUser(0);
         user1.setStatus(null);
         user1.setRole(null);
-        System.out.println(user1);
         boolean flag = userServiceImplement.toLogin(user1);
 
         if (Boolean.TRUE.equals(rememberme)) {
+
             if (flag) {
                 Cookie cookie = new Cookie("userCookie", user1.getEmail());
                 user = userServiceImplement.login(user1.getEmail());
@@ -132,7 +120,7 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("mess", mess);
-        return "User/register";
+        return "User/login";
     }
 
     // Hàm check form đăng kí
@@ -149,7 +137,7 @@ public class UserController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        user1.setAvatar("UserAvatarDefault.jpg");
+        user1.setAvatar(null);
         user1.setRole("CUSTOMER");
         user1.setCustomerType(customerTypeServiceImplement.getById(1));
         user1.setIdUser(0);
@@ -161,7 +149,7 @@ public class UserController {
 
                 int randomNumber = random.nextInt(90000) + 10000;
                 model.addAttribute("code", randomNumber);
-                userServiceImplement.sendMail(user1.getEmail(), "Code Login for you",
+                userServiceImplement.sendMail(user1.getEmail(), "Nhập code để đăng nhập",
                         randomNumber + "");
                 return "User/SubmitCode";
             } else {
@@ -201,15 +189,11 @@ public class UserController {
     // Hàm generate code đổi mk
     @PostMapping("/toChangePass")
     public String toChangePass(@RequestParam(name = "email") String email, Model model) {
-        user = userServiceImplement.login(email);
-        if (user == null) {
-            model.addAttribute("error", "Email không tồn tại");
-            return "User/ChangePass";
-        }
         int randomNumber = random.nextInt(90000) + 10000;
         model.addAttribute("code", randomNumber);
-        userServiceImplement.sendMail(email, "Code change password for you",
+        userServiceImplement.sendMail(email, "Nhập code để thay đổi mật khẩu",
                 randomNumber + "");
+        user = userServiceImplement.login(email);
         return "User/ToChangePass";
     }
 
@@ -240,70 +224,5 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/profile")
-    public String profile(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
-        return "User/UserProfile";
-    }
-
-    @GetMapping("/showEdit")
-    public String showEdit(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
-        return "User/edit";
-    }
-
-    @PostMapping("/edit")
-    public String edit(Model model, @ModelAttribute("user") User user1, HttpServletRequest request,
-            @RequestParam("image") MultipartFile file) throws IOException {
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (!file.isEmpty()) {
-            // Delete the old image file if it exists
-            if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-                Path oldFilePath = Paths.get(uploadPath, user.getAvatar());
-                Path oldLiveFilePath = Paths.get(liveUploadPath, user.getAvatar());
-                Files.deleteIfExists(oldFilePath);
-                Files.deleteIfExists(oldLiveFilePath);
-            }
-
-            // Save the new image file
-            Path fileNameAndPath = Paths.get(uploadPath, file.getOriginalFilename());
-            Path liveFileNameAndPath = Paths.get(liveUploadPath, file.getOriginalFilename());
-            Files.write(fileNameAndPath, file.getBytes());
-            Files.write(liveFileNameAndPath, file.getBytes());
-            user1.setAvatar(file.getOriginalFilename());
-        } else {
-            // Retain the existing image if no new file is uploaded
-            user.setAvatar(user.getAvatar());
-        }
-
-        user1.setRole(user.getRole());
-        user1.setCustomerType(user.getCustomerType());
-        user1.setIdUser(user.getIdUser());
-        user1.setStatus(user.getStatus());
-        user1.setEmail(user.getEmail());
-        userServiceImplement.update(user1);
-
-        session.removeAttribute("user");
-        session.setAttribute("user", user1);
-        return "User/UserProfile";
-    }
-    //
-
-    @GetMapping("/about")
-    public String about() {
-        return "User/about";
-    }
-
-    @GetMapping("/contact")
-    public String contact() {
-        return "User/contact";
-    }
-
+ 
 }

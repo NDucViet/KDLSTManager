@@ -85,4 +85,14 @@ public class IndexController {
         return "User/index";
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "User/about";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "User/contact";
+    }
+
 }

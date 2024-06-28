@@ -3,6 +3,6 @@ package com.KDLST.Manager.Model;
 public class BaseConnection {
     public static String url = "jdbc:mysql://localhost:3306/kdlst";
     public static String username = "root";
-    public static String password = "kif090520.";
+    public static String password = "270703";
     public static String nameClass = "com.mysql.cj.jdbc.Driver";
 }

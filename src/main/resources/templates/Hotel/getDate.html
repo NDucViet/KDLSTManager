@@ -31,9 +31,9 @@
         <div class="container">
             <div class="row site-hero-inner justify-content-center align-items-center">
                 <div class="col-md-10 text-center" data-aos="fade-up">
-                    <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span
-                            class="fa fa-star text-primary"></span> Hotel</span>
-                    <h1 class="heading">A Best Place To Stay</h1>
+                    <span class="custom-caption text-uppercase text-white d-block  mb-3">Xin chào đến Khách sạn 5 <span
+                        class="fa fa-star text-primary">
+                    <h1 class="heading">Nơi tốt nhất để nghĩ dưỡng</h1>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
                         th:method="get" onsubmit="return validateForm()">
                         <div class="row">
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="startDate" class="font-weight-bold text-black">Check In</label>
+                                <label for="startDate" class="font-weight-bold text-black">Ngày vào</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
                                     <input type="text" autocomplete="off" name="startDate" id="checkin_date"
@@ -65,7 +65,7 @@
                             </div>
                             <input type="hidden" name="roomType" th:value="${id}" th:if="${id!=null}">
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="endDate" class="font-weight-bold text-black">Check Out</label>
+                                <label for="endDate" class="font-weight-bold text-black">Ngày ra</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
                                     <input type="text" autocomplete="off" name="endDate" id="checkout_date"
@@ -73,8 +73,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3 align-self-end">
-                                <button type="submit" class="btn btn-primary btn-block text-white">Check
-                                    Availability</button>
+                                <button type="submit" class="btn btn-primary btn-block text-white">Kiểm tra</button>
                             </div>
                         </div>
                     </form>
