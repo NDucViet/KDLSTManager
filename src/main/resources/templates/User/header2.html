@@ -25,6 +25,8 @@
     <link rel="stylesheet" th:href="@{css/flaticon1.css}">
     <link rel="stylesheet" th:href="@{css/style.css}">
     <link rel="stylesheet" th:href="@{css/header.css}">
+
+
 </head>
 
 <body>
@@ -108,8 +110,9 @@
                         <li th:if="${session.user == null}" class="nav-item"><a th:href="@{/user/showLogin}"
                                 class="nav-link">Đăng nhập</a></li>
                         <li th:if="${session.user != null}" class="nav-item dropdown">
-                            <a th:href="@{/user/showLogin}" class="nav-link dropdown-toggle">Hi,<span
-                                    th:text="${session.user.username}"></span>
+                            <a th:href="@{/user/showLogin}" class="nav-link dropdown-toggle " style="padding-top:14px">
+                                <img th:src="@{/images/{imageUrl}(imageUrl=${session.user.avatar})}" alt="Avatar"
+                                    class="avatar" style="width: 40px; height: 40px; border-radius: 50%;">
                             </a>
                             <ul class="dropdown-menu">
                                 <li>

@@ -56,13 +56,24 @@ public class UserController {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", user);
                     user = userServiceImplement.login(userStr);
+                    session.setAttribute("userRole", user.getRole());
                     model.addAttribute("user", user);
+                    if (user.getRole().equals("ADMIN")) {
+                        return "redirect:/admin/";
+                    } else if (user.getRole().equals("EMPLOYEE")) {
+                        return "redirect:/employee/";
+                    }
                     return new IndexController().index(model);
                 }
             }
         }
         model.addAttribute("user", user);
         return "User/login";
+    }
+
+    @GetMapping("/403")
+    public String error() {
+        return "User/403";
     }
 
     // Hàm check form và đăng nhập
@@ -97,6 +108,11 @@ public class UserController {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
                 session.setAttribute("userRole", user.getRole());
+                if (user.getRole().equals("ADMIN")) {
+                    return "redirect:/admin/";
+                } else if (user.getRole().equals("EMPLOYEE")) {
+                    return "redirect:/employee/";
+                }
                 return new IndexController().index(model);
             } else {
                 return showLogin(model, request);
@@ -106,6 +122,12 @@ public class UserController {
                 user = userServiceImplement.login(user1.getEmail());
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
+                session.setAttribute("userRole", user.getRole());
+                if (user.getRole().equals("ADMIN")) {
+                    return "redirect:/admin/";
+                } else if (user.getRole().equals("EMPLOYEE")) {
+                    return "redirect:/employee/";
+                }
                 return new IndexController().index(model);
             } else {
                 return showLogin(model, request);
@@ -221,8 +243,8 @@ public class UserController {
 
         HttpSession session = request.getSession();
         session.removeAttribute("user");
+        session.removeAttribute("userRole");
         return "redirect:/";
     }
 
- 
 }

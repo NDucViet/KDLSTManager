@@ -11,3 +11,13 @@
     color: #f15d30 !important;
     /* Change this to the color you want */
 }
+
+.username {
+    display: inline-block;
+    max-width: 100px;
+    /* Adjust the max-width as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
