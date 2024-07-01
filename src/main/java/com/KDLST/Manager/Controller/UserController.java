@@ -1,6 +1,7 @@
 package com.KDLST.Manager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -40,6 +47,12 @@ public class UserController {
     private CustomerTypeServiceImplement customerTypeServiceImplement;
     @Autowired
     private CartService cartService;
+
+    @Value("${upload.path}")
+    private String uploadPath;
+
+    @Value("${liveUpload.path}")
+    private String liveUploadPath;
 
     // Hàm check cookie, trả về form đăng nhập
     @GetMapping("/showLogin")
@@ -159,7 +172,7 @@ public class UserController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        user1.setAvatar(null);
+        user1.setAvatar("UserAvatarDefault.jpg");
         user1.setRole("CUSTOMER");
         user1.setCustomerType(customerTypeServiceImplement.getById(1));
         user1.setIdUser(0);
@@ -171,7 +184,7 @@ public class UserController {
 
                 int randomNumber = random.nextInt(90000) + 10000;
                 model.addAttribute("code", randomNumber);
-                userServiceImplement.sendMail(user1.getEmail(), "Nhập code để đăng nhập",
+                userServiceImplement.sendMail(user1.getEmail(), "Code Login for you",
                         randomNumber + "");
                 return "User/SubmitCode";
             } else {
@@ -245,6 +258,89 @@ public class UserController {
         session.removeAttribute("user");
         session.removeAttribute("userRole");
         return "redirect:/";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "User/UserProfile";
+    }
+
+    @GetMapping("/showEdit")
+    public String showEdit(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "User/edit";
+    }
+
+
+    @PostMapping("/edit")
+    public String edit(Model model, @ModelAttribute("user") User user1, HttpServletRequest request,
+            @RequestParam("image") MultipartFile file) throws IOException {
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        // Tạo thư mục nếu chưa tồn tại
+        Path uploadDirPath = Paths.get(uploadPath);
+        Path liveUploadDirPath = Paths.get(liveUploadPath);
+
+        if (!Files.exists(uploadDirPath)) {
+            Files.createDirectories(uploadDirPath);
+        }
+
+        if (!Files.exists(liveUploadDirPath)) {
+            Files.createDirectories(liveUploadDirPath);
+        }
+
+        if (!file.isEmpty()) {
+            // Xóa tệp ảnh cũ nếu tồn tại
+            if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+                Path oldFilePath = Paths.get(uploadPath, user.getAvatar());
+                Path oldLiveFilePath = Paths.get(liveUploadPath, user.getAvatar());
+
+                try {
+                    Files.deleteIfExists(oldFilePath);
+                    Files.deleteIfExists(oldLiveFilePath);
+                } catch (IOException e) {
+                    // Xử lý ngoại lệ nếu tệp không thể xóa
+                    System.err.println("Could not delete file: " + e.getMessage());
+                }
+            }
+
+            // Lưu tệp ảnh mới
+            Path fileNameAndPath = Paths.get(uploadPath, file.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, file.getOriginalFilename());
+
+            try {
+                Files.write(fileNameAndPath, file.getBytes());
+                Files.write(liveFileNameAndPath, file.getBytes());
+                user1.setAvatar(file.getOriginalFilename());
+            } catch (IOException e) {
+                // Xử lý ngoại lệ nếu tệp không thể lưu
+                System.err.println("Could not save file: " + e.getMessage());
+            }
+        } else {
+            // Giữ lại ảnh hiện tại nếu không có tệp mới được tải lên
+            user1.setAvatar(user.getAvatar());
+            user.setAvatar(user.getAvatar());
+        }
+
+        // Sao chép các trường khác từ user trong session sang user1
+        user1.setRole(user.getRole());
+        user1.setCustomerType(user.getCustomerType());
+        user1.setIdUser(user.getIdUser());
+        user1.setStatus(user.getStatus());
+        user1.setEmail(user.getEmail());
+
+        userServiceImplement.update(user1);
+
+        session.removeAttribute("user");
+        session.setAttribute("user", user1);
+        return "User/UserProfile";
     }
 
 }

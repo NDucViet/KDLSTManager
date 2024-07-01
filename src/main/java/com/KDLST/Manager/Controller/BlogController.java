@@ -32,10 +32,8 @@ import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
 import com.KDLST.Manager.Model.Service.RateAFbService.CommentServiceImplement;
 import com.KDLST.Manager.Model.Service.UploadFile.StorageService;
 
-import jakarta.servlet.ServletException;
 import java.time.LocalDate;
 
-import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/blog")

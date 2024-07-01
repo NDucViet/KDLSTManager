@@ -68,6 +68,7 @@ public class AdminController {
     ImageService imageService = new ImageServiceImplement();
     FeedBackService feedBackService = new FeedBackServiceImplement();
     CommentService commentService = new CommentServiceImplement();
+    // UserService userService = new UserServiceImplement();
 
     @GetMapping("/")
     public String index(Model model) throws JsonProcessingException {
@@ -189,10 +190,47 @@ public class AdminController {
         return "Admin/index";
     }
 
+
+    // ArrayList<User> cList = new ArrayList<>();
+
+    // @Autowired
+    // TicketService ticketService = new TicketServiceImplement();
+
     @GetMapping("/getAllCustomer")
-    public String getAllCustomers(Model model) {
+    public String getAllCustomer(Model model) {
+        cList = userService.getAllCustomer();
+        return getPageCustomer(model, "1");
+    }
+
+    @GetMapping("/getAllCustomer/{page}")
+    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage) {
+        ArrayList<User> customerList = new ArrayList<>();
+        int customerPage = 5;
+        int numPages = (int) Math.ceil((float) cList.size() / customerPage);
+        int[] numPage = new int[numPages];
+        for (int i = 0; i < numPages; i++) {
+            numPage[i] = i + 1;
+        }
+        for (int i = (Integer.parseInt(currentPage) - 1) * customerPage; i < Integer.parseInt(currentPage)
+                * customerPage; i++) {
+            if (cList.size() <= i)
+                break;
+                customerList.add(cList.get(i));
+        }
+        model.addAttribute("customerList", customerList);
+        model.addAttribute("numPage", numPage);
+        model.addAttribute("currentPage", Integer.parseInt(currentPage));
+        model.addAttribute("Previous", Integer.parseInt(currentPage) - 1);
+        model.addAttribute("Next", Integer.parseInt(currentPage) + 1);
         return "Admin/customer";
     }
+
+    // @GetMapping("/getAllCustomer")
+    // public String getAllCustomers(Model model) {
+    //     // ArrayList<Customer> cList
+
+    //     return "Admin/customer";
+    // }
 
     @GetMapping("/getAllEmployee")
     public String getAllEmployees(Model model) {
@@ -300,14 +338,7 @@ public class AdminController {
         return "Admin/chart";
     }
 
-    @GetMapping("/getAll")
-    public String getAll(Model model) {
-
-        model.addAttribute("services", serviceService.getAll());
-        model.addAttribute("serviceTypes", serviceTypeService.getAll());
-        return "serviceAdmin";
-    }
-
+ 
     @PostMapping("/add")
     public String addService(@ModelAttribute Services service, @RequestParam int typeID) {
         ServiceType serviceType = new ServiceType();

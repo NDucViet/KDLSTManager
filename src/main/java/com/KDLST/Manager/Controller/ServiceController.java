@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
-import com.KDLST.Manager.Model.Entity.RateAFb.Rate;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackService;

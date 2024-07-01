@@ -11,4 +11,8 @@ public interface UserService {
     public boolean update(User user);
 
     public boolean add(User user);
+
+    public ArrayList<User> getAllCustomer();
+
+    public ArrayList<User> getAllEmployee();
 }

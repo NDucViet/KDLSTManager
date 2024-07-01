@@ -53,7 +53,8 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-lg-10 mb-4 mb-lg-0">
                     <div class="card mb-3" style="border-radius: .5rem;">
-                        <form th:action="@{/user/edit}" th:method="post" th:object="${user}" enctype="multipart/form-data">
+                        <form th:action="@{/user/edit}" th:method="post" th:object="${user}"
+                            enctype="multipart/form-data">
                             <div class="row g-0">
                                 <div class="col-md-4 gradient-custom text-center text-white"
                                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
@@ -61,7 +62,8 @@
                                         <img th:src="@{'/images/'+ ${user.avatar}}" class="img-fluid my-5" id="avatar"
                                             style="cursor: pointer;" />
                                     </label>
-                                    <input type="file" id="image" style="display: none;" name="image" accept="image/*" />
+                                    <input type="file" id="image" style="display: none;" name="image"
+                                        accept="image/*" />
                                     <input type="text" th:field="*{username}">
                                 </div>
                                 <div class="col-md-8">

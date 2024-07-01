@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.sql.Date;
-import com.KDLST.Manager.Model.Entity.User.User;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.io.IOException;
+import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Entity.Blog.Blog;
 import com.KDLST.Manager.Model.Entity.Blog.BlogType;
 import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
@@ -20,9 +21,11 @@ import com.KDLST.Manager.Model.Service.BlogService.BlogServiceImplement;
 import com.KDLST.Manager.Model.Service.BlogService.BlogTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
 import com.KDLST.Manager.Model.Service.UploadFile.StorageService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
-import java.time.LocalDate;
-import java.io.IOException;
+
 
 
 @Controller
@@ -91,6 +94,9 @@ public class EmployeeController {
         imageServiceImplement.add(image2);
         return "User/blogAdd";
     }
+
+
+    
 
 }
 

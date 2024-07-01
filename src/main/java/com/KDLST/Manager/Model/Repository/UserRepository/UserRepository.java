@@ -13,6 +13,7 @@ import jakarta.el.ELException;
 
 @Repository
 public class UserRepository {
+
     ArrayList<User> userList = new ArrayList<>();
     @Autowired
     CustomerTypeRepository customerTypeRepository = new CustomerTypeRepository();
@@ -35,8 +36,11 @@ public class UserRepository {
                 int gender = rs.getInt("gender");
                 String phoneNumber = rs.getString("phoneNumber");
                 String avatar = rs.getString("avatar");
-                CustomerType CustomerType = customerTypeRepository.getById(rs.getInt("customerTypeID"));
                 String role = rs.getString("role");
+                CustomerType CustomerType = null;
+                if(role.equals("CUSTOMER")){
+                    CustomerType= customerTypeRepository.getById(rs.getInt("customerTypeID"));
+                }
                 String password = rs.getString("password");
                 String nation = rs.getString("nation");
                 String idCard = rs.getString("IDCard");
@@ -52,6 +56,80 @@ public class UserRepository {
         }
         return userList;
     }
+
+    public ArrayList<User> getAllCustomer() {
+        try {
+            userList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            Statement stsm = con.createStatement();
+            ResultSet rs = stsm.executeQuery("select * from KDLST.User where role = 'CUSTOMER'");
+            while (rs.next()) {
+                int userID = rs.getInt("userID");
+                String email = rs.getString("email");
+                String userName = rs.getString("name");
+                Date dob = rs.getDate("DOB");
+                String address = rs.getString("address");
+                int gender = rs.getInt("gender");
+                String phoneNumber = rs.getString("phoneNumber");
+                String avatar = rs.getString("avatar");
+                String role = rs.getString("role");
+                CustomerType CustomerType = customerTypeRepository.getById(rs.getInt("customerTypeID"));
+                String password = rs.getString("password");
+                String nation = rs.getString("nation");
+                String idCard = rs.getString("IDCard");
+                Boolean status = rs.getBoolean("status");
+                User user = new User(userID, CustomerType, userName, email, password, phoneNumber, idCard, address, dob,
+                        gender, avatar, nation, role, status);
+                userList.add(user);
+            }
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return userList;
+    }
+
+    public ArrayList<User> getAllEmployee() {
+        try {
+            userList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            Statement stsm = con.createStatement();
+            ResultSet rs = stsm.executeQuery("select * from KDLST.User where role = 'EMPLOYEE'");
+            while (rs.next()) {
+                int userID = rs.getInt("userID");
+                String email = rs.getString("email");
+                String userName = rs.getString("name");
+                Date dob = rs.getDate("DOB");
+                String address = rs.getString("address");
+                int gender = rs.getInt("gender");
+                String phoneNumber = rs.getString("phoneNumber");
+                String avatar = rs.getString("avatar");
+                String role = rs.getString("role");
+                CustomerType CustomerType = null;
+                if(role.equals("CUSTOMER")){
+                    CustomerType= customerTypeRepository.getById(rs.getInt("customerTypeID"));
+                }
+                String password = rs.getString("password");
+                String nation = rs.getString("nation");
+                String idCard = rs.getString("IDCard");
+                Boolean status = rs.getBoolean("status");
+                User user = new User(userID, CustomerType, userName, email, password, phoneNumber, idCard, address, dob,
+                        gender, avatar, nation, role, status);
+                userList.add(user);
+            }
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return userList;
+    }
+
 
     public User getById(int id) {
         try {

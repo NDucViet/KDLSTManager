@@ -40,6 +40,19 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
+    public ArrayList<User> getAllCustomer() {
+        this.userList = userRepository.getAllCustomer();
+        return userList;
+    }
+
+    
+    @Override
+    public ArrayList<User> getAllEmployee() {
+        this.userList = userRepository.getAllEmployee();
+        return userList;
+    }
+
+    @Override
     public User getById(int id) {
         return userRepository.getById(id);
     }

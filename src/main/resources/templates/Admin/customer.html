@@ -39,31 +39,33 @@
             <!-- partial:partials/_sidebar.html -->
             <partial th:insert="~{Admin/partial :: partial}"></partial>
             <div class="main-panel">
-                <!-- <div class="content-wrapper"> -->
-                <table class="table table-hover table-danger">
-                    <thead>
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Tên</th>
-                            <th scope="col">Số điện thoại</th>
-                            <th scope="col">Email</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>
-                                <button class="btn btn-outline-danger btn-delete"><a href="#"
-                                        style="text-decoration: none; color: black;">Xóa</a></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- </div> -->
+                <div class="content-wrapper">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Loại khách hàng</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="user, no: ${customerList}">
+                                <tr>
+                                    <td th:text="${no.index + 1}"></td>
+                                    <td th:text="${user.username}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td th:text="${user.customerType.nameCusType}"></td>
+                                    <td>
+                                        <button class="btn btn-outline-danger btn-delete"><a href="#"
+                                                style="text-decoration: none; color: black;">Xóa</a></button>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <footer th:insert="~{Admin/footer :: footer}"></footer>
