@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" th:href="@{/css/re2.css}">
-    <title>Change Password</title>
+    <title>Nhập mã OTP</title>
 </head>
 <script th:inline="javascript">
     var code = /*[[${code}]]*/ {};
@@ -29,21 +29,21 @@
 <body>
     <div class="container">
         <div class="forgot-password-form">
-            <h2>Change Password</h2>
+            <h2>Đổi mật khẩu</h2>
             <div id="codeBlock" class="input-group">
-                <input name="code" id="code" placeholder='Enter code' type='text'>
-                <button class='submit-btn' id="btncode" onclick="checkCode()">Submit Code</button>
+                <input name="code" id="code" placeholder='Nhập mã OTP' type='text'>
+                <button class='submit-btn' id="btncode" onclick="checkCode()">Nhập mã</button>
             </div>
 
             <div style="display: none;" id="password">
                 <form onsubmit="return checkPass()" th:action="@{/user/changePassword}" th:method="post">
                     <div class="input-group">
-                        <input name="password" placeholder='Enter password' type='password'>
+                        <input name="password" placeholder='Nhập mật khẩu mới' type='password'>
                     </div>
                     <div class="input-group">
-                        <input name="passAgain" placeholder='Enter password again' type='password'>
+                        <input name="passAgain" placeholder='Nhập lại mật khẩu mới' type='password'>
                     </div>
-                    <button class='submit-btn' type="submit">Submit Password</button>
+                    <button class='submit-btn' type="submit">Đổi mật khẩu</button>
                 </form>
             </div>
         </div>
@@ -57,7 +57,7 @@
             if (pass === passAgain) {
                 return true;
             } else {
-                alert("Password Again not equals with password, please input again");
+                alert("Mật khẩu không trùng khớp");
                 return false;
             }
         }
