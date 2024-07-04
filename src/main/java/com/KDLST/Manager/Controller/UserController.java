@@ -162,7 +162,7 @@ public class UserController {
     @PostMapping(value = "/register")
     public String register(Model model, @ModelAttribute("user") User user1,
             @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth,
-            @RequestParam(name = "avatar") String avatarPathOrUrl) {
+            @RequestParam(name = "avatarUrl") MultipartFile avatarPathOrUrl) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
         try {
@@ -172,7 +172,23 @@ public class UserController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        user1.setAvatar("UserAvatarDefault.jpg");
+        
+        if (!avatarPathOrUrl.isEmpty()) {
+            // Xóa tệp ảnh cũ nếu tồn tại
+
+            // Lưu tệp ảnh mới
+            Path fileNameAndPath = Paths.get(uploadPath, avatarPathOrUrl.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, avatarPathOrUrl.getOriginalFilename());
+
+            try {
+                Files.write(fileNameAndPath, avatarPathOrUrl.getBytes());
+                Files.write(liveFileNameAndPath, avatarPathOrUrl.getBytes());
+                user1.setAvatar(avatarPathOrUrl.getOriginalFilename());
+            } catch (IOException e) {
+                // Xử lý ngoại lệ nếu tệp không thể lưu
+                System.err.println("Could not save file: " + e.getMessage());
+            }
+        } 
         user1.setRole("CUSTOMER");
         user1.setCustomerType(customerTypeServiceImplement.getById(1));
         user1.setIdUser(0);
@@ -202,7 +218,6 @@ public class UserController {
             return showRegister(model, mess);
         }
     }
-
     // Hàm add 1 User
     @GetMapping("/toAdd")
     public String toAdd() {

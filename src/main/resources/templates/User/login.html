@@ -52,7 +52,7 @@
         <div class="form-container">
             <div class="form sign-up">
                 <h2>Đăng Ký</h2>
-                <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post" th:object="${user}">
+                <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post" th:object="${user}" enctype="multipart/form-data">
                     <label>
                         <span>Tên</span>
                         <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
@@ -89,7 +89,7 @@
                     </label>
                     <label>
                         <span>Ảnh Đại Diện</span>
-                        <input type="file" th:field="*{avatar}"
+                        <input type="file" name="avatarUrl"
                                style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
                     </label>
                     <label>
