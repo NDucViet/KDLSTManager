@@ -16,7 +16,7 @@ import java.util.HashSet;
 @Service
 public class UserServiceImplement implements UserService {
 
-    ArrayList<User> userList = new ArrayList<>();
+    // ArrayList<User> userList = new ArrayList<>();
     @Autowired
     UserRepository userRepository = new UserRepository();
 
@@ -35,20 +35,20 @@ public class UserServiceImplement implements UserService {
 
     @Override
     public ArrayList<User> getAll() {
-        this.userList = userRepository.getAll();
+        ArrayList<User> userList = userRepository.getAll();
         return userList;
     }
 
     @Override
     public ArrayList<User> getAllCustomer() {
-        this.userList = userRepository.getAllCustomer();
+        ArrayList<User> userList = userRepository.getAllCustomer();
         return userList;
     }
 
     
     @Override
     public ArrayList<User> getAllEmployee() {
-        this.userList = userRepository.getAllEmployee();
+        ArrayList<User> userList = userRepository.getAllEmployee();
         return userList;
     }
 
@@ -66,8 +66,7 @@ public class UserServiceImplement implements UserService {
     }
 
     public User login(String email) {
-        getAll();
-        for (User user2 : userList) {
+        for (User user2 : userRepository.getAll()) {
             if (user2.getEmail().equals(email)) {
                 return user2;
             }
@@ -76,8 +75,7 @@ public class UserServiceImplement implements UserService {
     }
 
     public boolean toLogin(User user) {
-        getAll();
-        for (User user2 : userList) {
+        for (User user2 : userRepository.getAll()) {
             if (user2.getEmail().equals(user.getEmail()) && user2.getPassword().equals(user.getPassword())) {
                 return true;
             }
@@ -89,7 +87,7 @@ public class UserServiceImplement implements UserService {
     public ArrayList<String> getInvalidAttributes(User user) {
         ArrayList<String> invalidAttributes = new ArrayList<>();
         HashSet<User> setList = new HashSet<>();
-        setList.addAll(getAll());
+        setList.addAll(userRepository.getAll());
         if (!setList.add(user)) {
             invalidAttributes.add("doublicate");
         }
@@ -107,6 +105,13 @@ public class UserServiceImplement implements UserService {
         }
 
         return invalidAttributes;
+    }
+
+    public boolean banCustomer(User user){
+        if(userRepository.banCustomer(user)){
+            return true;
+        }
+        return false;
     }
 
     @Autowired

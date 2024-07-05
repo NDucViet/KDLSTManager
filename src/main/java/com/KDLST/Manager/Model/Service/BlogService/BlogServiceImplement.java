@@ -3,7 +3,6 @@ package com.KDLST.Manager.Model.Service.BlogService;
 import com.KDLST.Manager.Model.Entity.Blog.Blog;
 import com.KDLST.Manager.Model.Repository.BlogRepository.BlogRepository;
 
-
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +50,18 @@ public class BlogServiceImplement implements BlogService {
     }
 
     @Override
-    public Blog getIdLastest(){
+    public Blog getIdLastest() {
         if (blogRepository.getIdLastest() != null) {
             return blogRepository.getIdLastest();
         }
         return null;
+    }
+
+    @Override
+    public boolean hiddenBlog(int id) {
+        if (blogRepository.hiddenBlog(id)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -140,4 +140,21 @@ public class CommentRepository {
         }
         return null;
     }
+
+    public boolean delete(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con
+                    .prepareStatement("Delete from KDLST.Comment where KDLST.Comment.commentID =?");
+            prsm.setInt(1, id);
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+  
 }
