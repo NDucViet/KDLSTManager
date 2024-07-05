@@ -10,4 +10,6 @@ public interface RoomTypeService {
     public ArrayList<RoomType> searchRoomType(String keyword);
 
     public RoomType getById(int id);
+
+    public boolean update(RoomType type) ;
 }

@@ -130,7 +130,6 @@ public class FeedBackRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
         }
         return false;
     }

@@ -23,7 +23,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
 
 </head>
 
@@ -34,6 +36,7 @@
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_settings-panel.html -->
+            <!-- partial:partials/_sidebar.html -->
             <partial th:insert="~{Employee/partial :: partial}"></partial>
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -42,65 +45,49 @@
                             <thead>
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">Nội dung</th>
-                                    <th scope="col">Tên người feedback</th>
-                                    <th scope="col">Tên dịch vụ</th>
-                                    <th scope="col">Thời gian</th>
+                                    <th scope="col">Ảnh</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Loại Phòng</th>
+                                    <th scope="col">Mô tả</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Số người tối đa</th>
+                                    <th scope="col">Trạng Thái</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <th:block th:each="feedback,no : ${feedbackList}">
+                                <th:block th:each="room, no: ${rList}">
                                     <tr>
                                         <th th:text="${(currentPage - 1) * 10 + no.index + 1}"></th>
-                                        <td th:text="${feedback.content}"></td>
-                                        <td th:text="${feedback.user.username}"></td>
-                                        <td th:text="${feedback.services.serviceName}"></td>
-                                        <td th:text="${feedback.date}"></td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-delete"
-                                                th:data-user-id="${feedback.feedbackID}"
-                                                onclick="showConfirmModal(this)">Xóa</button>
-                                        </td>
+                                        <td><img th:src="@{/images/{imageUrl}(imageUrl=${room.roomType.images})}"></td>
+                                        <td th:text="${room.roomID}"> </td>
+                                        <td th:text="${room.roomType.roomTypeName}"> </td>
+                                        <td th:text="${room.roomType.details}"></td>
+                                        <td th:text="${room.roomType.price}"></td>
+                                        <td th:text="${room.roomType.maxPeople}"></td>
+                                        <td th:if="${room.status == true}"><span class="badge bg-success">Đã
+                                                sử dụng</span></td>
+                                        <td th:if="${room.status == false}"><span class="badge bg-danger">Chưa sử dụng</span>
                                     </tr>
                                 </th:block>
                             </tbody>
                         </table>
                     </div>
-                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmModalLabel">Xác nhận khóa người dùng</h5>
-                                <button type="button" class="btn-close" onclick="closeBan()"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Bạn có chắc chắn muốn khóa người dùng này không?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" onclick="closeBan()">Hủy</button>
-                                <button type="button" class="btn btn-danger" onclick="confirmBan()">Khóa</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                     <div class="row mt-5">
                         <div class="col text-center">
                             <div class="block-27">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
                                         <li th:if="${currentPage > 1}" class="page-item">
-                                            <a th:href="@{/employee/getAllFeedback/__${Previous}__}"
+                                            <a th:href="@{/employee/getAllRoom/__${Previous}__}"
                                                 class="page-link">&laquo;</a>
                                         </li>
-                                        <li th:each="page, iterStat : ${numPage}" class="page-item"
-                                            th:class="${currentPage == page} ? 'active'" >
-                                            <a th:href="@{/employee/getAllFeedback/__${page}__}" th:text="${page} "
+                                        <li th:each="page, iterStat : ${numPage}"
+                                            th:class="${currentPage == page} ? 'active'" class="page-item">
+                                            <a th:href="@{/employee/getAllRoom/__${page}__}" th:text="${page} "
                                                 class="page-link"></a>
                                         </li>
                                         <li th:if="${numPage.length > currentPage}" class="page-item"><a
-                                                th:href="@{/employee/getAllFeedback/__${Next}__}"
+                                                th:href="@{/employee/getAllRoom/__${Next}__}"
                                                 class="page-link">&raquo;</a>
                                         </li>
                                     </ul>
@@ -113,6 +100,7 @@
         </div>
         <footer th:insert="~{Employee/footer :: footer}"></footer>
     </div>
+
 </body>
 
 </html>

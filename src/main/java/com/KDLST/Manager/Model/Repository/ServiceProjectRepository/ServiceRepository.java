@@ -74,7 +74,7 @@ public class ServiceRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.Service   set serviceTypeID =?, description=?,image=?,dateTimeEdit=? serviceName =? where serviceID =?");
+                    "update KDLST.Service  set serviceTypeID =?, description=?,image=?,dateTimeEdit=?, serviceName =? where serviceID =?");
             prsm.setInt(1, service.getServiceTypeID().getServiceTypeID());
             prsm.setString(2, service.getDescription());
             prsm.setString(3, service.getImage());
@@ -165,6 +165,22 @@ public class ServiceRepository {
             System.out.println(e);
         }
         return serviceList;
+    }
+
+    public boolean delete(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con
+                    .prepareStatement("Delete from KDLST.Service where KDLST.Service.serviceID =?");
+            prsm.setInt(1, id);
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+        }
+        return false;
     }
 
 }

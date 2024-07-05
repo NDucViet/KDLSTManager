@@ -77,6 +77,25 @@ public class BlogRepository {
         return null;
     }
 
+    public boolean hiddenBlog(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement(
+                    "update KDLST.Blog set KDLST.Blog.status = ? where KDLST.Blog.blogID =?");
+            prsm.setBoolean(1, false);
+            prsm.setInt(2, id);
+            int result = prsm.executeUpdate();
+            System.out.println(result);
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
     public boolean update(Blog blog) {
         try {
             Class.forName(BaseConnection.nameClass);

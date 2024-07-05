@@ -130,6 +130,25 @@ public class UserRepository {
         return userList;
     }
 
+    public boolean banCustomer(User user) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement(
+                    "update KDLST.User set KDLST.User.status = ? where KDLST.User.userID =?");
+            prsm.setBoolean(1, false);
+            prsm.setInt(2, user.getIdUser());
+            System.out.println(user.toString());
+            int result = prsm.executeUpdate();
+            System.out.println(result);
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 
     public User getById(int id) {
         try {
@@ -234,7 +253,6 @@ public class UserRepository {
         }
         return false;
     }
-
 
 
 }

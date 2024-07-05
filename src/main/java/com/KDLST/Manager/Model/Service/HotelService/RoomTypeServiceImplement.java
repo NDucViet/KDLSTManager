@@ -26,6 +26,14 @@ public class RoomTypeServiceImplement implements RoomTypeService {
     }
 
     @Override
+    public boolean update(RoomType type) {
+        if (roomTypeRepository.update(type)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public ArrayList<RoomType> searchRoomType(String keyword) {
         ArrayList<RoomType> filterRoomType = new ArrayList<>();
         getAll();

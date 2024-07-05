@@ -112,12 +112,27 @@ public class TicketRepository {
             prsm.setDouble(4, ticket.getPrice());
             prsm.setString(5, ticket.getImage());
             prsm.setBoolean(6, ticket.isStatus());
-            prsm.setInt(7, ticket.getTicketID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
         } catch (Exception e) {
             System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean delete(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con
+                    .prepareStatement("Delete from KDLST.Ticket where KDLST.Ticket.ticketID =?");
+            prsm.setInt(1, id);
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
         }
         return false;
     }
