@@ -1,6 +1,5 @@
 package com.KDLST.Manager.Controller;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -47,17 +46,16 @@ public class IndexController {
     @GetMapping("")
     public String index(Model model) {
         // Populate serviceListAll
-        Map<Map.Entry<Services, ArrayList<FeedBack>>, Float> serviceListAll = new LinkedHashMap<>();
+        Map<Services, ArrayList<FeedBack>> serviceListAll = new LinkedHashMap<>();
 
         // Copy top 3 entries from serviceListAll to serviceListRecommend
-        Map<Map.Entry<Services, ArrayList<FeedBack>>, Float> serviceListRecommend = new LinkedHashMap<>();
+        Map<Services, ArrayList<FeedBack>> serviceListRecommend = new LinkedHashMap<>();
         int count = 0;
 
         for (Services service : service.getAll()) {
             ArrayList<FeedBack> feedBacks = feedBackService.getByIdService(service);
             Collections.reverse(feedBacks);
-            Map.Entry<Services, ArrayList<FeedBack>> SFHashMap = new AbstractMap.SimpleEntry<>(service, feedBacks);
-            serviceListAll.put(SFHashMap, rateService.getScoreByService(service));
+            serviceListAll.put(service, feedBacks);
             count++;
             if (count == 3) {
                 serviceListRecommend.putAll(serviceListAll);

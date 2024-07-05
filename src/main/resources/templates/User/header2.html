@@ -110,23 +110,17 @@
                         <li th:if="${session.user == null}" class="nav-item"><a th:href="@{/user/showLogin}"
                                 class="nav-link">Đăng nhập</a></li>
                         <li th:if="${session.user != null}" class="nav-item dropdown">
-                            <a th:href="@{/user/showLogin}" class="nav-link dropdown-toggle " style="padding-top:14px">
+                            <a th:href="@{/user/profile}" class="nav-link dropdown-toggle " style="padding-top:14px">
                                 <img th:src="@{/images/{imageUrl}(imageUrl=${session.user.avatar})}" alt="Avatar"
                                     class="avatar" style="width: 40px; height: 40px; border-radius: 50%;">
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa-solid fa-gear"></i>
-                                        Đổi mật khẩu
-                                    </a>
-                                </li>
-                                <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
                                     <a class="dropdown-item" th:href="@{/cart/history}">
-                                        <i class="fa-solid fa-gear"></i>
+                                        <i class="fa-solid fa-clock-rotate-left"></i>
                                         Lịch Sử Giao Dịch
                                     </a>
                                 </li>

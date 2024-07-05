@@ -1,6 +1,8 @@
 package com.KDLST.Manager.Controller;
 
 import java.text.SimpleDateFormat;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.KDLST.Manager.Model.Entity.Bill.Bill;
@@ -26,18 +30,25 @@ import com.KDLST.Manager.Model.Service.CartItemService.CartServiceImplement;
 import com.KDLST.Manager.Model.Service.CartItemService.VNPayService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketServiceImplement;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import java.util.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.io.OutputStream;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.slf4j.Logger;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
+    private Logger logger = LoggerFactory.getLogger(CartController.class);
 
     @Autowired
     CartItemService cartItemService = new CartItemServiceImplement();
@@ -152,7 +163,7 @@ public class CartController {
         } catch (ParseException e) {
             System.out.println(e);
         }
-        Bill bill = new Bill(0, user, sqlPayDate, sqlUseDate, true);
+        Bill bill = new Bill(0, user, sqlPayDate, sqlUseDate, 0);
         ArrayList<CartItem> itemList = cartItemService
                 .getByIdCart(cartService.getByIdUser(user.getIdUser()).getCartID());
         if (billService.add(bill)) {
@@ -161,7 +172,7 @@ public class CartController {
 
             for (CartItem cartItem : itemList) {
                 BillDetails billDetails = new BillDetails(0, bill, cartItem.getTicketID(), cartItem.getQuantity(),
-                        cartItem.getPrice().intValue());
+                        cartItem.getPrice().intValue(), 0);
                 billDetailsService.add(billDetails);
             }
             cartItemService.delete(cartService.getByIdUser(user.getIdUser()).getCartID());
@@ -178,19 +189,43 @@ public class CartController {
     }
 
     @GetMapping("/history")
-    public String getHistory(Model model, HttpServletRequest request) {
-
-        Map<ArrayList<BillDetails>, Date> billArrayList = new HashMap<>();
+    public String getHistory(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("image/png");
+        String qrContent = "";
+        Map<ArrayList<BillDetails>, Date> billArrayList = new LinkedHashMap<>();
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
         ArrayList<Bill> billListt = billService.getByIdUser(user.getIdUser());
 
         for (Bill bill2 : billListt) {
             ArrayList<BillDetails> bArrayList = billDetailsService.getByBillID(bill2.getBillID());
+            for (BillDetails billdt : bArrayList) {
+                qrContent += billdt.getBillDetailsID() + " ";
+            }
+            qrContent += "|" + bill2.getStatus();
+            byte[] qrCode = generateQRCode(qrContent, 50, 50);
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(qrCode);
+            // "/generateQRCode?qrContent=" + qrContent
             billArrayList.put(bArrayList, bill2.getDatePay());
         }
 
         model.addAttribute("history", billArrayList);
         return "User/history";
+    }
+
+    public byte[] generateQRCode(String qrContent, int width, int height) {
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(qrContent, BarcodeFormat.QR_CODE, width, height);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
+        } catch (WriterException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 }

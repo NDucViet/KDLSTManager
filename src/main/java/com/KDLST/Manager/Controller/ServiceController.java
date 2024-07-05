@@ -14,8 +14,6 @@ import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackService;
 import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackServiceImplement;
-import com.KDLST.Manager.Model.Service.RateAFbService.RateService;
-import com.KDLST.Manager.Model.Service.RateAFbService.RateServiceImplement;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceService;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImplement;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,11 +21,9 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/service")
@@ -36,7 +32,6 @@ public class ServiceController {
     @Autowired
     private ServiceService serviceService = new ServiceServiceImplement();
     private FeedBackService feedBackService = new FeedBackServiceImplement();
-    private RateService rateService = new RateServiceImplement();
 
     @GetMapping("/getAll")
     public String getAll(Model model) {
@@ -53,7 +48,7 @@ public class ServiceController {
             numPage[i] = i + 1;
         }
 
-        HashMap<Map.Entry<Services, ArrayList<FeedBack>>, Float> serviceList = new HashMap<>();
+        HashMap<Services, ArrayList<FeedBack>> serviceList = new HashMap<>();
         for (int i = (Integer.parseInt(currentPage) - 1) * servicesPerPage; i < Integer.parseInt(currentPage)
                 * servicesPerPage; i++) {
             if (sList.size() <= i)
@@ -65,8 +60,7 @@ public class ServiceController {
                 }
                 Collections.reverse(feedBacks);
             }
-            Map.Entry<Services, ArrayList<FeedBack>> SFHashMap = new AbstractMap.SimpleEntry<>(sList.get(i), feedBacks);
-            serviceList.put(SFHashMap, rateService.getScoreByService(sList.get(i)));
+            serviceList.put(sList.get(i),feedBacks);
         }
         model.addAttribute("serviceList", serviceList);
         model.addAttribute("numPage", numPage);
@@ -109,15 +103,14 @@ public class ServiceController {
         feedBackService.add(feedBack);
 
         ArrayList<FeedBack> feedBacks = feedBackService.getAll();
-        feedBack = feedBacks.get(feedBacks.size()-1);
+        feedBack = feedBacks.get(feedBacks.size() - 1);
 
         return ResponseEntity.ok().body(feedBack);
     }
 
     @PostMapping("/deleteFeedback")
-    public ResponseEntity<String> deleteFeedback(@RequestParam("idFeedback")String idFeedback) {
+    public ResponseEntity<String> deleteFeedback(@RequestParam("idFeedback") String idFeedback) {
         feedBackService.delete(Integer.parseInt(idFeedback));
         return ResponseEntity.ok().body("Xoá thành công");
     }
 }
-

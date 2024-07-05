@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác nhận OTP</title>
+    <title>Enter Code</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/re2.css}">
     <script th:inline="javascript">
@@ -26,11 +26,11 @@
 <body>
     <div class="container">
         <div class="forgot-password-form">
-            <h2>Xác thực OTP</h2>
+            <h2>Enter Code</h2>
             <div class="input-group">
-                <input name="code" id="code" placeholder="Mã OTP" type="text">
+                <input name="code" id="code" placeholder="Enter email code" type="text">
             </div>
-            <button class="submit-btn" onclick="checkCode()">Đăng kí</button>
+            <button class="submit-btn" onclick="checkCode()">Submit</button>
         </div>
     </div>
 </body>

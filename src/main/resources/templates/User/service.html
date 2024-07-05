@@ -18,7 +18,7 @@
   <link rel="stylesheet" type="text/css" th:href="@{../css/owl.carousel.min.css}">
   <link rel="stylesheet" type="text/css" th:href="@{../fonts/ionicons/css/ionicons.min.css}">
   <link rel="stylesheet" type="text/css" th:href="@{../fonts/fontawesome/css/font-awesome.min.css}">
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" th:href="@{../css/animate.css}">
   <link rel="stylesheet" type="text/css" th:href="@{../css/aos.css}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -46,38 +46,123 @@
       max-width: 300px;
     }
 
-    .custom-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      max-height: 90vh;
-      /* Để modal không chiếm toàn bộ chiều cao màn hình */
-      overflow-y: auto;
-      /* Để modal có thể cuộn nếu nội dung quá dài */
-      z-index: 1050;
-      /* Để đảm bảo modal xuất hiện trên các thành phần khác */
+
+    /* Giữ lại các thuộc tính đã có */
+    .trigger {
+      background-color: black;
+      color: red;
     }
 
-    .modal-dialog {
-      margin: 0;
-      max-width: 100%;
+    .modal,
+    .fade {
+      background-color: lightgray;
+      padding-left: 15px;
+      padding-right: 15px;
     }
 
     .modal-content {
-      border-radius: 0;
+      background: transparent;
+      border: none;
+      padding: 0 19px;
     }
 
-    @media (min-width: 768px) {
-      .custom-modal {
-        width: 50%;
+    .close {
+      position: relative;
+      top: 48px;
+      left: 13px;
+      z-index: 1;
+      font-size: 30px;
+      font-weight: 100;
+      line-height: 1;
+      color: gray;
+    }
+
+    .modal-header {
+      border: none;
+    }
+
+    .modal-body {
+      border: none;
+      background-color: white;
+      padding-bottom: 5px;
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    .ad img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Đảm bảo ảnh không bị cắt */
+    }
+
+    .details {
+      overflow-y: auto;
+      max-height: 80vh;
+      /* Đặt giới hạn chiều cao cho phần nội dung */
+    }
+
+    .modal-footer {
+      border: none;
+    }
+
+    .btn.focus,
+    .btn:focus {
+      outline: 0;
+      box-shadow: none !important;
+    }
+
+    .close.focus,
+    .close:focus {
+      outline: 0;
+      box-shadow: none !important;
+    }
+
+    .hurry {
+      margin-top: 30px;
+    }
+
+    .booking {
+      background-color: white;
+      border: 2px solid lightgray;
+      width: 150px;
+      border-radius: 0px;
+    }
+
+    .booking:hover {
+      background-color: #ECEFF1;
+      border: 2px solid black;
+    }
+
+    @media (min-width: 599px) {
+      .modal-dialog {
+        max-width: 80rem;
+        /* Tăng kích thước tối đa của modal */
+        width: 70rem;
+        /* Đặt chiều rộng modal */
+      }
+
+      .details {
+        padding: 0 114px;
+      }
+
+      .off {
+        position: absolute;
+        bottom: 150px;
+        left: 25px;
       }
     }
 
-    .custom-modal:not(:first-child) {
-      margin-bottom: 10px;
-      /* Khoảng cách giữa các modal */
+    @media (min-width: 992px) {
+      .ad {
+        flex: 0 0 40%;
+        max-width: 40%;
+      }
+
+      .details {
+        flex: 0 0 60%;
+        max-width: 60%;
+      }
     }
 
     .pagination {
@@ -144,18 +229,18 @@
         <th:block th:each="service : ${serviceList}">
           <div class="col-md-4 ftco-animate">
             <div class="project-wrap">
-              <a href="#" class="img" th:style="'background-image: url(images/' + ${service.key.key.image} + ');'">
+              <a href="#" class="img" th:style="'background-image: url(images/' + ${service.key.image} + ');'">
               </a>
               <div class="text p-4">
                 <h3>
                   <button class="location" data-bs-toggle="modal"
-                    th:data-bs-target="'#modal' + ${service.key.key.serviceID}" th:text="${service.key.key.serviceName}"
+                    th:data-bs-target="'#modal' + ${service.key.serviceID}" th:text="${service.key.serviceName}"
                     style="border: none; background-color: white;"></button>
                 </h3>
-                <p class="location"><span class="fa fa-map-marker"></span> [[${service.key.key.description}]]</p>
+                <p class="location"><span class="fa fa-map-marker"></span> [[${service.key.description}]]</p>
                 <ul>
                   <li><span class="flaticon-mountains"></span>
-                    <a href="#" th:text="${service.key.key.serviceTypeID.serviceName}"></a>
+                    <a href="#" th:text="${service.key.serviceTypeID.serviceName}"></a>
                   </li>
                 </ul>
               </div>
@@ -164,61 +249,48 @@
         </th:block>
       </div>
       <div th:each="service : ${serviceList}">
-        <div th:id="'modal' + ${service.key.key.serviceID}" class="modal fade custom-modal" data-bs-backdrop="static"
-          data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal fade" th:id="'modal' + ${service.key.serviceID}" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
-                <h3 th:text="${service.key.key.serviceTypeID.serviceName}"></h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="mb-3">
-                  <h3 style="color: black; cursor: pointer;" onmouseover="this.style.color='orange'"
-                    onmouseout="this.style.color='black'" th:text="${service.key.key.serviceName}"></h3>
-                  <i class="fa-solid fa-star" style="color: #FF9529;display: inline;font-size: larger;"></i>
-                  <p class="h5" th:text="${service.value}" style="display: inline;color: #FF9529;"></p>
+              <div class="modal-body p-0 row">
+                <div class="col-12 col-lg-4 ad p-0">
+                  <img th:src="@{/images/{image}(image=${service.key.image})}" class="modal-image">
                 </div>
-                <div class="mb-3 text-center">
-                  <img th:src="|@{/images/{image}(image=${service.key.key.image})}|" alt="Service Image"
-                    class="img-fluid">
-                </div>
-                <div>
-                  <p><strong>Description:</strong></p>
-                  <p th:text="${service.key.key.description}"></p>
-                </div>
-
-                <div style="padding-top: 20px;">
-                  <hr style="background-color: black;">
-                  <div class="row">
-                    <div class="col-sm-5"></div>
-                    <div class="col-sm-7" style="padding-top: 20px;">
-                      <strong class="h4">ĐÁNH GIÁ</strong>
-                    </div>
+                <div class="details col-12 col-lg-8">
+                  <div class="heading d-flex">
+                    <h3 th:text="${service.key.serviceTypeID.serviceName}"></h3>
                   </div>
-                  <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
-                      <div class="d-flex flex-row add-comment-section mt-4 mb-4" th:if="${session.user != null}">
-                        <img class="img-fluid img-responsive rounded-circle mr-2"
-                          th:src="@{'/images/' + ${session.user.avatar}}" style="width: 38px;height: auto;">
-                        <input type="text" class="form-control mr-3" placeholder="Add your feedback"
-                          th:id="|content${service.key.key.serviceID}|">
-                        <button class="btn" style="background-color: black; color: #fafafa;" type="button"
-                          th:onclick="|addFeedback(${service.key.key.serviceID})|">Send</button>
-                      </div>
-                      <div>
-                        <div class="media g-mb-30 media-comment noneComment"
-                          th:id="|noneComment${service.key.key.serviceID}|"
-                          th:hidden="${not service.key.value.isEmpty()}">
-                          <p>Không có bình luận.</p>
+                  <h3 style="color: black; cursor: pointer;" th:text="${service.key.serviceName}"></h3>
+                  <p><small class="text-muted" th:text="${service.key.description}"></small></p>
+                  <div class="d-flex mt-2 mb-5">
+                    <div style="padding-top: 20px;">
+                      <hr style="background-color: black;">
+                      <div class="row">
+                        <div class="col-sm-5"></div>
+                        <div class="col-sm-7" style="padding-top: 20px;">
+                          <strong class="h4">Đánh Giá</strong>
                         </div>
                       </div>
 
-                      <div th:each="feedback : ${service.key.value}">
+                      <div class="d-flex flex-row add-comment-section mt-4 mb-4" th:if="${session.user != null}">
+                        <img class="img-fluid img-responsive rounded-circle mr-2"
+                          th:src="@{'/images/'+ ${session.user.avatar}}" style="width: 38px;height: auto;">
+                        <input type="text" class="form-control mr-3" placeholder="Add your feedback"
+                          th:id="|content${service.key.serviceID}|">
+                        <button class="btn" style="background-color: black; color: #fafafa;" type="button"
+                          th:onclick="|addFeedback(${service.key.serviceID})|">Gửi</button>
+                      </div>
+                      <div>
+                        <div class="media g-mb-30 media-comment noneComment"
+                          th:id="|noneComment${service.key.serviceID}|" th:hidden="${not service.value.isEmpty()}">
+                          <p>Không có bình luận.</p>
+                        </div>
+                      </div>
+                      <div th:each="feedback : ${service.value}">
                         <div class="media g-mb-30 media-comment" th:id="|feedback${feedback.feedbackID}|">
                           <img class="rounded-circle shadow-1-strong me-3"
-                            th:src="@{'/images/'+ ${feedback.user.avatar}}"
+                            th:src="@{'/images/'+${feedback.user.avatar}}"
                             style="display: inline-flex;width: 65px;height: 65px;" />
                           <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                             <div class="g-mb-15">
@@ -234,7 +306,7 @@
                                 style="color: black;float: right;cursor: pointer; border: none;"
                                 th:if="${session.user.idUser == feedback.user.idUser}"><i class="fa-solid fa-trash"
                                   style="color: black;"></i>
-                                Remove</button>
+                                Xóa </button>
                             </div>
                           </div>
                         </div>
@@ -267,7 +339,9 @@
   </section>
 
   <footer th:insert="~{User/footer :: footer}"></footer>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Bootstrap Bundle JS (includes Popper) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/popper.min.js"></script>

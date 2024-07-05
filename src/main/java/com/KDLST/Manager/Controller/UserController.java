@@ -68,7 +68,6 @@ public class UserController {
                     // Xử lý logic với username
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", user);
-                    user = userServiceImplement.login(userStr);
                     session.setAttribute("userRole", user.getRole());
                     model.addAttribute("user", user);
                     if (user.getRole().equals("ADMIN")) {
@@ -97,18 +96,7 @@ public class UserController {
             HttpServletRequest request) {
 
         User user = new User();
-        user1.setAddress(null);
-        user1.setAvatar(null);
-        user1.setDob(null);
-        user1.setCustomerType(null);
-        user1.setGender(0);
-        user1.setNation(null);
-        user1.setCardID(null);
-        user1.setPhoneNumber(null);
-        user1.setUsername(null);
-        user1.setIdUser(0);
-        user1.setStatus(null);
-        user1.setRole(null);
+
         boolean flag = userServiceImplement.toLogin(user1);
 
         if (Boolean.TRUE.equals(rememberme)) {
@@ -153,6 +141,7 @@ public class UserController {
     @GetMapping(value = { "/showRegister" })
     public String showRegister(Model model, String mess) {
         User user = new User();
+
         model.addAttribute("user", user);
         model.addAttribute("mess", mess);
         return "User/login";
@@ -161,8 +150,7 @@ public class UserController {
     // Hàm check form đăng kí
     @PostMapping(value = "/register")
     public String register(Model model, @ModelAttribute("user") User user1,
-            @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth,
-            @RequestParam(name = "avatarUrl") MultipartFile avatarPathOrUrl) {
+            @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
         try {
@@ -172,23 +160,7 @@ public class UserController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        
-        if (!avatarPathOrUrl.isEmpty()) {
-            // Xóa tệp ảnh cũ nếu tồn tại
-
-            // Lưu tệp ảnh mới
-            Path fileNameAndPath = Paths.get(uploadPath, avatarPathOrUrl.getOriginalFilename());
-            Path liveFileNameAndPath = Paths.get(liveUploadPath, avatarPathOrUrl.getOriginalFilename());
-
-            try {
-                Files.write(fileNameAndPath, avatarPathOrUrl.getBytes());
-                Files.write(liveFileNameAndPath, avatarPathOrUrl.getBytes());
-                user1.setAvatar(avatarPathOrUrl.getOriginalFilename());
-            } catch (IOException e) {
-                // Xử lý ngoại lệ nếu tệp không thể lưu
-                System.err.println("Could not save file: " + e.getMessage());
-            }
-        } 
+        user1.setAvatar("UserAvatarDefault.jpg");
         user1.setRole("CUSTOMER");
         user1.setCustomerType(customerTypeServiceImplement.getById(1));
         user1.setIdUser(0);
@@ -210,7 +182,6 @@ public class UserController {
                 for (String loi : errr) {
                     err = err + " " + loi;
                 }
-                System.out.println(err);
                 return showRegister(model, err);
             }
         } else {
@@ -218,6 +189,7 @@ public class UserController {
             return showRegister(model, mess);
         }
     }
+
     // Hàm add 1 User
     @GetMapping("/toAdd")
     public String toAdd() {
@@ -240,11 +212,17 @@ public class UserController {
     @PostMapping("/toChangePass")
     public String toChangePass(@RequestParam(name = "email") String email, Model model) {
         int randomNumber = random.nextInt(90000) + 10000;
-        model.addAttribute("code", randomNumber);
-        userServiceImplement.sendMail(email, "Nhập code để thay đổi mật khẩu",
-                randomNumber + "");
-        user = userServiceImplement.login(email);
-        return "User/ToChangePass";
+        ArrayList<User> users = userServiceImplement.getAll();
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                model.addAttribute("code", randomNumber);
+                userServiceImplement.sendMail(email, "Nhập code để thay đổi mật khẩu",
+                        randomNumber + "");
+                user = userServiceImplement.login(email);
+                return "User/ToChangePass";
+            }
+        }
+        return "User/ChangePass";
     }
 
     // Hàm đổi mk
@@ -288,9 +266,8 @@ public class UserController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
-        return "User/edit";
+        return "User/Edit";
     }
-
 
     @PostMapping("/edit")
     public String edit(Model model, @ModelAttribute("user") User user1, HttpServletRequest request,
@@ -350,12 +327,18 @@ public class UserController {
         user1.setIdUser(user.getIdUser());
         user1.setStatus(user.getStatus());
         user1.setEmail(user.getEmail());
-
+        user1.setPassword(user.getPassword());
+        user1.setCardID(user.getCardID());
         userServiceImplement.update(user1);
 
         session.removeAttribute("user");
         session.setAttribute("user", user1);
         return "User/UserProfile";
+    }
+
+    @GetMapping("/showPassword")
+    public String showPassword() {
+        return "User/showPass";
     }
 
 }

@@ -4,124 +4,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>Document</title>
-
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-    <style>
-        .gradient-custom {
-            /* fallback for old browsers */
-            background: #f6d365;
-
-            /* Chrome 10-25, Safari 5.1-6 */
-            background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
-
-            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
-        }
-
-        .card {
-            width: 90%;
-            height: 25rem;
-            /* Adjust this value to make the card larger or smaller */
-            margin: auto;
-        }
-
-        .gradient-custom img {
-            width: 90px;
-            height: 10rem;
-        }
-
-        .image-label {
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .image-label:hover {
-            transform: scale(1.05);
-        }
-    </style>
 </head>
+<style>
+    body {
+        background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    }
+
+    .emp-profile {
+        padding: 3%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background: #fff;
+    }
+
+    .profile-img {
+        text-align: center;
+    }
+
+    .profile-img img {
+        width: 70%;
+        height: 100%;
+    }
+
+    .profile-img .file {
+        position: relative;
+        overflow: hidden;
+        margin-top: -20%;
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        font-size: 15px;
+        background: #212529b8;
+    }
+
+    .profile-img .file input {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .profile-head h5 {
+        color: #333;
+    }
+
+    .profile-head h6 {
+        color: #0062cc;
+    }
+
+    .profile-edit-btn {
+        border: none;
+        border-radius: 1.5rem;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+    .proile-rating {
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+    }
+
+    .proile-rating span {
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .profile-head .nav-tabs {
+        margin-bottom: 5%;
+    }
+
+    .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
+        border: none;
+    }
+
+    .profile-head .nav-tabs .nav-link.active {
+        border: none;
+        border-bottom: 2px solid #0062cc;
+    }
+
+    .profile-work {
+        padding: 14%;
+        margin-top: -15%;
+    }
+
+    .profile-work p {
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+
+    .profile-work a {
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .profile-work ul {
+        list-style: none;
+    }
+
+    .profile-tab label {
+        font-weight: 600;
+    }
+
+    .profile-tab p {
+        font-weight: 600;
+        color: #0062cc;
+    }
+
+    .profile-tab input,
+    .profile-tab textarea {
+        font-weight: 600;
+        color: #495057;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        background: #f9f9f9;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .profile-tab input:focus,
+    .profile-tab textarea:focus {
+        outline: none;
+        border: 1px solid #00c6ff;
+        box-shadow: 0 0 8px rgba(0, 198, 255, 0.6);
+    }
+
+    .password-hidden {
+        font-family: 'Arial', sans-serif;
+        /* Đặt font-family monospace để các ký tự dấu chấm có cùng kích thước */
+        font-size: 16px;
+        /* Điều chỉnh kích thước chữ theo ý muốn */
+    }
+</style>
 
 <body>
-    <section class="vh-100" style="background-color: #f4f5f7;">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-lg-10 mb-4 mb-lg-0">
-                    <div class="card mb-3" style="border-radius: .5rem;">
-                        <form th:action="@{/user/edit}" th:method="post" th:object="${user}"
-                            enctype="multipart/form-data">
-                            <div class="row g-0">
-                                <div class="col-md-4 gradient-custom text-center text-white"
-                                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                    <label for="image" class="image-label">
-                                        <img th:src="@{'/images/'+ ${user.avatar}}" class="img-fluid my-5" id="avatar"
-                                            style="cursor: pointer;" />
-                                    </label>
-                                    <input type="file" id="image" style="display: none;" name="image"
-                                        accept="image/*" />
-                                    <input type="text" th:field="*{username}">
+
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container emp-profile">
+        <form th:action="@{/user/edit}" th:method="post" th:object="${user}" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
+                        <label for="image" class="image-label">
+                            <img th:src="@{'/images/'+ ${user.avatar}}" class="img-fluid my-5" id="avatar"
+                                style="cursor: pointer;" />
+                        </label>
+                        <input type="file" id="image" style="display: none;" name="image" accept="image/*" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h5 th:text="${user.username}"></h5>
+                        <h6 th:text="'Xếp Hạng Khách Hàng: ' + ${user.customerType.nameCusType}"></h6>
+                        <p class="proile-rating">Status : <span>Khả Dụng</span></p>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                    aria-controls="home" aria-selected="true">Thông tin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false">Thông tin riêng tư</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" style="border: none; background-color: white; ">Submit</button>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-work">
+                        <p>Cấp Bậc</p>
+                        <h7 th:text="${user.customerType.detail}"></h7>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Tên Người Dùng</label>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="card-body p-4">
-                                        <h6>Information</h6>
-                                        <hr class="mt-0 mb-4">
-                                        <div class="row pt-1">
-                                            <div class="col-6 mb-3">
-                                                <h6>Email</h6>
-                                                <input type="text" class="text-muted" th:field="*{email}" disabled>
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <h6>Phone</h6>
-                                                <input type="text" class="text-muted" th:field="*{phoneNumber}">
-                                            </div>
-                                        </div>
-                                        <div class="row pt-1">
-                                            <div class="col-6 mb-3">
-                                                <h6>Day Of Birth</h6>
-                                                <input type="date" class="text-muted" th:field="*{dob}">
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <h6>Address</h6>
-                                                <input type="text" class="text-muted" th:field="*{address}">
-                                            </div>
-                                        </div>
-                                        <hr class="mt-0 mb-4">
-                                        <div class="row pt-1">
-                                            <div class="col-6 mb-3">
-                                                <h6>Nation</h6>
-                                                <input type="text" class="text-muted" th:field="*{nation}">
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <button type="submit">Submit</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6">
+                                    <input type="text" th:field="*{username}" />
                                 </div>
                             </div>
-                        </form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Số Điện Thoại</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="tel" th:field="*{phoneNumber}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Sinh Nhật</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="date" th:field="*{dob}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Quốc Gia</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" th:field="*{nation}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Địa Chỉ</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" th:field="*{address}" />
+                                </div>
+                            </div>
+                            <div class="row pk">
+                                <div class="col-md-6">
+                                    Mật Khẩu:
+                                </div>
+                                <div class="col-md-4">
+                                    <p id="password-display" class="password-hidden"
+                                        th:data-password="${user.password}">
+                                    </p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" style="border: none; background-color: white;"
+                                        onclick="showPass()"><i class="fa-regular fa-pen-to-square"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="row mk" style="display: none;">
+                                <div class="col-md-6">
+                                    Mật Khẩu Mới:
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="password" name="newPass" />
+                                </div>
+                            </div>
+
+                            <div class="row mk" style="display: none;">
+                                <div class="col-md-6">
+                                    Nhập Lại Mật Khẩu Mới:
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="password" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <script>
-        document.getElementById('image').addEventListener('change', function (event) {
-            const [file] = event.target.files;
-            if (file) {
-                document.getElementById('avatar').src = URL.createObjectURL(file);
-            }
-        });
-    </script>
-
-    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+        </form>
+    </div>
 </body>
+<script>
+    function showPass() {
+        var elements = document.getElementsByClassName('mk');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'block';
+        }
+        var elements1 = document.getElementsByClassName('pk');
+        for (var i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = 'none';
+        }
+
+    }
+    document.getElementById('image').addEventListener('change', function (event) {
+        const [file] = event.target.files;
+        if (file) {
+            document.getElementById('avatar').src = URL.createObjectURL(file);
+        }
+    });
+    function togglePasswordVisibility() {
+        var passwordElement = document.getElementById('password-display');
+        var password = passwordElement.getAttribute('data-password');
+        if (passwordElement.textContent === password) {
+            var hiddenPassword = '*'.repeat(password.length);
+            passwordElement.textContent = hiddenPassword;
+        } else {
+            passwordElement.textContent = password;
+        }
+    }
+
+    window.onload = function () {
+        var passwordElement = document.getElementById('password-display');
+        var password = passwordElement.getAttribute('data-password');
+        var hiddenPassword = '*'.repeat(password.length);
+        passwordElement.textContent = hiddenPassword;
+        passwordElement.addEventListener('click', togglePasswordVisibility);
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>

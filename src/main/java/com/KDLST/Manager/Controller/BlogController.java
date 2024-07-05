@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,20 +16,14 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.KDLST.Manager.Model.Entity.Blog.Blog;
-import com.KDLST.Manager.Model.Entity.Blog.BlogType;
 import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.RateAFb.Comment;
 import com.KDLST.Manager.Model.Service.BlogService.BlogServiceImplement;
-import com.KDLST.Manager.Model.Service.BlogService.BlogTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
 import com.KDLST.Manager.Model.Service.RateAFbService.CommentServiceImplement;
-import com.KDLST.Manager.Model.Service.UploadFile.StorageService;
 
 import java.time.LocalDate;
 
@@ -45,10 +38,7 @@ public class BlogController {
     @Autowired
     private BlogServiceImplement blogServiceImplement = new BlogServiceImplement();
     private ImageServiceImplement imageServiceImplement = new ImageServiceImplement();
-    private BlogTypeServiceImplement blogTypeServiceImplement = new BlogTypeServiceImplement();
     private CommentServiceImplement commentServiceImplement = new CommentServiceImplement();
-    @Autowired
-    private StorageService storageService;
 
 
     
