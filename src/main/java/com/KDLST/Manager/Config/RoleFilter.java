@@ -2,10 +2,7 @@ package com.KDLST.Manager.Config;
 
 import java.io.IOException;
 import java.util.Arrays;
-<<<<<<< HEAD
-=======
 import java.util.Collections;
->>>>>>> 9fe62cb29d2c906b7ca4deb14a831c1f93cbd5ba
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -42,11 +39,7 @@ public class RoleFilter implements Filter {
             "/cart/checkOut", "/cart/vnpay-payment-return", "/cart/history",
             "/service/addFeedback",
             "/service/deleteFeedback", "/blog/submitComment", "/hotel/", "/css",
-<<<<<<< HEAD
             "/images", "/js", "/user/403","/ticket/rating"));
-=======
-            "/images", "/js", "/user/403"));
->>>>>>> 9fe62cb29d2c906b7ca4deb14a831c1f93cbd5ba
 
     private static final List<String> EMPLOY_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
             "/employee/", "/employee/addBlog", "/employee/addBlog/action", "/css",
@@ -112,10 +105,6 @@ public class RoleFilter implements Filter {
     }
 
     private boolean isUserPath(String path) {
-<<<<<<< HEAD
-=======
-        System.out.println(path);
->>>>>>> 9fe62cb29d2c906b7ca4deb14a831c1f93cbd5ba
         return USER_PATH.stream().anyMatch(path::equals);
     }
 

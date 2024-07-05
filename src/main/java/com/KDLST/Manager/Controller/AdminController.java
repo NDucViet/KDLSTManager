@@ -20,6 +20,7 @@ import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackService;
 import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackServiceImplement;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceService;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImplement;
+import com.KDLST.Manager.Model.Entity.ServiceProject.ServiceType;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceTypeService;
@@ -30,6 +31,9 @@ import com.KDLST.Manager.Model.Service.UserService.UserService;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.ServletException;
+import java.sql.Date;
 import com.KDLST.Manager.Model.Entity.Bill.Bill;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoom;
 import com.KDLST.Manager.Model.Entity.Hotel.RoomType;
@@ -37,16 +41,29 @@ import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.RateAFb.Comment;
 import com.KDLST.Manager.Model.Entity.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
+    @Value("${upload.path}")
+    private String uploadPath;
 
+    @Value("${liveUpload.path}")
+    private String liveUploadPath;
     ArrayList<BillDetails> billDetails = new ArrayList<>();
     ArrayList<BookingRoomDetails> bookingRoomDetails = new ArrayList<>();
     ArrayList<User> users = new ArrayList<>();
@@ -342,4 +359,106 @@ public class AdminController {
     // return "redirect:/admin/services";
     // }
 
+    @GetMapping("/addService")
+    public String showAddServiceForm(Model model, Services service) {
+        model.addAttribute("service", service);
+        model.addAttribute("serviceType", serviceTypeService.getAll()); // Assuming
+        return "Admin/serviceAdd";
+    }
+
+    @PostMapping("/addService/action")
+    public String addService(@ModelAttribute Services service,
+            @RequestParam(value = "id") int serviceID,
+            @RequestParam("image1") MultipartFile imageFile, Model model,
+            RedirectAttributes redirectAttributes) throws ServletException, IOException{
+        System.out.println("ok");
+        ServiceType serviceType = serviceTypeService.getById((serviceID));
+        service.setServiceTypeID(serviceType);
+        // set time
+        LocalDate today = LocalDate.now();
+        Date sqlDate = Date.valueOf(today);
+        service.setDateTimeEdit(sqlDate);
+
+        //image
+        Path uploadDirPath = Paths.get(uploadPath);
+        Path liveUploadDirPath = Paths.get(liveUploadPath);
+
+        if (!Files.exists(uploadDirPath)) {
+            Files.createDirectories(uploadDirPath);
+        }
+
+        if (!Files.exists(liveUploadDirPath)) {
+            Files.createDirectories(liveUploadDirPath);
+        }
+        if (!imageFile.isEmpty()) {
+            Path fileNameAndPath = Paths.get(uploadPath, imageFile.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, imageFile.getOriginalFilename());
+            try {
+                Files.write(fileNameAndPath, imageFile.getBytes());
+                Files.write(liveFileNameAndPath, imageFile.getBytes());
+                service.setImage(imageFile.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Admin/serviceAdd";
+            }
+        }
+        if (serviceService.add(service)) {
+            redirectAttributes.addFlashAttribute("successMessage", "Đã thêm thành công!");
+        }
+        return "redirect:/admin/getAllService"; // Redirect to the tickets list page
+    }
+
+    @GetMapping("/updateService/{serviceID}")
+    public String showUpdateServiceForm(@PathVariable("serviceID") int id, Model model) {
+        Services service = serviceService.getById(id);
+        model.addAttribute("service", service);
+        model.addAttribute("serviceType", serviceTypeService.getAll()); // Assuming TicketType is an enum
+        return "Admin/serviceView";
+    }
+    
+    @PostMapping("/updateService/action")
+    public String updateService(@ModelAttribute Services service,
+            @RequestParam(value = "serviceID") int serviceID,
+            @RequestParam("image1") MultipartFile imageFile,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+        Services oldService = serviceService.getById((serviceID));
+        service.setServiceTypeID(oldService.getServiceTypeID());
+        service.setServiceID((serviceID));
+        LocalDate today = LocalDate.now();
+        Date sqlDate = Date.valueOf(today);
+        service.setDateTimeEdit(sqlDate);
+        if (!imageFile.isEmpty()) {
+
+            if (oldService.getImage() != null && !oldService.getImage().isEmpty()) {
+                Path oldFilePath = Paths.get(uploadPath, oldService.getImage());
+                Path oldLiveFilePath = Paths.get(liveUploadPath, oldService.getImage());
+
+                try {
+                    Files.deleteIfExists(oldFilePath);
+                    Files.deleteIfExists(oldLiveFilePath);
+                } catch (IOException e) {
+                    // Xử lý ngoại lệ nếu tệp không thể xóa
+                    System.err.println("Could not delete file: " + e.getMessage());
+                    return "Admin/serviceAdd";
+                }
+            }
+            Path fileNameAndPath = Paths.get(uploadPath, imageFile.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, imageFile.getOriginalFilename());
+            try {
+                Files.write(fileNameAndPath, imageFile.getBytes());
+                Files.write(liveFileNameAndPath, imageFile.getBytes());
+                service.setImage(imageFile.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Admin/serviceAdd";
+            }
+        } else {
+            service.setImage(oldService.getImage());
+        }
+        if (serviceService.update(service)) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thành công!");
+        }
+        return "redirect:/admin/getAllService";
+    }
 }
