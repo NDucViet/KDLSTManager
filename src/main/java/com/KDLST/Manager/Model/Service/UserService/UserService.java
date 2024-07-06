@@ -15,4 +15,6 @@ public interface UserService {
     public ArrayList<User> getAllCustomer();
 
     public ArrayList<User> getAllEmployee();
+
+    public boolean banCustomer(User user);
 }

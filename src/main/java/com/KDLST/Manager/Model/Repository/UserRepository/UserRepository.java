@@ -130,6 +130,25 @@ public class UserRepository {
         return userList;
     }
 
+    public boolean banCustomer(User user) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement(
+                    "update KDLST.User set KDLST.User.status = ? where KDLST.User.userID =?");
+            prsm.setBoolean(1, false);
+            prsm.setInt(2, user.getIdUser());
+            System.out.println(user.toString());
+            int result = prsm.executeUpdate();
+            System.out.println(result);
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 
     public User getById(int id) {
         try {
@@ -220,7 +239,18 @@ public class UserRepository {
             prsm.setInt(5, user.getGender());
             prsm.setString(6, user.getPhoneNumber());
             prsm.setString(7, user.getAvatar());
-            prsm.setInt(8, user.getCustomerType().getIdCusType());
+            try {
+                if (user.getCustomerType() == null) {
+                    prsm.setNull(8, java.sql.Types.INTEGER); 
+                } else {
+                    prsm.setInt(8, user.getCustomerType().getIdCusType());
+                }
+            
+                prsm.executeUpdate();
+            
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             prsm.setBoolean(9, user.getStatus());
             prsm.setString(10, user.getCardID());
             prsm.setString(12, user.getPassword());
@@ -235,6 +265,9 @@ public class UserRepository {
         return false;
     }
 
-
+    public static void main(String[] args) {
+        UserRepository userRepository = new UserRepository();
+        System.out.println(userRepository.getAllEmployee().size());
+    }
 
 }

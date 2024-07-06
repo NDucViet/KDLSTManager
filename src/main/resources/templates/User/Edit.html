@@ -177,8 +177,10 @@
                 <div class="col-md-6">
                     <div class="profile-head">
                         <h5 th:text="${user.username}"></h5>
-                        <h6 th:text="'Xếp Hạng Khách Hàng: ' + ${user.customerType.nameCusType}"></h6>
-                        <p class="proile-rating">Status : <span>Khả Dụng</span></p>
+                        <th:block th:if="${user.customerType !=null}">
+                            <h6 th:text="'Xếp Hạng Khách Hàng: ' + ${user.customerType.nameCusType}"></h6>
+                        </th:block>
+                        <p class="proile-rating">Trạng thái : <span>Khả Dụng</span></p>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
@@ -192,17 +194,19 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" style="border: none; background-color: white; ">Submit</button>
+                    <button type="submit" style="border: none; background-color: white; ">Lưu</button>
                 </div>
             </div>
 
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="profile-work">
-                        <p>Cấp Bậc</p>
-                        <h7 th:text="${user.customerType.detail}"></h7>
-                    </div>
+                    <th:block th:if="${user.customerType !=null}">
+                        <div class="profile-work">
+                            <p>Cấp Bậc</p>
+                            <h7 th:text="${user.customerType.detail}"></h7>
+                        </div>
+                    </th:block>
                 </div>
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">

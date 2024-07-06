@@ -39,39 +39,61 @@
             <!-- partial:partials/_sidebar.html -->
             <partial th:insert="~{Admin/partial :: partial}"></partial>
             <div class="main-panel">
-                <!-- <div class="content-wrapper"> -->
-                <table class="table table-hover table-danger">
-                    <thead>
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Số Phòng</th>
-                            <th scope="col">Loại Phòng</th>
-                            <th scope="col">Giá</th>
-                            <th scope="col">Chi tiết</th>
-                            <th scope="col">Số lượng người tối đa</th>
-                            <th scope="col">Ảnh</th>
-                            <th scope="col">Trạng Thái</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>
-                                <button class="btn btn-outline-danger btn-delete"><a href="#"
-                                        style="text-decoration: none; color: black;">Sửa</a></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- </div> -->
+                <div class="content-wrapper">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-light caption-top mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Ảnh</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Loại Phòng</th>
+                                    <th scope="col">Mô tả</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Số người tối đa</th>
+                                    <th scope="col">Trạng Thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="room, no: ${rList}">
+                                    <tr>
+                                        <th th:text="${(currentPage - 1) * 10 + no.index + 1}"></th>
+                                        <td><img th:src="@{/images/{imageUrl}(imageUrl=${room.roomType.images})}"></td>
+                                        <td th:text="${room.roomID}"> </td>
+                                        <td th:text="${room.roomType.roomTypeName}"> </td>
+                                        <td th:text="${room.roomType.details}"></td>
+                                        <td th:text="${room.roomType.price}"></td>
+                                        <td th:text="${room.roomType.maxPeople}"></td>
+                                        <td th:if="${room.status == true}"><span class="badge bg-success">Chưa sử dụng</span></td>
+                                        <td th:if="${room.status == false}"><span class="badge bg-danger">Đã sử dụng</span>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col text-center">
+                            <div class="block-27">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li th:if="${currentPage > 1}" class="page-item">
+                                            <a th:href="@{/admin/getAllRoom/__${Previous}__}"
+                                                class="page-link">&laquo;</a>
+                                        </li>
+                                        <li th:each="page, iterStat : ${numPage}"
+                                            th:class="${currentPage == page} ? 'active'" class="page-item">
+                                            <a th:href="@{/admin/getAllRoom/__${page}__}" th:text="${page} "
+                                                class="page-link"></a>
+                                        </li>
+                                        <li th:if="${numPage.length > currentPage}" class="page-item"><a
+                                                th:href="@{/admin/getAllRoom/__${Next}__}" class="page-link">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <footer th:insert="~{Admin/footer :: footer}"></footer>

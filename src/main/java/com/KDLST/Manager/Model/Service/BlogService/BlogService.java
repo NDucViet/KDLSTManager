@@ -14,4 +14,6 @@ public interface BlogService {
     public boolean add(Blog blog);
 
     public Blog getIdLastest();
+
+    public boolean hiddenBlog(int id) ;
 }

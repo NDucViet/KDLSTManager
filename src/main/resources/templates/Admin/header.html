@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/themify-icons/0.1.2/css/themify-icons.css">
 
-    <link rel="stylesheet" type="text/css" th:href="@{css/feather.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{css/themify-icons.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{css/vendor.bundle.base.css}">
+    <link rel="stylesheet" th:href="@{css/feather.css}">
+    <link rel="stylesheet" th:href="@{css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{css/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" type="text/css" th:href="@{css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" th:href="@{css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" th:href="@{css/themify-icons.css}">
     <link rel="stylesheet" type="text/css" th:href="@{css/select.dataTables.min.css}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -25,8 +25,8 @@
     <div th:fragment="header">
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-5" th:href="@{/admin/}">Ngu Hanh Hill</a>
-                <a class="navbar-brand brand-logo-mini" th:href="@{/admin/}"><img src="images/logo-mini.svg"
+                <a class="navbar-brand brand-logo mr-5" th:href="@{/admin}">Ngu Hanh Hill</a>
+                <a class="navbar-brand brand-logo-mini" th:href="@{/admin}"><img src="images/logo-mini.svg"
                         alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -36,21 +36,19 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="images/person_1.jpg" alt="profile" />
+                            <th:block th:if="${session.user != null}">
+                                <img th:src="@{/images/{imageUrl}(imageUrl=${session.user.avatar})}" alt="Avatar" />
+                            </th:block>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
-                                <i class="ti-settings text-primary"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item">
-                                <i class="ti-power-off text-primary"></i>
-                                Logout
-                            </a>
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" th:href="@{/user/profile}">
                                 <i class="ti-user text-primary"></i>
-                                Edit profile
+                                Chỉnh sửa thông tin
+                            </a>
+                            <a class="dropdown-item" th:href="@{/user/logout}">
+                                <i class="ti-power-off text-primary"></i>
+                                Đăng xuất
                             </a>
                         </div>
                     </li>

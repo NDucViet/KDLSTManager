@@ -15,7 +15,7 @@ public class FileSystemStorageService implements StorageService {
 
     public FileSystemStorageService() {
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
-        this.rootLocation = Paths.get("D:/newProject/new11/KDLSTManager/src/main/resources/static/images");
+        this.rootLocation = Paths.get("D:/newProject/new25/KDLSTManager/src/main/resources/static/images");
     }
     
 

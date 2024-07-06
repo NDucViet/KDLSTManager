@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import com.KDLST.Manager.Model.BaseConnection;
 import com.KDLST.Manager.Model.Entity.Hotel.RoomType;
+import com.KDLST.Manager.Model.Entity.Ticket.TicketType;
 
 import jakarta.el.ELException;
 
@@ -66,4 +67,25 @@ public class RoomTypeRepository {
         return null;
     }
 
+    public boolean update(RoomType type) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement(
+                    "update KDLST.RoomType   set roomTypeName =?, price = ?,  image =? , details = ?, maxOfPeople = ? where roomTypeID =?");
+            prsm.setString(1, type.getRoomTypeName());
+            prsm.setDouble(2, type.getPrice());
+            prsm.setString(3, type.getImages());
+            prsm.setString(4, type.getDetails());
+            prsm.setInt(5, type.getMaxPeople());
+            prsm.setInt(6, type.getRoomTypeID());
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 }

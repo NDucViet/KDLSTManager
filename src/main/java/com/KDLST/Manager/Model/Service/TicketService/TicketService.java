@@ -8,5 +8,6 @@ public interface TicketService {
     public Ticket getByID(int id);
     public boolean update(Ticket ticket);
     public boolean add(Ticket ticket);
+
 }  
 

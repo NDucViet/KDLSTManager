@@ -147,8 +147,10 @@
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5 th:text="${user.username}"></h5>
-                    <h6 th:text="'Xếp Hạng Khách Hàng: ' + ${user.customerType.nameCusType}"></h6>
-                    <p class="proile-rating">Status : <span>Khả Dụng</span></p>
+                    <th:block th:if="${user.customerType !=null}">
+                        <h6 th:text="'Xếp Hạng Khách Hàng: ' + ${user.customerType.nameCusType}"></h6>
+                    </th:block>
+                    <p class="proile-rating">Trạng thái : <span>Khả Dụng</span></p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
@@ -162,20 +164,23 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a th:href="@{/user/showEdit}" class="profile-edit-btn" name="btnAddMore">Edit Profile</a>
+                <a th:href="@{/user/showEdit}" class="profile-edit-btn" name="btnAddMore">Chỉnh sửa thông tin</a>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="profile-work">
-                    <p>Cấp Bậc</p>
-                    <h7 th:text="${user.customerType.detail}"></h7>
+                <th:block th:if="${user.customerType !=null}">
+                    <div class="profile-work">
+                        <p>Cấp Bậc</p>
+                        <h7 th:text="${user.customerType.detail}"></h7>
 
-                </div>
+                    </div>
+                </th:block>
+
 
                 <div class="profile-work">
                     <div class="back-to-shop">
-                        <a th:href="@{/}" class="text-muted">&leftarrow; Back To Home Page</a>
+                        <a th:href="@{/}" class="text-muted">&leftarrow; Trở về trang chủ</a>
                     </div>
                 </div>
 

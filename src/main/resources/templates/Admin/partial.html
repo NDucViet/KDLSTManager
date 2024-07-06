@@ -49,64 +49,64 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/getRevenue}" aria-expanded="false">
                         <i class="ti-user menu-icon"></i>
-                        <span class="menu-title">Revenue</span>
+                        <span class="menu-title">Doanh thu</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/getAllCustomer}" aria-expanded="false">
                         <i class="ti-user menu-icon"></i>
-                        <span class="menu-title">Customer</span>
+                        <span class="menu-title">Khách hàng</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/getAllEmployee}" aria-expanded="false">
                         <i class="icon-head menu-icon"></i>
-                        <span class="menu-title">Employee</span>
+                        <span class="menu-title">Nhân viên</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/getAllBlog}" aria-expanded="false">
                         <i class="icon-paper menu-icon"></i>
-                        <span class="menu-title">Blog</span>
+                        <span class="menu-title">Bài viết</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllTicket}" aria-expanded="false">
+                        <i class="ti-file menu-icon"></i>
+                        <span class="menu-title">Vé</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/getAllService}" aria-expanded="false">
                         <i class="ti-stats-up menu-icon"></i>
-                        <span class="menu-title">Services</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/getAllHotel}" aria-expanded="false">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">Hotel</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/getAllComment}" aria-expanded="false">
-                        <i class="ti-file menu-icon"></i>
-                        <span class="menu-title">Comment</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/getAllFeedback}" aria-expanded="false">
-                        <i class="ti-file menu-icon"></i>
-                        <span class="menu-title">Feedback</span>
+                        <span class="menu-title">Dịch vụ</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false"
                         aria-controls="error">
                         <i class="icon-ban menu-icon"></i>
-                        <span class="menu-title">Error pages</span>
+                        <span class="menu-title">Khách sạn</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="error">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/error-404}"> 404 </a></li>
-                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/error-500}"> 500 </a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/getAllRoomType}"> Loại phòng  </a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/getAllRoom}"> Phòng </a></li>
                         </ul>
                     </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllComment}" aria-expanded="false">
+                        <i class="ti-file menu-icon"></i>
+                        <span class="menu-title">Bình luận</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/getAllFeedback}" aria-expanded="false">
+                        <i class="ti-file menu-icon"></i>
+                        <span class="menu-title">Đánh giá</span>
+                    </a>
                 </li>
             </ul>
         </nav>

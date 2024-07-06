@@ -23,7 +23,7 @@ public class ImageRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             Statement stsm = con.createStatement();
-            ResultSet rs = stsm.executeQuery("select * from KDLST.Image");
+            ResultSet rs = stsm.executeQuery("select * from KDLST.Image inner join Blog on Image.blogID = Blog.blogID where Blog.status = 1;");
             while (rs.next()) {
                 int imageID = rs.getInt("imageID");
                 String imageUrl = rs.getString("imageUrl");
@@ -162,7 +162,7 @@ public class ImageRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement stsm = con.prepareStatement(
-                    "select * from Image inner join Blog on Image.blogID = Blog.blogID order by dateTimeEdit desc limit 6;");
+                    "select * from Image inner join Blog on Image.blogID = Blog.blogID where Blog.status = 1 order by dateTimeEdit desc limit 6;");
             ResultSet rs = stsm.executeQuery();
             while (rs.next()) {
                 int imageID = rs.getInt("imageID");

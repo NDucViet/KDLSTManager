@@ -32,41 +32,64 @@
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
-        <header th:insert="~{Admin/header :: header}"></header>
+        <header th:insert="~{Employee/header :: header}"></header>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_settings-panel.html -->
-            <!-- partial:partials/_sidebar.html -->
-            <partial th:insert="~{Admin/partial :: partial}"></partial>
+            <partial th:insert="~{Employee/partial :: partial}"></partial>
             <div class="main-panel">
-                <table class="table table-hover table-danger">
-                    <thead>
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Tên</th>
-                            <th scope="col">Bài viết</th>
-                            <th scope="col">Nội dung</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>
-                                <button class="btn btn-outline-danger btn-delete"><a href="#"
-                                        style="text-decoration: none; color: black;">Xóa</a></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="content-wrapper">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-light caption-top mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Nội dung</th>
+                                    <th scope="col">Tên người bình luận</th>
+                                    <th scope="col">Tên bài viết</th>
+                                    <th scope="col">Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="comment, no : ${commentList}">
+                                    <tr>
+                                        <th th:text="${(currentPage - 1) * 10 + no.index + 1}"></th>
+                                        <td th:text="${comment.content}"></td>
+                                        <td th:text="${comment.user.username}"></td>
+                                        <td th:text="${comment.blog.title}"></td>
+                                        <td th:text="${comment.commentDate}"></td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <div class="block-27">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li th:if="${currentPage > 1}" class="page-item">
+                                            <a th:href="@{/employee/getAllComment/__${Previous}__}"
+                                                class="page-link">&laquo;</a>
+                                        </li>
+                                        <li th:each="page, iterStat : ${numPage}" class="page-item"
+                                            th:class="${currentPage == page} ? 'active'">
+                                            <a th:href="@{/employee/getAllComment/__${page}__}" th:text="${page} "
+                                                class="page-link"></a>
+                                        </li>
+                                        <li th:if="${numPage.length > currentPage}" class="page-item"><a
+                                                th:href="@{/employee/getAllComment/__${Next}__}"
+                                                class="page-link">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <footer th:insert="~{Admin/footer :: footer}"></footer>
+        <footer th:insert="~{Employee/footer :: footer}"></footer>
     </div>
-
 </body>
 
 </html>

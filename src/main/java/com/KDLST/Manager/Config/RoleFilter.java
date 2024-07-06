@@ -38,11 +38,15 @@ public class RoleFilter implements Filter {
             "/cart/checkOut", "/cart/vnpay-payment-return", "/cart/history",
             "/service/addFeedback",
             "/service/deleteFeedback", "/blog/submitComment", "/hotel/", "/css",
-            "/images", "/js", "/user/403","/ticket/rating","/cart"));
+            "/images", "/js", "/user/403"));
 
     private static final List<String> EMPLOY_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
-            "/employee/", "/employee/addBlog", "/employee/addBlog/action", "/css",
-            "/images", "/js", "/user/403"));
+            "/employee/", "/employee/getAllService", "/employee/getAllCustomer", "/employee/getAllTicket",
+            "/employee/getAllBlog", "/employee/updateBlog", "/employee/updateBlog/action",
+            "/employee/addBlog", "/employee/addBlog/action", "/employee/hiddenBlog", "/employee/getAllFeedback",
+            "/employee/getAllComment", "/employee/getAllRoom", "/employee/getAllRoomType",
+            "/user/logout", "/user/profile", "/user/showEdit", "/user/edit", "/css",
+            "/403"));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -52,7 +56,7 @@ public class RoleFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String path = httpRequest.getServletPath();
-       System.out.println(path);
+        System.out.println(path);
 
         if (isStaticResource(path) || isPublicPath(path) || path.equals("/")) {
             chain.doFilter(request, response);
@@ -103,17 +107,24 @@ public class RoleFilter implements Filter {
     }
 
     private boolean isUserPath(String path) {
-        
+
         for (String string : USER_PATH) {
             if (path.contains(string)) {
                 return true;
             }
         }
         return false;
+        // return USER_PATH.stream().anyMatch(path::equals);
     }
 
     private boolean isEmployPath(String path) {
-        return EMPLOY_PATH.stream().anyMatch(path::equals);
+        for (String string : EMPLOY_PATH) {
+            if (path.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+        // return EMPLOY_PATH.stream().anyMatch(path::equals);
     }
 
     private boolean isStaticResource(String path) {
