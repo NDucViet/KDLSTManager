@@ -2,7 +2,6 @@ package com.KDLST.Manager.Controller;
 
 import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoomDetails;
-import com.KDLST.Manager.Model.Entity.ServiceProject.ServiceType;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsService;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsServiceImplement;
 import com.KDLST.Manager.Model.Service.BillService.BillService;
@@ -190,7 +189,6 @@ public class AdminController {
         return "Admin/index";
     }
 
-
     // ArrayList<User> cList = new ArrayList<>();
 
     // @Autowired
@@ -215,7 +213,7 @@ public class AdminController {
                 * customerPage; i++) {
             if (cList.size() <= i)
                 break;
-                customerList.add(cList.get(i));
+            customerList.add(cList.get(i));
         }
         model.addAttribute("customerList", customerList);
         model.addAttribute("numPage", numPage);
@@ -227,9 +225,9 @@ public class AdminController {
 
     // @GetMapping("/getAllCustomer")
     // public String getAllCustomers(Model model) {
-    //     // ArrayList<Customer> cList
+    // // ArrayList<Customer> cList
 
-    //     return "Admin/customer";
+    // return "Admin/customer";
     // }
 
     @GetMapping("/getAllEmployee")
@@ -336,25 +334,6 @@ public class AdminController {
         model.addAttribute("pieMap", pieMap);
 
         return "Admin/chart";
-    }
-
- 
-    @PostMapping("/add")
-    public String addService(@ModelAttribute Services service, @RequestParam int typeID) {
-        ServiceType serviceType = new ServiceType();
-        serviceType.setServiceTypeID(typeID);
-        service.setServiceTypeID(serviceType);
-        serviceService.add(service);
-        return "redirect:/admin/services";
-    }
-
-    @PostMapping("/update")
-    public String updateService(@ModelAttribute Services service, @RequestParam int typeID) {
-        ServiceType serviceType = new ServiceType();
-        serviceType.setServiceTypeID(typeID);
-        service.setServiceTypeID(serviceType);
-        serviceService.update(service);
-        return "redirect:/admin/services";
     }
 
     // @PostMapping("/delete")

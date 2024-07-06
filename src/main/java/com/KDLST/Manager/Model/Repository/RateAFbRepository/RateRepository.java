@@ -1,9 +1,9 @@
 package com.KDLST.Manager.Model.Repository.RateAFbRepository;
 
 import com.KDLST.Manager.Model.BaseConnection;
-import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
+import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Entity.User.User;
-import com.KDLST.Manager.Model.Repository.ServiceProjectRepository.ServiceRepository;
+import com.KDLST.Manager.Model.Repository.TicketRepository.TicketRepository;
 import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,24 +16,23 @@ import java.util.ArrayList;
 public class RateRepository {
     private ArrayList<Rate> rates = new ArrayList<>();
     @Autowired
-    private ServiceRepository serviceRepository = new ServiceRepository();
+    TicketRepository ticketRepository = new TicketRepository();
     private UserRepository userRepository = new UserRepository();
 
-    public float getScoreByService(Services service) {
+    public float getScoreByService(Ticket ticket) {
         try {
             rates.clear();
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement preparedStatement = con.prepareStatement("select * from KDLST.Rate where serviceID = ?");
-            preparedStatement.setInt(1, service.getServiceID());
+            PreparedStatement preparedStatement = con.prepareStatement("select * from KDLST.Rate where ticketID = ?");
+            preparedStatement.setInt(1, ticket.getTicketID());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int rateID = rs.getInt("rateID");
                 User userID = userRepository.getById(rs.getInt("userID"));
                 int amountStar = rs.getInt("amountStar");
-                Services serviceID = service;
-                Rate rate = new Rate(rateID, userID, amountStar, serviceID);
+                Rate rate = new Rate(rateID, userID, amountStar, ticket);
                 rates.add(rate);
             }
             con.close();
@@ -48,7 +47,7 @@ public class RateRepository {
             score += rate.getAmountStar();
         }
         score /= rates.size();
-        return score;
+        return Float.parseFloat((String.format("%.1f", score)).replace(",", "."));
     }
 
     public ArrayList<Rate> getAll() {
@@ -63,9 +62,8 @@ public class RateRepository {
                 int rateID = rs.getInt("rateID");
                 User userID = userRepository.getById(rs.getInt("userID"));
                 int amountStar = rs.getInt("amountStar");
-                Services serviceID = serviceRepository.getById(rs.getInt("serviceID"));
-
-                Rate rate = new Rate(rateID, userID, amountStar, serviceID);
+                Ticket ticket = ticketRepository.getById(rs.getInt("ticketID"));
+                Rate rate = new Rate(rateID, userID, amountStar, ticket);
                 rates.add(rate);
             }
             con.close();
@@ -82,9 +80,9 @@ public class RateRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.Rate   set userID =?, serviceID=?,amountStar=?, where rateID =?");
+                    "update KDLST.Rate   set userID =?, ticketID=?,amountStar=?, where rateID =?");
             prsm.setInt(1, rate.getUser().getIdUser());
-            prsm.setInt(2, rate.getServices().getServiceID());
+            prsm.setInt(2, rate.getTicket().getTicketID());
             prsm.setInt(3, rate.getAmountStar());
             int result = prsm.executeUpdate();
             con.close();
@@ -101,9 +99,9 @@ public class RateRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.Rate (userID, serviceID,amountStar) values(?,?,?)");
+                    "insert into KDLST.Rate (userID, ticketID,amountStar) values(?,?,?)");
             prsm.setInt(1, rate.getUser().getIdUser());
-            prsm.setInt(2, rate.getServices().getServiceID());
+            prsm.setInt(2, rate.getTicket().getTicketID());
             prsm.setInt(3, rate.getAmountStar());
             int result = prsm.executeUpdate();
             con.close();

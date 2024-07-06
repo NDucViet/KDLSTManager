@@ -36,7 +36,8 @@ public class BillDetailsRepository {
                 Ticket ticketID = ticketRepository.getById(rs.getInt("ticketID"));
                 int quantity = rs.getInt("quantity");
                 double total = rs.getDouble("total");
-                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total);
+                int status = rs.getInt("status");
+                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total, status);
                 billDetailList.add(billDetails);
             }
             con.close();
@@ -54,7 +55,7 @@ public class BillDetailsRepository {
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = conn.prepareStatement(
-                    "select * from KDLST.BillDetails where KDLST.BillDetails.billID = ?;");
+                    "select * from KDLST.BillDetails where KDLST.BillDetails.billDetailsID = ?;");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
@@ -65,7 +66,8 @@ public class BillDetailsRepository {
             Ticket ticketID = ticketRepository.getById(rs.getInt("ticketID"));
             int quantity = rs.getInt("quantity");
             double total = rs.getDouble("total");
-            BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total);
+            int status = rs.getInt("status");
+            BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total, status);
             conn.close();
             return billDetails;
         } catch (Exception e) {
@@ -80,11 +82,12 @@ public class BillDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.BillDetails set KDLST.BillDetails.ticketID =?, KDLST.BillDetails.quantity=?, KDLST.BillDetails.total = ? where KDLST.BillDetails.billDetailsID =?");
+                    "update KDLST.BillDetails set KDLST.BillDetails.ticketID =?, KDLST.BillDetails.quantity=?, KDLST.BillDetails.total = ?,KDLST.BillDetails.status = ? where KDLST.BillDetails.billDetailsID =?");
             prsm.setInt(1, billDetails.getTicketID().getTicketID());// so sai
             prsm.setInt(2, billDetails.getQuantity());
             prsm.setDouble(3, billDetails.getTotal());
-            prsm.setInt(4, billDetails.getBillID().getBillID());
+            prsm.setInt(4, billDetails.getStatus());
+            prsm.setInt(5, billDetails.getBillDetailsID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;
@@ -99,12 +102,13 @@ public class BillDetailsRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.BillDetails (billID, ticketID, quantity, total) values(?,?,?,?)");
+                    "insert into KDLST.BillDetails (billID, ticketID, quantity, total, status) values(?,?,?,?,?)");
 
             prsm.setInt(1, billDetails.getBillID().getBillID());
             prsm.setInt(2, billDetails.getTicketID().getTicketID());// so sai
             prsm.setInt(3, billDetails.getQuantity());
             prsm.setDouble(4, billDetails.getTotal());
+            prsm.setInt(5, billDetails.getStatus());
 
             int result = prsm.executeUpdate();
             con.close();
@@ -132,7 +136,8 @@ public class BillDetailsRepository {
                 Ticket ticketID = ticketRepository.getById(rs.getInt("ticketID"));
                 int quantity = rs.getInt("quantity");
                 double total = rs.getDouble("total");
-                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total);
+                int status = rs.getInt("status");
+                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total, status);
                 billDetailListt.add(billDetails);
             }
             con.close();
@@ -255,7 +260,8 @@ public class BillDetailsRepository {
                 double total = rs.getDouble("total");
                 String datePay = rs.getString("datePay");
 
-                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total);
+                int status = rs.getInt("status");
+                BillDetails billDetails = new BillDetails(billDetailsID, billID, ticketID, quantity, total, status);
 
                 // Kiểm tra nếu key đã tồn tại, nếu không thì tạo mới ArrayList
                 if (!billDetailsMap.containsKey(datePay)) {

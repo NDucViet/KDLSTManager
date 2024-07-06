@@ -1,7 +1,7 @@
 package com.KDLST.Manager.Model.Service.RateAFbService;
 
 import com.KDLST.Manager.Model.Entity.RateAFb.Rate;
-import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
+import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Repository.RateAFbRepository.RateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +37,8 @@ public class RateServiceImplement implements RateService {
     }
 
     @Override
-    public float getScoreByService(Services service) {
-        float score = rateRepository.getScoreByService(service);
+    public float getScoreByService(Ticket ticket) {
+        float score = rateRepository.getScoreByService(ticket);
         if (score != 0) {
             return score;
         }

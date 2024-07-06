@@ -9,180 +9,183 @@
 </head>
 
 <body>
-<div class="cont">
-    <div class="form sign-in">
-        <img src="images/profile.jpg" alt="" />
-        <h2>Chào mừng bạn đến Ngũ Hành Hill</h2>
-        <form th:action="@{/user/login}" th:method="post" th:object="${user}">
-            <label class="pom-agile">
-                <span class="fa fa-user-o" aria-hidden="true"></span>
-                <span>Email</span>
-                <input id="email" name="email" th:field="*{email}" class="user" type="text" required>
-            </label>
-            <label class="pom-agile">
-                <span class="fa fa-key" aria-hidden="true"></span>
-                <span>Mật Khẩu</span>
-                <input id="password" name="password" th:field="*{password}" class="pass" type="password" required>
-            </label>
-            <label class="remember-me">
-                <input type="checkbox" name="agree">
-                <span>Nhớ đăng nhập</span>
-            </label>
-            <button type="submit" class="submit">Đăng Nhập</button>
-            <p class="forgot-pass">
-                <a th:href="@{/user/changePass}">Quên Mật Khẩu?</a>
-            </p>
-        </form>
-    </div>
-    <div class="sub-cont">
-        <div class="img">
-            <div class="img__text m--up">
-                <h2>Bạn chưa có tài khoản?</h2>
-                <p>Đăng ký và đặt vé để trải nghiệm những nơi thú vị!</p>
-            </div>
-            <div class="img__text m--in">
-                <h2>Bạn đã đăng ký?</h2>
-                <p>Nếu bạn đã có tài khoản, chỉ cần đăng nhập. Chúng tôi nhớ bạn!</p>
-            </div>
-            <div class="img__btn">
-                <span class="m--up">Đăng Ký</span>
-                <span class="m--in">Đăng Nhập</span>
-            </div>
+    <div class="cont">
+        <div class="form sign-in">
+            <img src="images/profile.jpg" alt="" />
+            <h2>Chào mừng bạn đến Ngũ Hành Hill</h2>
+            <form th:action="@{/user/login}" th:method="post" th:object="${user}">
+                <label class="pom-agile">
+                    <span class="fa fa-user-o" aria-hidden="true"></span>
+                    <span>Email</span>
+                    <input id="email" name="email" th:field="*{email}" class="user" type="text" required>
+                </label>
+                <label class="pom-agile">
+                    <span class="fa fa-key" aria-hidden="true"></span>
+                    <span>Mật Khẩu</span>
+                    <input id="password" name="password" th:field="*{password}" class="pass" type="password" required>
+                </label>
+                <label class="remember-me">
+                    <input type="checkbox" name="agree">
+                    <span>Nhớ đăng nhập</span>
+                </label>
+                <button type="submit" class="submit">Đăng Nhập</button>
+                <p class="forgot-pass">
+                    <a th:href="@{/user/changePass}">Quên Mật Khẩu?</a>
+                </p>
+            </form>
         </div>
-        <div class="form-container">
-            <div class="form sign-up">
-                <h2>Đăng Ký</h2>
-                <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post" th:object="${user}">
-                    <label>
-                        <span>Tên</span>
-                        <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
-                    </label>
-                    <label>
-                        <span>Email</span>
-                        <input id="em" name="email" th:field="*{email}" type="email" autocomplete="off" required />
-                    </label>
-                    <label>
-                        <span>Ngày Sinh</span>
-                        <input id="birth" type="date" name="birth"
-                               style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;"
-                               required />
-                    </label>
-                    <label>
-                        <span>CCCD</span>
-                        <input name="cardID" th:field="*{cardID}" type="text" required />
-                    </label>
-                    <label>
-                        <span>Địa Chỉ</span>
-                        <input name="address" th:field="*{address}" type="text" required />
-                    </label>
-                    <label>
-                        <span>Giới Tính</span>
-                        <select name="gender" th:field="*{gender}" required>
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
-                            <option value="3">Khác</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Số Điện Thoại</span>
-                        <input id="ph" name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off" required />
-                    </label>
-                    <label>
-                        <span>Ảnh Đại Diện</span>
-                        <input type="file" th:field="*{avatar}"
-                               style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
-                    </label>
-                    <label>
-                        <span>Quốc Gia</span>
-                        <input name="nation" th:field="*{nation}" type="text" required />
-                    </label>
-                    <label>
-                        <span>Mật Khẩu</span>
-                        <input id="pw" name="password" th:field="*{password}" type="password" autocomplete="new-password" required />
-                    </label>
-                    <label>
-                        <span>Xác Nhận Mật Khẩu</span>
-                        <input id="pwa" name="passAgain" type="password" autocomplete="new-password" required />
-                    </label>
-                    <label class="agree">
-                        <input id="agree" name="agree" type="checkbox" required>
-                        <span>Chập nhận điều khoản của chúng tôi</span>
-                    </label>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h2>Bạn chưa có tài khoản?</h2>
+                    <p>Đăng ký và đặt vé để trải nghiệm những nơi thú vị!</p>
+                </div>
+                <div class="img__text m--in">
+                    <h2>Bạn đã đăng ký?</h2>
+                    <p>Nếu bạn đã có tài khoản, chỉ cần đăng nhập. Chúng tôi nhớ bạn!</p>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">Đăng Ký</span>
+                    <span class="m--in">Đăng Nhập</span>
+                </div>
+            </div>
+            <div class="form-container">
+                <div class="form sign-up">
+                    <h2>Đăng Ký</h2>
+                    <form onsubmit="return validateForm()" th:action="@{/user/register}" th:method="post"
+                        th:object="${user}">
+                        <label>
+                            <span>Tên</span>
+                            <input name="username" th:field="*{username}" type="text" autocomplete="off" required />
+                        </label>
+                        <label>
+                            <span>Email</span>
+                            <input id="em" name="email" th:field="*{email}" type="email" autocomplete="off" required />
+                        </label>
+                        <label>
+                            <span>Ngày Sinh</span>
+                            <input id="birth" type="date" name="birth"
+                                style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;"
+                                required />
+                        </label>
+                        <label>
+                            <span>CCCD</span>
+                            <input name="cardID" th:field="*{cardID}" type="text" required />
+                        </label>
+                        <label>
+                            <span>Địa Chỉ</span>
+                            <input name="address" th:field="*{address}" type="text" required />
+                        </label>
+                        <label>
+                            <span>Giới Tính</span>
+                            <select name="gender" th:field="*{gender}" required>
+                                <option value="1">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Số Điện Thoại</span>
+                            <input id="ph" name="phone" th:field="*{phoneNumber}" type="text" autocomplete="off"
+                                required />
+                        </label>
+                        <label>
+                            <span>Ảnh Đại Diện</span>
+                            <input type="file" th:field="*{avatar}"
+                                style="width: 100%; padding: 20px 0px; background: transparent; border: 0; border-bottom: 1px solid #435160; outline: none; color: #6D7781; font-size: 16px; height: 30px;" />
+                        </label>
+                        <label>
+                            <span>Quốc Gia</span>
+                            <input name="nation" th:field="*{nation}" type="text" required />
+                        </label>
+                        <label>
+                            <span>Mật Khẩu</span>
+                            <input id="pw" name="password" th:field="*{password}" type="password"
+                                autocomplete="new-password" required />
+                        </label>
+                        <label>
+                            <span>Xác Nhận Mật Khẩu</span>
+                            <input id="pwa" name="passAgain" type="password" autocomplete="new-password" required />
+                        </label>
+                        <label class="agree">
+                            <input id="agree" name="agree" type="checkbox" required>
+                            <span>Chập nhận điều khoản của chúng tôi</span>
+                        </label>
 
-                    <script th:inline="javascript">
-                        function validateForm() {
-                            var inputs = document.getElementsByTagName("input"); // Lấy tất cả các input trong form
-                            for (var i = 0; i < inputs.length; i++) {
-                                if (inputs[i].value.trim() === "") { // Kiểm tra xem mỗi input có giá trị rỗng không
-                                    alert("Vui lòng điền đầy đủ thông tin.");
-                                    return false; // Ngăn chặn form được gửi đi
+                        <script th:inline="javascript">
+                            function validateForm() {
+                                var inputs = document.getElementsByTagName("input"); // Lấy tất cả các input trong form
+                                for (var i = 0; i < inputs.length; i++) {
+                                    if (inputs[i].value.trim() === "") { // Kiểm tra xem mỗi input có giá trị rỗng không
+                                        alert("Vui lòng điền đầy đủ thông tin.");
+                                        return false; // Ngăn chặn form được gửi đi
+                                    }
                                 }
-                            }
 
-                            var birthDate = new Date(document.getElementById('birth').value);
-                            var today = new Date();
-                            if (birthDate >= today) {
-                                alert("Ngày sinh phải là ngày của quá khứ.");
-                                document.getElementById('birth').style.borderColor = "red";
-                                return false;
-                            }
+                                var birthDate = new Date(document.getElementById('birth').value);
+                                var today = new Date();
+                                if (birthDate >= today) {
+                                    alert("Ngày sinh phải là ngày của quá khứ.");
+                                    document.getElementById('birth').style.borderColor = "red";
+                                    return false;
+                                }
 
-                            var password = document.getElementById('pw').value;
-                            if (password.length < 8) {
-                                alert("Mật khẩu phải có ít nhất 8 ký tự.");
-                                document.getElementById('pw').style.borderColor = "red";
-                                return false;
-                            }
-
-                            var confirmPassword = document.getElementById('pwa').value;
-                            if (password !== confirmPassword) {
-                                alert("Mật khẩu xác nhận không khớp.");
-                                document.getElementById('pwa').style.borderColor = "red";
-                                return false;
-                            }
-
-                            return true;
-                        }
-
-
-                    var mess = /*[[${mess}]]*/ {};
-                        // Nếu có lỗi, hiển thị chúng
-                        if (mess.trim() !== '') {
-                            var errorFields = mess.split(' ');
-                            errorFields.forEach(function (element) {
-                                if (element.includes("password")) {
+                                var password = document.getElementById('pw').value;
+                                if (password.length < 8) {
+                                    alert("Mật khẩu phải có ít nhất 8 ký tự.");
                                     document.getElementById('pw').style.borderColor = "red";
+                                    return false;
                                 }
-                                if (element.includes("doublicate")) {
-                                    document.getElementById('em').style.borderColor = "red";
-                                    alert("Email đã tồn tại");
-                                }
-                                if (element.includes("email")) {
-                                    document.getElementById('em').style.borderColor = "red";
-                                }
-                                if (element.includes("phone")) {
-                                    document.getElementById('ph').style.borderColor = "red";
-                                }
-                                if (element.includes("passAgain")) {
+
+                                var confirmPassword = document.getElementById('pwa').value;
+                                if (password !== confirmPassword) {
+                                    alert("Mật khẩu xác nhận không khớp.");
                                     document.getElementById('pwa').style.borderColor = "red";
+                                    return false;
                                 }
-                            });
-                        } else {
-                            // Nếu không có lỗi, gửi form đi
-                            event.target.submit();
-                        }
-                    </script>
-                    <button type="submit" class="submit">Đăng Ký</button>
-                </form>
+
+                                return true;
+                            }
+
+
+                            var mess = /*[[${mess}]]*/ {};
+                            // Nếu có lỗi, hiển thị chúng
+                            if (mess.trim() !== '') {
+                                var errorFields = mess.split(' ');
+                                errorFields.forEach(function (element) {
+                                    if (element.includes("password")) {
+                                        document.getElementById('pw').style.borderColor = "red";
+                                    }
+                                    if (element.includes("doublicate")) {
+                                        document.getElementById('em').style.borderColor = "red";
+                                        alert("Email đã tồn tại");
+                                    }
+                                    if (element.includes("email")) {
+                                        document.getElementById('em').style.borderColor = "red";
+                                    }
+                                    if (element.includes("phone")) {
+                                        document.getElementById('ph').style.borderColor = "red";
+                                    }
+                                    if (element.includes("passAgain")) {
+                                        document.getElementById('pwa').style.borderColor = "red";
+                                    }
+                                });
+                            } else {
+                                // Nếu không có lỗi, gửi form đi
+                                event.target.submit();
+                            }
+                        </script>
+                        <button type="submit" class="submit">Đăng Ký</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    document.querySelector('.img__btn').addEventListener('click', function () {
-        document.querySelector('.cont').classList.toggle('s--signup');
-    });
-</script>
+    <script>
+        document.querySelector('.img__btn').addEventListener('click', function () {
+            document.querySelector('.cont').classList.toggle('s--signup');
+        });
+    </script>
 
 </body>
 

@@ -171,89 +171,124 @@
 		/* Điều chỉnh theo nhu cầu của bạn */
 	}
 
-	.custom-modal {
-		position: fixed;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 100%;
-		max-height: 90vh;
-		/* Để modal không chiếm toàn bộ chiều cao màn hình */
-		overflow-y: auto;
-		/* Để modal có thể cuộn nếu nội dung quá dài */
-		z-index: 1050;
-		/* Để đảm bảo modal xuất hiện trên các thành phần khác */
+	/* Giữ lại các thuộc tính đã có */
+	.trigger {
+		background-color: black;
+		color: red;
 	}
 
-	.modal-dialog {
-		margin: 0;
-		max-width: 100%;
+	.modal,
+	.fade {
+		background-color: lightgray;
+		padding-left: 15px;
+		padding-right: 15px;
 	}
 
 	.modal-content {
-		border-radius: 0;
+		background: transparent;
+		border: none;
+		padding: 0 19px;
 	}
 
-	@media (min-width: 768px) {
-		.custom-modal {
-			width: 50%;
-		}
+	.close {
+		position: relative;
+		top: 48px;
+		left: 13px;
+		z-index: 1;
+		font-size: 30px;
+		font-weight: 100;
+		line-height: 1;
+		color: gray;
 	}
 
-	.custom-modal:not(:first-child) {
-		margin-bottom: 10px;
-		/* Khoảng cách giữa các modal */
+	.modal-header {
+		border: none;
 	}
 
-	.modal-body img {
-		height: 30rem;
-		/* Increase the image height */
-		width: 40rem;
-		/* Increase the image width */
+	.modal-body {
+		border: none;
+		background-color: white;
+		padding-bottom: 5px;
+		display: flex;
+		flex-wrap: nowrap;
+	}
+
+	.ad img {
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
-		margin-right: 1rem;
+		/* Đảm bảo ảnh không bị cắt */
 	}
 
-	.location {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-width: 300px;
-	}
-
-	.custom-modal {
-		position: fixed;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 100%;
-		max-height: 90vh;
-		/* Để modal không chiếm toàn bộ chiều cao màn hình */
+	.details {
 		overflow-y: auto;
-		/* Để modal có thể cuộn nếu nội dung quá dài */
-		z-index: 1050;
-		/* Để đảm bảo modal xuất hiện trên các thành phần khác */
+		max-height: 80vh;
+		/* Đặt giới hạn chiều cao cho phần nội dung */
 	}
 
-	.modal-dialog {
-		margin: 0;
-		max-width: 100%;
+	.modal-footer {
+		border: none;
 	}
 
-	.modal-content {
-		border-radius: 0;
+	.btn.focus,
+	.btn:focus {
+		outline: 0;
+		box-shadow: none !important;
 	}
 
-	@media (min-width: 768px) {
-		.custom-modal {
-			width: 50%;
+	.close.focus,
+	.close:focus {
+		outline: 0;
+		box-shadow: none !important;
+	}
+
+	.hurry {
+		margin-top: 30px;
+	}
+
+	.booking {
+		background-color: white;
+		border: 2px solid lightgray;
+		width: 150px;
+		border-radius: 0px;
+	}
+
+	.booking:hover {
+		background-color: #ECEFF1;
+		border: 2px solid black;
+	}
+
+	@media (min-width: 599px) {
+		.modal-dialog {
+			max-width: 80rem;
+			/* Tăng kích thước tối đa của modal */
+			width: 70rem;
+			/* Đặt chiều rộng modal */
+		}
+
+		.details {
+			padding: 0 114px;
+		}
+
+		.off {
+			position: absolute;
+			bottom: 150px;
+			left: 25px;
 		}
 	}
 
-	.custom-modal:not(:first-child) {
-		margin-bottom: 10px;
-		/* Khoảng cách giữa các modal */
+	@media (min-width: 992px) {
+		.ad {
+			flex: 0 0 40%;
+			max-width: 40%;
+		}
+
+		.details {
+			flex: 0 0 60%;
+			max-width: 60%;
+		}
 	}
+
 
 	/* .pagination {
     display: flex;
@@ -280,6 +315,13 @@
     color: white;
     border-color: #007bff;
   } */
+	.location {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 300px;
+	}
+
 
 	.truncate {
 		display: block;
@@ -336,7 +378,7 @@
 
 								<div class="tab-content" id="v-pills-tabContent">
 
-									<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel"
+									<div class="tab-pane show active" id="v-pills-1" role="tabpanel"
 										aria-labelledby="v-pills-nextgen-tab">
 										<div class="row no-gutters search-property-1">
 											<div class="col-lg-9 d-flex position-relative">
@@ -512,21 +554,21 @@
 				<div class="col-xs-12 col-sm-6 col-md-4 ftco-animate" th:each="service : ${sList}">
 					<div class="project-wrap">
 						<a href="#" class="img"
-							th:style="'background-image: url(images/' + ${service.key.key.image} + ');'">
+							th:style="'background-image: url(images/' + ${service.key.image} + ');'">
 							<span class="price">Đề xuất</span>
 						</a>
 						<div class="text p-4">
 							<h3>
 								<button class="location" data-bs-toggle="modal"
-									th:data-bs-target="'#modal' + ${service.key.key.serviceID}"
-									th:text="${service.key.key.serviceName}"
+									th:data-bs-target="'#modal' + ${service.key.serviceID}"
+									th:text="${service.key.serviceName}"
 									style="border: none; background-color: white;"></button>
 							</h3>
 							<p class="location"><span class="fa fa-map-marker"></span>
-								[[${service.key.key.description}]]</p>
+								[[${service.key.description}]]</p>
 							<ul>
 								<li><span class="flaticon-mountains"></span>
-									<a href="#" th:text="${service.key.key.serviceTypeID.serviceName}"></a>
+									<a href="#" th:text="${service.key.serviceTypeID.serviceName}"></a>
 								</li>
 							</ul>
 						</div>
@@ -538,61 +580,54 @@
 		</div>
 	</section>
 	<div th:each="service : ${sListAll}">
-		<div th:id="'modal' + ${service.key.key.serviceID}" class="modal fade custom-modal" data-bs-backdrop="static"
-			data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+		<div class="modal fade" th:id="'modal' + ${service.key.serviceID}" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3 th:text="${service.key.key.serviceTypeID.serviceName}"></h3>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
-					<div class="modal-body">
-						<div class="mb-3">
-							<h3 style="color: black; cursor: pointer;" onmouseover="this.style.color='orange'"
-								onmouseout="this.style.color='black'" th:text="${service.key.key.serviceName}"></h3>
-							<i class="fa-solid fa-star" style="color: #FF9529;display: inline;font-size: larger;"></i>
-							<p class="h5" th:text="${service.value}" style="display: inline;color: #FF9529;"></p>
+					<div class="modal-body p-0 row">
+						<div class="col-12 col-lg-4 ad p-0">
+							<img th:src="@{/images/{image}(image=${service.key.image})}" class="modal-image">
 						</div>
-						<div class="mb-3 text-center">
-							<img th:src="@{/images/{image}(image=${service.key.key.image})}" alt="Service Image"
-								class="img-fluid">
-						</div>
-						<div>
-							<p><strong>Mô Tả:</strong></p>
-							<p th:text="${service.key.key.description}"></p>
-						</div>
-
-						<div style="padding-top: 20px;">
-							<hr style="background-color: black;">
-							<div class="row">
-								<div class="col-sm-5"></div>
-								<div class="col-sm-7" style="padding-top: 20px;">
-									<strong class="h4">Đánh Giá</strong>
-								</div>
+						<div class="details col-12 col-lg-8">
+							<div class="heading d-flex">
+								<h3 th:text="${service.key.serviceTypeID.serviceName}"></h3>
 							</div>
-							<div class="row">
-								<div class="col-sm-2"></div>
-								<div class="col-sm-8">
+							<h3 style="color: black; cursor: pointer;" th:text="${service.key.serviceName}"></h3>
+							<p><small class="text-muted" th:text="${service.key.description}"></small></p>
+							<div class="d-flex mt-2 mb-5">
+								<div style="padding-top: 20px;">
+									<hr style="background-color: black;">
+									<div class="row">
+										<div class="col-sm-5"></div>
+										<div class="col-sm-7" style="padding-top: 20px;">
+											<strong class="h4">Đánh Giá</strong>
+										</div>
+									</div>
+
 									<div class="d-flex flex-row add-comment-section mt-4 mb-4"
 										th:if="${session.user != null}">
 										<img class="img-fluid img-responsive rounded-circle mr-2"
 											th:src="@{'/images/'+ ${session.user.avatar}}"
 											style="width: 38px;height: auto;">
 										<input type="text" class="form-control mr-3" placeholder="Add your feedback"
-											th:id="|content${service.key.key.serviceID}|">
+											th:id="|content${service.key.serviceID}|">
 										<button class="btn" style="background-color: black; color: #fafafa;"
 											type="button"
-											th:onclick="|addFeedback(${service.key.key.serviceID})|">Gửi</button>
+											th:onclick="|addFeedback(${service.key.serviceID})|">Gửi</button>
 									</div>
 									<div>
 										<div class="media g-mb-30 media-comment noneComment"
-											th:id="|noneComment${service.key.key.serviceID}|"
-											th:hidden="${not service.key.value.isEmpty()}">
+											th:id="|noneComment${service.key.serviceID}|"
+											th:hidden="${not service.value.isEmpty()}">
 											<p>Không có bình luận.</p>
 										</div>
 									</div>
-
-									<div th:each="feedback : ${service.key.value}">
+									<div th:each="feedback : ${service.value}">
 										<div class="media g-mb-30 media-comment"
 											th:id="|feedback${feedback.feedbackID}|">
 											<img class="rounded-circle shadow-1-strong me-3"
@@ -628,8 +663,6 @@
 	</div>
 
 
-
-
 	<section class="ftco-section ftco-about img" style="background-image: url(images/bg_4.jpg);">
 		<div class="overlay"></div>
 		<div class="container py-md-5">
@@ -659,7 +692,8 @@
 								<div class="col-md-12 heading-section ftco-animate">
 									<span class="subheading">Giới thiệu</span>
 									<h2 class="mb-4">Làm cho chuyến tham quan của bạn trở nên đáng nhớ và an toàn</h2>
-									<p>Thiên đường bình dị này là một thiên đường đích thực, nơi những giai điệu của thiên nhiên
+									<p>Thiên đường bình dị này là một thiên đường đích thực, nơi những giai điệu của
+										thiên nhiên
 										khiến bạn say mê .</p>
 									<p><a href="#" class="btn btn-primary">Đặt ngay</a></p>
 								</div>
@@ -672,7 +706,7 @@
 	</section>
 
 
-    
+
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center pb-4">
@@ -713,7 +747,7 @@
 	</section>
 
 
-    <section class="ftco-intro ftco-section ftco-no-pt">
+	<section class="ftco-intro ftco-section ftco-no-pt">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-12 text-center">

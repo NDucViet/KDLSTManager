@@ -31,7 +31,7 @@ public class BillRepository {
                 User user = userRepository.getById(rs.getInt("userID"));
                 Date datePay = rs.getDate("datePay");
                 Date dateUse = rs.getDate("dateUse");
-                Boolean status = rs.getBoolean("status");
+                int status = rs.getInt("status");
                 Bill bill = new Bill(billID, user, datePay, dateUse, status);
                 billList.add(bill);
             }
@@ -58,7 +58,7 @@ public class BillRepository {
             User user = userRepository.getById(rs.getInt("userID"));
             Date datePay = rs.getDate("datePay");
             Date dateUse = rs.getDate("dateUse");
-            Boolean status = rs.getBoolean("status");
+            int status = rs.getInt("status");
             Bill bill = new Bill(billID, user, datePay, dateUse, status);
             conn.close();
             return bill;
@@ -84,7 +84,7 @@ public class BillRepository {
                 User user = userRepository.getById(rs.getInt("userID"));
                 Date datePay = rs.getDate("datePay");
                 Date dateUse = rs.getDate("dateUse");
-                Boolean status = rs.getBoolean("status");
+                int status = rs.getInt("status");
                 Bill bill = new Bill(billID, user, datePay, dateUse, status);
                 billList.add(bill);
             }
@@ -105,7 +105,7 @@ public class BillRepository {
                     "Update KDLST.bill set userID = ?, datePay = ?, status = ?, dateUse=? WHERE billID = ?");
             prsm.setInt(1, bill.getUser().getIdUser());
             prsm.setDate(2, bill.getDatePay());
-            prsm.setBoolean(3, bill.isStatus());
+            prsm.setInt(3, bill.getStatus());
             prsm.setDate(4, bill.getDateUse());
             prsm.setInt(5, bill.getBillID());
             System.out.println(bill.toString());
@@ -128,7 +128,7 @@ public class BillRepository {
                     "INSERT INTO KDLST.bill (userID, datePay, status, dateUse) VALUES (?, ?, ?, ?)");
             prsm.setInt(1, bill.getUser().getIdUser());
             prsm.setDate(2, bill.getDatePay());
-            prsm.setBoolean(3, bill.isStatus());
+            prsm.setInt(3, bill.getStatus());
             prsm.setDate(4, bill.getDateUse());
             int result = prsm.executeUpdate();
             con.close();

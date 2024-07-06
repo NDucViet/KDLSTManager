@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.KDLST.Manager.Model.BaseConnection;
+import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Entity.Ticket.TicketType;
+import com.KDLST.Manager.Model.Repository.ServiceProjectRepository.ServiceRepository;
 
 import jakarta.el.ELException;
 
@@ -16,6 +18,7 @@ public class TicketRepository {
     private static ArrayList<Ticket> ticketList = new ArrayList<>();
     @Autowired
     private TicketTypeRepository ticketTypeRepository = new TicketTypeRepository();
+    private ServiceRepository serviceRepository = new ServiceRepository();
 
     public ArrayList<Ticket> getAll() {
         try {
@@ -28,12 +31,13 @@ public class TicketRepository {
             while (rs.next()) {
                 int ticketID = rs.getInt("ticketID");
                 TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
+                Services service = serviceRepository.getById(rs.getInt("serviceID"));
                 String title = rs.getString("title");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
                 String image = rs.getString("image");
                 Boolean status = rs.getBoolean("status");
-                Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);
+                Ticket ticket = new Ticket(ticketID, service, TicketType, title, description, price, image, status);
 
                 ticketList.add(ticket);
             }
@@ -59,12 +63,13 @@ public class TicketRepository {
             }
             int ticketID = rs.getInt("ticketID");
             TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
+            Services service = serviceRepository.getById(rs.getInt("serviceID"));
             String title = rs.getString("title");
             String description = rs.getString("description");
             double price = rs.getDouble("price");
             String image = rs.getString("image");
             Boolean status = rs.getBoolean("status");
-            Ticket ticket = new Ticket(ticketID, TicketType, title, description, price, image, status);
+            Ticket ticket = new Ticket(ticketID, service, TicketType, title, description, price, image, status);
             conn.close();
             return ticket;
         } catch (Exception e) {
@@ -79,14 +84,15 @@ public class TicketRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.Ticket set KDLST.Ticket.ticketTypeID =?, KDLST.Ticket.title=?, KDLST.Ticket.description = ?, KDLST.Ticket.price =?, KDLST.Ticket.image =?, KDLST.Ticket.status =? where KDLST.Ticket.ticketID =?");
+                    "update KDLST.Ticket set KDLST.Ticket.ticketTypeID =?, KDLST.Ticket.title=?, KDLST.Ticket.description = ?, KDLST.Ticket.price =?, KDLST.Ticket.image =?, KDLST.Ticket.status =?,KDLST.Ticket.serviceID =? where KDLST.Ticket.ticketID =?");
             prsm.setInt(1, ticket.getTicketTypeID().getTicketTypeID());
             prsm.setString(2, ticket.getTitle());
             prsm.setString(3, ticket.getDescription());
             prsm.setDouble(4, ticket.getPrice());
             prsm.setString(5, ticket.getImage());
             prsm.setBoolean(6, ticket.isStatus());
-            prsm.setInt(7, ticket.getTicketID());
+            prsm.setInt(7, ticket.getService().getServiceID());
+            prsm.setInt(8, ticket.getTicketID());
 
             System.out.println(ticket.toString());
             int result = prsm.executeUpdate();
@@ -105,7 +111,7 @@ public class TicketRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "insert into KDLST.Ticket (ticketTypeID, title, description, price, image, status) values(?,?,?,?,?,?)");
+                    "insert into KDLST.Ticket (ticketTypeID, title, description, price, image, status, serviceID) values(?,?,?,?,?,?,?)");
             prsm.setInt(1, ticket.getTicketTypeID().getTicketTypeID());
             prsm.setString(2, ticket.getTitle());
             prsm.setString(3, ticket.getDescription());
@@ -113,6 +119,7 @@ public class TicketRepository {
             prsm.setString(5, ticket.getImage());
             prsm.setBoolean(6, ticket.isStatus());
             prsm.setInt(7, ticket.getTicketID());
+            prsm.setInt(8, ticket.getService().getServiceID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;

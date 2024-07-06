@@ -14,5 +14,5 @@ public class Bill {
     private User user;
     private Date datePay;
     private Date dateUse;
-    private boolean status;
+    private int status;
 }

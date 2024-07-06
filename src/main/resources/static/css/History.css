@@ -1,0 +1,251 @@
+body {
+    margin-top: 50px;
+    background-color: rgb(159, 157, 157);
+}
+
+.timeline_area {
+    position: relative;
+    z-index: 1;
+}
+
+.single-timeline-area {
+    position: relative;
+    z-index: 1;
+    padding-left: 150px;
+}
+
+@media only screen and (max-width: 575px) {
+    .single-timeline-area {
+        padding-left: 100px;
+    }
+}
+
+.single-timeline-area .timeline-date {
+    position: absolute;
+    width: 180px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding-right: 60px;
+}
+
+@media only screen and (max-width: 575px) {
+    .single-timeline-area .timeline-date {
+        width: 100px;
+    }
+}
+
+.single-timeline-area .timeline-date::after {
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    content: "";
+    background-color: #ebebeb;
+    top: 0;
+    right: 30px;
+    z-index: 1;
+}
+
+.single-timeline-area .timeline-date::before {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: #f1c40f;
+    content: "";
+    top: 50%;
+    right: 26px;
+    z-index: 5;
+    margin-top: -5.5px;
+}
+
+@media only screen and (max-width: 575px) {
+    .single-timeline-area .single-timeline-content {
+        padding: 20px;
+    }
+}
+
+.modal {
+    border-radius: 7px;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.modal p {
+    line-height: 1.5;
+    font-size: 18px;
+}
+
+.modal .logo a img {
+    width: 30px;
+}
+
+.modal .modal-content {
+    background-color: transparent;
+    border: none;
+    border-radius: 7px;
+}
+
+.modal .modal-content .modal-body {
+    border-radius: 7px;
+    overflow: hidden;
+    background-color: #efefef;
+    padding-left: 0px;
+    padding-right: 0px;
+    -webkit-box-shadow: 0 10px 50px -10px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 10px 50px -10px rgba(0, 0, 0, 0.9);
+}
+
+.modal .modal-content .modal-body h2 {
+    font-size: 18px;
+}
+
+.modal .modal-content .modal-body p {
+    color: #777;
+    font-size: 14px;
+}
+
+.modal .modal-content .modal-body h3 {
+    color: #000;
+    font-size: 22px;
+}
+
+.modal .modal-content .modal-body .close-btn {
+    color: #000;
+}
+
+.modal .modal-content .modal-body .promo-img {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+}
+
+.modal .modal-content .modal-body .promo-img .price {
+    top: 20px;
+    left: 20px;
+    position: absolute;
+    color: #fff;
+}
+
+.modal .cancel {
+    color: gray;
+    font-size: 14px;
+}
+
+.modal .btn-primary {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-control {
+    border: transparent;
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+.form-control:active,
+.form-control:focus,
+.form-control:hover {
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+    border-radius: 4px;
+    border: none;
+}
+
+.btn:active,
+.btn:focus {
+    outline: none;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.bg-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.logo img {
+    width: 70px;
+}
+
+.star-rating {
+    white-space: nowrap;
+}
+
+.star-rating [type="radio"] {
+    appearance: none;
+}
+
+.star-rating i {
+    font-size: 1.2em;
+    transition: 0.3s;
+}
+
+.star-rating label:is(:hover, :has(~ :hover)) i {
+    transform: scale(1.35);
+    color: #fffdba;
+    animation: jump 0.5s calc(0.3s + (var(--i) - 1) * 0.15s) alternate infinite;
+}
+
+.star-rating label:has(~ :checked) i {
+    color: #faec1b;
+    text-shadow:
+        0 0 2px #ffffff,
+        0 0 10px #ffee58;
+}
+
+@keyframes jump {
+
+    0%,
+    50% {
+        transform: translatey(0) scale(1.35);
+    }
+
+    100% {
+        transform: translatey(-15%) scale(1.35);
+    }
+}
+
+#popchat {
+    position: fixed;
+    background-color: #f15d30 ;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: auto;
+    min-width: 150px;
+    max-width: 300px;
+    color: white;
+    padding: 8px 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 9999;
+}
+
+#popchat i {
+    margin-right: 8px;
+}
+
+#popchat.active {
+    opacity: 1;
+}

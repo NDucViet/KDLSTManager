@@ -16,4 +16,5 @@ public class BillDetails {
     private Ticket ticketID;
     private int quantity;
     private double total;
+    private int status;
 }

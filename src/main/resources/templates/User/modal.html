@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<style>
+    html {
+        height: 100%;
+        background: linear-gradient(90deg, rgb(234, 199, 243) 0%, rgb(243, 141, 240) 100%);
+    }
+
+    head,
+    body {
+        background: linear-gradient(90deg, rgb(234, 199, 243) 0%, rgb(243, 141, 240) 100%);
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        margin-top: 200px;
+        background: transparent;
+    }
+
+    .trigger {
+        background-color: black;
+        color: red;
+    }
+
+    .modal,
+    .fade,
+    .show {
+        background-color: lightgray;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .modal-content {
+        background: transparent;
+        border: none;
+        padding: 0 19px;
+    }
+
+    .close {
+        position: relative;
+        top: 48px;
+        left: 13px;
+        z-index: 1;
+        font-size: 30px;
+        font-weight: 100;
+        line-height: 1;
+        color: gray;
+    }
+
+    .modal-header {
+        border: none;
+    }
+
+    .modal-body {
+        border: none;
+        background-color: white;
+        padding-bottom: 5px;
+    }
+
+
+
+    .logo {
+        width: 100px;
+        height: 100px;
+        background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1576118709/83225325-beauty-spa-logo-design.jpg);
+        background-size: contain;
+        position: relative;
+        right: 14px;
+    }
+
+    .off {
+        margin-top: 25px;
+        width: 50px;
+        height: 50px;
+        background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1576118728/30-off-white-background-special-offer-great-offer-sale-thirty-percent-off-promotional_59529-691.jpg);
+        background-size: contain;
+    }
+
+    .heading {
+        justify-content: space-between;
+    }
+
+    .modal-footer {
+        border: none;
+    }
+
+    .btn.focus,
+    .btn:focus {
+        outline: 0;
+        box-shadow: none !important;
+    }
+
+    .close.focus,
+    .close:focus {
+        outline: 0;
+        box-shadow: none !important;
+    }
+
+    .hurry {
+        margin-top: 30px;
+    }
+
+    .booking {
+        background-color: white;
+        border: 2px solid lightgray;
+        width: 150px;
+        border-radius: 0px;
+    }
+
+    .booking:hover {
+        background-color: #ECEFF1;
+        border: 2px solid black;
+    }
+
+    @media (min-width:599px) {
+        .modal-dialog {
+            max-width: 47rem;
+        }
+
+        .details {
+            padding: 0 114px;
+        }
+
+        .off {
+            position: absolute;
+            bottom: 150px;
+            left: 25px;
+        }
+    }
+</style>
+
+<body>
+    <div class='container'>
+
+        <button type="button" class="btn trigger" data-toggle="modal" data-target="#exampleModal">
+            OFFER
+        </button>
+
+        <div class="modal fade" th:id="'modal' + ${service.key.key.serviceID}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header ">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-0 row">
+                        <div class="col-12 col-lg-4 ad p-0">
+                            <img th:src="@{/images/{image}(image=${service.key.key.image})}" width="100%" height="100%">
+                        </div>
+                        <div class="details col-12 col-lg-8">
+                            <div class="heading d-flex">
+                                <h3 th:text="${service.key.key.serviceTypeID.serviceName}"></h3>
+                            </div>
+                            <h3 style="color: black; cursor: pointer;" th:text="${service.key.key.serviceName}">
+                            </h3>
+                            <p><small class="text-muted" th:text="${service.key.key.description}"></small></p>
+
+                            <div class="text-muted hurry"><small>Hurry. book now. Limited time offer</small></div>
+                            <div class="d-flex mt-2 mb-5">
+                                <div style="padding-top: 20px;">
+                                    <hr style="background-color: black;">
+                                    <div class="row">
+                                        <div class="col-sm-5"></div>
+                                        <div class="col-sm-7" style="padding-top: 20px;">
+                                            <strong class="h4">Đánh Giá</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-8">
+                                            <div class="d-flex flex-row add-comment-section mt-4 mb-4"
+                                                th:if="${session.user != null}">
+                                                <img class="img-fluid img-responsive rounded-circle mr-2"
+                                                    th:src="@{'/images/'+ ${session.user.avatar}}"
+                                                    style="width: 38px;height: auto;">
+                                                <input type="text" class="form-control mr-3"
+                                                    placeholder="Add your feedback"
+                                                    th:id="|content${service.key.key.serviceID}|">
+                                                <button class="btn" style="background-color: black; color: #fafafa;"
+                                                    type="button"
+                                                    th:onclick="|addFeedback(${service.key.key.serviceID})|">Gửi</button>
+                                            </div>
+                                            <div>
+                                                <div class="media g-mb-30 media-comment noneComment"
+                                                    th:id="|noneComment${service.key.key.serviceID}|"
+                                                    th:hidden="${not service.key.value.isEmpty()}">
+                                                    <p>Không có bình luận.</p>
+                                                </div>
+                                            </div>
+
+                                            <div th:each="feedback : ${service.key.value}">
+                                                <div class="media g-mb-30 media-comment"
+                                                    th:id="|feedback${feedback.feedbackID}|">
+                                                    <img class="rounded-circle shadow-1-strong me-3"
+                                                        th:src="@{'/images/'+${feedback.user.avatar}}"
+                                                        style="display: inline-flex;width: 65px;height: 65px;" />
+                                                    <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                                        <div class="g-mb-15">
+                                                            <p class="h5 g-color-gray-dark-v1 mb-0"
+                                                                style="display: inline-flex;"
+                                                                th:text="${feedback.user.username}"></p>
+                                                            <p th:text="${feedback.date}"
+                                                                style="color: rgba(0, 0, 0, .54);font-size: .75rem;display: inline-flex">
+                                                            </p>
+                                                        </div>
+                                                        <p th:text="${feedback.content}" style="padding-top: 10px;"></p>
+                                                        <div th:if="${session.user != null}">
+                                                            <button
+                                                                th:onclick="|deleteFeedback(${feedback.feedbackID})|"
+                                                                style="color: black;float: right;cursor: pointer; border: none;"
+                                                                th:if="${session.user.idUser == feedback.user.idUser}"><i
+                                                                    class="fa-solid fa-trash" style="color: black;"></i>
+                                                                Xóa </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Bootstrap Bundle JS (includes Popper) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</html>

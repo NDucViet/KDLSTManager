@@ -1,6 +1,5 @@
 package com.KDLST.Manager.Model.Repository.RateAFbRepository;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -8,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.KDLST.Manager.Model.BaseConnection;
-import com.KDLST.Manager.Model.Entity.CartItem.Cart;
-import com.KDLST.Manager.Model.Entity.CartItem.CartItem;
 import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
-import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.ServiceProjectRepository.ServiceRepository;
 import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
