@@ -11,18 +11,18 @@ body {
 .single-timeline-area {
     position: relative;
     z-index: 1;
-    padding-left: 150px;
+    padding-left: 105px;
 }
 
 @media only screen and (max-width: 575px) {
     .single-timeline-area {
-        padding-left: 100px;
+        padding-left: 60px;
     }
 }
 
 .single-timeline-area .timeline-date {
     position: absolute;
-    width: 180px;
+    /* width: 180px; */
     height: 100%;
     top: 0;
     left: 0;
@@ -37,7 +37,7 @@ body {
     -webkit-box-pack: end;
     -ms-flex-pack: end;
     justify-content: flex-end;
-    padding-right: 60px;
+    padding-right: 50px;
 }
 
 @media only screen and (max-width: 575px) {

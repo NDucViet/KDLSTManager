@@ -141,7 +141,7 @@ public class AdminController {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMonthlyTotals = objectMapper.writeValueAsString(monthlyTotals);
         String jsonMonthlyTotals1 = objectMapper.writeValueAsString(monthlyTotalsHotels);
-
+        
         bookingRooms = bookingRoomService.getAll();
 
         users = userService.getAll();
@@ -151,6 +151,7 @@ public class AdminController {
         int customer = 0;
         int employee = 0;
 
+        System.out.println(users.size() + "customer");
         for (User user : users) {
             if (user.getRole().equals("CUSTOMER")) {
                 customer += 1;
@@ -232,35 +233,30 @@ public class AdminController {
         return "Admin/index";
     }
 
-    // ArrayList<User> cList = new ArrayList<>();
-
-    // @Autowired
-    // TicketService ticketService = new TicketServiceImplement();
-
     // customer
     @GetMapping("/getAllCustomer")
     public String getAllCustomer(Model model) {
-        cList.clear();
-        cList = userService.getAllCustomer();
-        return getPageCustomer(model, "1");
+        ArrayList<User> cuList = userService.getAllCustomer();
+        return getPageCustomer(model, "1", cuList);
     }
 
     @GetMapping("/getAllCustomer/{page}")
-    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage) {
-        cList.clear();
+    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage, 
+    @ModelAttribute("cList") ArrayList<User> cuList) {
+        cuList.clear();
         ArrayList<User> customerList = new ArrayList<>();
-        cList = userService.getAllCustomer();
+        cuList = userService.getAllCustomer();
         int customerPage = 10;
-        int numPages = (int) Math.ceil((float) cList.size() / customerPage);
+        int numPages = (int) Math.ceil((float) cuList.size() / customerPage);
         int[] numPage = new int[numPages];
         for (int i = 0; i < numPages; i++) {
             numPage[i] = i + 1;
         }
         for (int i = (Integer.parseInt(currentPage) - 1) * customerPage; i < Integer.parseInt(currentPage)
                 * customerPage; i++) {
-            if (cList.size() <= i)
+            if (cuList.size() <= i)
                 break;
-            customerList.add(cList.get(i));
+            customerList.add(cuList.get(i));
         }
         model.addAttribute("customerList", customerList);
         model.addAttribute("numPage", numPage);
@@ -287,19 +283,19 @@ public class AdminController {
     // employee
     @GetMapping("/getAllEmployee")
     public String getAllEmployees(Model model) {
-        eList.clear();
-        eList = userService.getAllEmployee();
-        return getPageEmployee(model, "1");
+        ArrayList<User> emList = userService.getAllEmployee();
+        return getPageEmployee(model, "1", emList);
 
     }
 
     @GetMapping("/getAllEmployee/{page}")
-    public String getPageEmployee(Model model, @PathVariable(value = "page") String currentPage) {
+    public String getPageEmployee(Model model, @PathVariable(value = "page") String currentPage,
+    @ModelAttribute("emList") ArrayList<User> emList ) {
         ArrayList<User> employeeList = new ArrayList<>();
-        eList.clear();
-        eList = userService.getAllEmployee();
+        emList.clear();
+        emList = userService.getAllEmployee();
         int employeePage = 10;
-        int numPages = (int) Math.ceil((float) eList.size() / employeePage);
+        int numPages = (int) Math.ceil((float) emList.size() / employeePage);
         int[] numPage = new int[numPages];
 
         for (int i = 0; i < numPages; i++) {
@@ -308,9 +304,9 @@ public class AdminController {
 
         for (int i = (Integer.parseInt(currentPage) - 1) * employeePage; i < Integer.parseInt(currentPage)
                 * employeePage; i++) {
-            if (eList.size() <= i)
+            if (emList.size() <= i)
                 break;
-            employeeList.add(eList.get(i));
+            employeeList.add(emList.get(i));
         }
         model.addAttribute("employeeList", employeeList);
         model.addAttribute("numPage", numPage);
