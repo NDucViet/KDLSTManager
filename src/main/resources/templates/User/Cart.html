@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" th:href="@{images/logoNHH.png}" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
@@ -215,7 +216,7 @@
                 <div class="title">
                     <div class="row">
                         <div class="col">
-                            <h4><b>Your Cart</b></h4>
+                            <h4><b>Giỏ hàng</b></h4>
                         </div>
                         <div class="col align-self-center text-right text-muted">
                             [[${cartItemList != null ? cartItemList.size() : 0}]] items
@@ -229,7 +230,7 @@
                                 th:src="'images/' + ${cart.ticketID != null ? cart.ticketID.image : 'default.png'}">
                         </div>
                         <div class="col">
-                            <div class="row text-muted">Item</div>
+                            <div class="row text-muted">Loại vé</div>
                             <div class="row">[[${cart.ticketID != null ? cart.ticketID.title : 'Unknown'}]]</div>
                         </div>
                         <div class="col">
@@ -254,33 +255,33 @@
                 </div>
 
                 <div class="back-to-shop">
-                    <a th:href="@{/}" class="text-muted">&leftarrow; Back To Home Page</a>
+                    <a th:href="@{/}" class="text-muted">&leftarrow; Trở về trang chủ</a>
                 </div>
             </div>
             <div class="col-md-4 summary">
                 <div>
-                    <h5><b>Summary</b></h5>
+                    <h5><b>Tổng</b></h5>
                 </div>
                 <hr>
                 <form th:action="@{/cart/checkOut}" th:method="post" onsubmit="return confirmCheckOut()">
-                    <label>Date: </label>
+                    <label>Ngày: </label>
                     <input type="date" name="date">
                     <div>
                         <div class="row">
                             <div class="col" style="padding-left:0;">
-                                ITEMS: [[${cartItemList != null ? cartItemList.size() : 0}]]
+                                Loại vé : [[${cartItemList != null ? cartItemList.size() : 0}]]
                             </div>
                             <div class="col text-right" id="items-total">0 &#8363;</div>
                         </div>
 
                         <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                            <div class="col">TOTAL PRICE(VAT)</div>
+                            <div class="col">Tổng giá (Thuế)</div>
                             <div class="col text-right" id="total-price" name="total-price">0 &#8363;</div>
                         </div>
                     </div>
                     <input type="hidden" name="info" th:if="${cartItemList != null and cartItemList.size() > 1}"
                         th:value="'Don Hang Cua ' + ${cartItemList.get(1).cart.user.username}">
-                    <button type="submit" class="btn">CHECKOUT</button>
+                    <button type="submit" class="btn">Thanh toán</button>
                 </form>
             </div>
         </div>

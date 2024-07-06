@@ -89,7 +89,7 @@ function showFeedbackAdded(feedback, idService) {
 }
 
 function deleteFeedback(idFeedback) {
-    if (confirm("Are you sure you want to delete this feedback?")) {
+    if (confirm("Bạn có chắc chắn muốn xóa bình luận?")) {
         var xhr1 = new XMLHttpRequest();
         xhr1.open("POST", "/service/deleteFeedback?idFeedback=" + idFeedback, true);
         xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -109,7 +109,7 @@ function deleteFeedback(idFeedback) {
 
 
 function deleteFeedback(idFeedback) {
-    if (confirm("Are you sure you want to delete this feedback?")) {
+    if (confirm("Bạn có chắc chắn muốn xóa bình luận?")) {
         var xhr1 = new XMLHttpRequest();
         xhr1.open("POST", "/service/deleteFeedback?idFeedback=" + idFeedback, true);
         xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

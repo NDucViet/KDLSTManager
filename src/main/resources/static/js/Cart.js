@@ -84,5 +84,5 @@ function confirmCheckOut() {
     // Kiểm tra nếu giỏ hàng rỗng
 
     // Nếu tất cả các kiểm tra đều vượt qua, cho phép gửi form
-    return confirm("Are you sure you want to proceed to checkout?");
+    return confirm("Bạn có chắc chắn muốn thanh toán ?");
 }
