@@ -47,7 +47,7 @@ public class RateRepository {
             score += rate.getAmountStar();
         }
         score /= rates.size();
-        return score;
+        return Float.parseFloat((String.format("%.1f", score)).replace(",", "."));
     }
 
     public ArrayList<Rate> getAll() {

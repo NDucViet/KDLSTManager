@@ -46,7 +46,7 @@ public class RoleFilter implements Filter {
             "/employee/addBlog", "/employee/addBlog/action", "/employee/hiddenBlog", "/employee/getAllFeedback",
             "/employee/getAllComment", "/employee/getAllRoom", "/employee/getAllRoomType",
             "/user/logout", "/user/profile", "/user/showEdit", "/user/edit", "/css",
-            "/images", "/js", "/user/403"));
+            "/403"));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -64,7 +64,6 @@ public class RoleFilter implements Filter {
         }
 
         String userRole = (String) httpRequest.getSession().getAttribute("userRole");
-        System.out.println(userRole);
         if (userRole != null) {
             if (userRole.equals("ADMIN")) {
                 chain.doFilter(request, response);
@@ -108,7 +107,7 @@ public class RoleFilter implements Filter {
     }
 
     private boolean isUserPath(String path) {
-        System.out.println(path);
+
         for (String string : USER_PATH) {
             if (path.contains(string)) {
                 return true;

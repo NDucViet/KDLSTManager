@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
 import com.KDLST.Manager.Model.Entity.Blog.Blog;
 import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.RateAFb.Comment;
@@ -134,11 +135,10 @@ public class BlogController {
 
         commentServiceImplement.add(comment);
         ArrayList<Comment> comList = commentServiceImplement.getAll();
-        comment = comList.get(comList.size() -1);
+        comment = comList.get(comList.size() - 1);
         System.out.println(comment.getCommentID());
         return ResponseEntity.ok().body(comment);
     }
-
 
     @PostMapping("/deleteComment")
     public ResponseEntity<String> deleteComment(@RequestParam("commentID") String id) {

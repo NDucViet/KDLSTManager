@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import com.KDLST.Manager.Model.Entity.Bill.Bill;
 import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
 import com.KDLST.Manager.Model.Entity.CartItem.CartItem;
+import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
+import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsService;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsServiceImplement;
@@ -189,34 +191,40 @@ public class CartController {
     }
 
     @GetMapping("/history")
-    public String getHistory(Model model, HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    public String getHistory(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("image/png");
-        String qrContent = "";
-        Map<ArrayList<BillDetails>, Date> billArrayList = new LinkedHashMap<>();
+
+        Map<Map.Entry<ArrayList<BillDetails>, Date>, String> billArrayList = new LinkedHashMap<>();
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
         ArrayList<Bill> billListt = billService.getByIdUser(user.getIdUser());
 
         for (Bill bill2 : billListt) {
             ArrayList<BillDetails> bArrayList = billDetailsService.getByBillID(bill2.getBillID());
+            String qrContent = "";
             for (BillDetails billdt : bArrayList) {
                 qrContent += billdt.getBillDetailsID() + " ";
             }
-            qrContent += "|" + bill2.getStatus();
-            byte[] qrCode = generateQRCode(qrContent, 50, 50);
-            OutputStream outputStream = response.getOutputStream();
-            outputStream.write(qrCode);
+            Map.Entry<ArrayList<BillDetails>, Date> billMapEntry = new AbstractMap.SimpleEntry<>(bArrayList,
+                    bill2.getDatePay());
+            qrContent += "," + bill2.getStatus();
 
-            billArrayList.put(bArrayList, bill2.getDatePay());
+            billArrayList.put(billMapEntry, "/cart/generateQRCode?qrContent=" + qrContent);
         }
 
         model.addAttribute("history", billArrayList);
         return "User/history";
     }
 
+    @GetMapping("/generateQRCode")
+    public void generateQRCode(String qrContent, HttpServletResponse response) throws IOException {
+        response.setContentType("image/png");
+        byte[] qrCode = generateQRCodeService(qrContent, 500, 500);
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(qrCode);
+    }
 
-    public byte[] generateQRCode(String qrContent, int width, int height) {
+    public byte[] generateQRCodeService(String qrContent, int width, int height) {
         try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(qrContent, BarcodeFormat.QR_CODE, width, height);

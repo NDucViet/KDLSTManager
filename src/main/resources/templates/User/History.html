@@ -52,7 +52,7 @@
                             <div class="single-timeline-area">
                                 <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s"
                                     style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
-                                    <p th:text="${history.value}" style="color: black;"></p>
+                                    <p th:text="${history.key.value}" style="color: black;"></p>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
@@ -72,7 +72,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <th:block th:each="billDetail : ${history.key}">
+                                                        <th:block th:each="billDetail : ${history.key.key}">
                                                             <tr>
                                                                 <td>
                                                                     <img th:src="@{/images/{imageUrl}(imageUrl=${billDetail.ticketID.image})}"
@@ -82,9 +82,7 @@
                                                                 <td> [[${billDetail.ticketID.price}]]</td>
                                                                 <td> [[${billDetail.quantity}]]</td>
                                                                 <td> [[${billDetail.total}]]</td>
-                                                                <td th:if="${billDetail.status == 0}">
-                                                                    
-                                                                    Chưa sử
+                                                                <td th:if="${billDetail.status == 0}">Chưa sử
                                                                     dụng</td>
                                                                 <td th:if="${billDetail.status == 1}" class="status">Đã
                                                                     sử
@@ -107,6 +105,7 @@
                                                 </table>
                                             </div>
                                             <p>Tổng hóa đơn: <span class="total-bill">0</span> VND</p>
+                                            <img th:src="${history.value}">
                                             <script>
                                                 document.addEventListener("DOMContentLoaded", function () {
                                                     document.querySelectorAll('.single-timeline-area').forEach(function (area) {
@@ -131,7 +130,7 @@
 
     <div th:each="history: ${history}">
         <div class="modal fade" th:id="|RatingModal-${billDetail.billID.billID}-${billDetail.ticketID.ticketID}|"
-            tabindex="-1" role="dialog" aria-hidden="true" th:each="billDetail : ${history.key}">
+            tabindex="-1" role="dialog" aria-hidden="true" th:each="billDetail : ${history.key.key}">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content rounded-0">
                     <div class="modal-body py-0">

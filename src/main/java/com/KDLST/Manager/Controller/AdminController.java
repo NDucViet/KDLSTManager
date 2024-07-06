@@ -4,6 +4,25 @@ import com.KDLST.Manager.Model.Entity.Bill.*;
 import com.KDLST.Manager.Model.Entity.Blog.Blog;
 import com.KDLST.Manager.Model.Entity.Blog.BlogType;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoomDetails;
+import com.KDLST.Manager.Model.Service.BillService.BillDetailsService;
+import com.KDLST.Manager.Model.Service.BillService.BillDetailsServiceImplement;
+import com.KDLST.Manager.Model.Service.BillService.BillService;
+import com.KDLST.Manager.Model.Service.BillService.BillServiceImplement;
+import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsService;
+import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServiceImplement;
+import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomService;
+import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomServiceImplement;
+import com.KDLST.Manager.Model.Service.HotelService.RoomTypeService;
+import com.KDLST.Manager.Model.Service.HotelService.RoomTypeServiceImplement;
+import com.KDLST.Manager.Model.Service.ImageBlogService.ImageService;
+import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
+import com.KDLST.Manager.Model.Service.RateAFbService.CommentService;
+import com.KDLST.Manager.Model.Service.RateAFbService.CommentServiceImplement;
+import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackService;
+import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackServiceImplement;
+import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceService;
+import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImplement;
+import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.ServiceProject.ServiceType;
 import com.KDLST.Manager.Model.Service.BillService.*;
 import com.KDLST.Manager.Model.Service.BlogService.BlogServiceImplement;
@@ -48,6 +67,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
@@ -212,6 +232,11 @@ public class AdminController {
         return "Admin/index";
     }
 
+    // ArrayList<User> cList = new ArrayList<>();
+
+    // @Autowired
+    // TicketService ticketService = new TicketServiceImplement();
+
     // customer
     @GetMapping("/getAllCustomer")
     public String getAllCustomer(Model model) {
@@ -245,6 +270,12 @@ public class AdminController {
         return "Admin/customer";
     }
 
+    // @GetMapping("/getAllCustomer")
+    // public String getAllCustomers(Model model) {
+    // // ArrayList<Customer> cList
+
+    // return "Admin/customer";
+    // }
     @PostMapping(value = "/banCustomer")
     public ResponseEntity<String> delete(@RequestParam("userId") int id) {
         User user = userService.getById(id);
@@ -306,9 +337,9 @@ public class AdminController {
 
     @PostMapping("/addEmployee/action")
     public String addEmployee(@ModelAttribute("user") User user,
-                              @RequestParam(name = "birth") String birth,
-                              RedirectAttributes redirectAttributes,
-                              Model model) {
+            @RequestParam(name = "birth") String birth,
+            RedirectAttributes redirectAttributes,
+            Model model) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             java.util.Date utilDate = dateFormat.parse(birth);
@@ -341,7 +372,6 @@ public class AdminController {
         }
         return "redirect:/admin/getAllEmployee";
     }
-   
 
     // service
     @GetMapping("/getAllService")
@@ -389,7 +419,7 @@ public class AdminController {
     public String addService(@ModelAttribute Services service,
             @RequestParam(value = "id") int serviceID,
             @RequestParam("image1") MultipartFile imageFile, Model model,
-            RedirectAttributes redirectAttributes) throws ServletException, IOException{
+            RedirectAttributes redirectAttributes) throws ServletException, IOException {
         System.out.println("ok");
         ServiceType serviceType = serviceTypeService.getById((serviceID));
         service.setServiceTypeID(serviceType);
@@ -398,7 +428,7 @@ public class AdminController {
         Date sqlDate = Date.valueOf(today);
         service.setDateTimeEdit(sqlDate);
 
-        //image
+        // image
         Path uploadDirPath = Paths.get(uploadPath);
         Path liveUploadDirPath = Paths.get(liveUploadPath);
 
@@ -528,7 +558,7 @@ public class AdminController {
             throws ServletException, IOException {
         TicketType ticketType = ticketTypeService.getByID(Integer.parseInt(ticketTypeID));
         ticket.setTicketTypeID(ticketType);
-          Path uploadDirPath = Paths.get(uploadPath);
+        Path uploadDirPath = Paths.get(uploadPath);
         Path liveUploadDirPath = Paths.get(liveUploadPath);
 
         if (!Files.exists(uploadDirPath)) {
