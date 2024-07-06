@@ -81,7 +81,9 @@
                                                                 <td> [[${billDetail.ticketID.price}]]</td>
                                                                 <td> [[${billDetail.quantity}]]</td>
                                                                 <td> [[${billDetail.total}]]</td>
-                                                                <td th:if="${billDetail.status == 0}">Chưa sử
+                                                                <td th:if="${billDetail.status == 0}">
+                                                                    
+                                                                    Chưa sử
                                                                     dụng</td>
                                                                 <td th:if="${billDetail.status == 1}" class="status">Đã
                                                                     sử

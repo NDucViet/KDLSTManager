@@ -189,7 +189,8 @@ public class CartController {
     }
 
     @GetMapping("/history")
-    public String getHistory(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String getHistory(Model model, HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
         response.setContentType("image/png");
         String qrContent = "";
         Map<ArrayList<BillDetails>, Date> billArrayList = new LinkedHashMap<>();
@@ -206,13 +207,14 @@ public class CartController {
             byte[] qrCode = generateQRCode(qrContent, 50, 50);
             OutputStream outputStream = response.getOutputStream();
             outputStream.write(qrCode);
-            // "/generateQRCode?qrContent=" + qrContent
+
             billArrayList.put(bArrayList, bill2.getDatePay());
         }
 
         model.addAttribute("history", billArrayList);
         return "User/history";
     }
+
 
     public byte[] generateQRCode(String qrContent, int width, int height) {
         try {

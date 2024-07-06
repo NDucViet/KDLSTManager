@@ -80,7 +80,6 @@
                                     <th scope="col">Chi tiết</th>
                                     <th scope="col">Giá</th>
                                     <th scope="col">Loại vé</th>
-                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,12 +93,6 @@
                                         <td th:text="${ticket.description}"></td>
                                         <td th:text="${ticket.price}"></td>
                                         <td th:text="${ticket.ticketTypeID.ticketTypeName}"></td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-delete"><a href="#"
-                                                    style="text-decoration: none; color: black;">Xem</a></button>
-                                            <button class="btn btn-outline-danger btn-delete"><a href="#"
-                                                    style="text-decoration: none; color: black;">Xóa</a></button>
-                                        </td>
                                     </tr>
                                 </th:block>
                             </tbody>
