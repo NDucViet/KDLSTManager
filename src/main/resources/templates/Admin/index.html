@@ -22,6 +22,18 @@
   <link rel="stylesheet" type="text/css" th:href="@{css/style2.css}">
   <!-- endinject -->
   <link rel="shortcut icon" th:href="@{images/favicon.png}" />
+  <style>
+     .btn-outline-success {
+            --bs-btn-color:#4b49ac;
+            --bs-btn-border-color: #4b49ac;
+            --bs-btn-hover-bg: #4b49ac;
+            --bs-btn-hover-border-color:#4b49ac;
+            --bs-btn-active-bg: #4b49ac;
+            --bs-btn-active-border-color: #4b49ac;
+            --bs-btn-disabled-color: #4b49ac;
+            --bs-btn-disabled-border-color:#4b49ac;
+        }
+  </style>
 </head>
 
 <body>
@@ -48,7 +60,7 @@
                 <div class="col-lg-6">
                   <canvas id="chart2"></canvas>
                 </div>
-                <button class="btn btn-outline-danger" style="width: 150px">
+                <button class="btn btn-outline-success" style="width: 150px">
                   <a th:href="@{/admin/chart}" style="text-decoration: none; color: black;">Xem Tất Cả</a>
                 </button>
               </div>
@@ -61,7 +73,7 @@
                 <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                   <div class="card-body d-flex align-items-center">
                     <div style="flex-grow: 1;">
-                      <a href="#" style="text-decoration: none; color: #4b49ac;">
+                      <a th:href="@{/admin/getRevenue}" style="text-decoration: none; color: #4b49ac;">
                         <h4>[[${order}]]</h4>
                         <h4>Orders</h4>
                       </a>
@@ -77,7 +89,7 @@
                 <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                   <div class="card-body d-flex align-items-center">
                     <div style="flex-grow: 1;">
-                      <a href="#" style="text-decoration: none; color: #4b49ac;">
+                      <a th:href="@{/admin/getAllService}" style="text-decoration: none; color: #4b49ac;">
                         <h4>[[${service}]]</h4>
                         <h4>Dịch vụ</h4>
                       </a>
@@ -93,7 +105,7 @@
                 <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                   <div class="card-body d-flex align-items-center">
                     <div style="flex-grow: 1;">
-                      <a href="#" style="text-decoration: none; color: #4b49ac;">
+                      <a th:href="@{/admin/getAllCustomer}" style="text-decoration: none; color: #4b49ac;">
                         <h4>[[${customer}]]</h4>
                         <h4>Khách hàng</h4>
                       </a>
@@ -109,7 +121,7 @@
                 <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                   <div class="card-body d-flex align-items-center">
                     <div style="flex-grow: 1;">
-                      <a href="#" style="text-decoration: none; color: #4b49ac;">
+                      <a th:href="@{/admin/getAllEmployee}" style="text-decoration: none; color: #4b49ac;">
                         <h4>[[${employee}]]</h4>
                         <h4>Nhân viên</h4>
                       </a>
@@ -131,8 +143,8 @@
                       <span class="header-title">Khách hàng</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllCustomer}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -167,8 +179,8 @@
                       <span class="header-title">Nhân Viên</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllEmployee}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -205,8 +217,8 @@
                       <span class="header-title">Dịch Vụ</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllService}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -241,8 +253,8 @@
                       <span class="header-title">Vé</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllTicket}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -281,8 +293,8 @@
                       <span class="header-title">Bài viết</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllBlog}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -317,8 +329,8 @@
                       <span class="header-title">Loại Phòng</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllRoom}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -357,8 +369,8 @@
                       <span class="header-title">Bình Luận</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllComment}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -395,8 +407,8 @@
                       <span class="header-title">Feedback</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-danger">
-                        <a href="#" style="text-decoration: none; color: black;">Xem tất cả</a>
+                      <button class="btn btn-outline-success">
+                        <a th:href="@{/admin/getAllFeedback}" style="text-decoration: none; color: black;">Xem tất cả</a>
                       </button>
                     </div>
                   </div>
@@ -411,14 +423,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <!-- <th:block th:each="feedback, no: ${feedbackList}"> -->
+                        <th:block th:each="feedback : ${feedbackList}">
                         <tr>
-                          <!-- <td th:text="${feedback.content}"></td>
+                          <td th:text="${feedback.content}"></td>
                             <td th:text="${feedback.user.username}"></td>
                             <td th:text="${feedback.services.serviceName}"></td>
-                            <td th:text="${feedback.serviceTypeID.serviceName}"></td> -->
+                            <td th:text="${feedback.date}"></td>
                         </tr>
-                        <!-- </th:block> -->
+                        </th:block>
                       </tbody>
                     </table>
                   </div>

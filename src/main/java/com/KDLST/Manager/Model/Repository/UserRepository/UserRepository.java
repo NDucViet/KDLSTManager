@@ -239,7 +239,18 @@ public class UserRepository {
             prsm.setInt(5, user.getGender());
             prsm.setString(6, user.getPhoneNumber());
             prsm.setString(7, user.getAvatar());
-            prsm.setInt(8, user.getCustomerType().getIdCusType());
+            try {
+                if (user.getCustomerType() == null) {
+                    prsm.setNull(8, java.sql.Types.INTEGER); 
+                } else {
+                    prsm.setInt(8, user.getCustomerType().getIdCusType());
+                }
+            
+                prsm.executeUpdate();
+            
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             prsm.setBoolean(9, user.getStatus());
             prsm.setString(10, user.getCardID());
             prsm.setString(12, user.getPassword());
@@ -254,5 +265,9 @@ public class UserRepository {
         return false;
     }
 
+    public static void main(String[] args) {
+        UserRepository userRepository = new UserRepository();
+        System.out.println(userRepository.getAllEmployee().size());
+    }
 
 }

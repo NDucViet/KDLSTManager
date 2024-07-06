@@ -26,7 +26,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script>
+        function truncate(text, wordLimit) {
+            if (!text) return '';
+            let words = text.split(/\s+/);
+            if (words.length <= wordLimit) return text;
+            return words.slice(0, wordLimit).join(' ') + '...';
+        }
+
+        function truncateDescriptions(wordLimit) {
+            document.querySelectorAll('.description').forEach(function (element) {
+                let fullText = element.getAttribute('data-fulltext');
+                element.textContent = truncate(fullText, wordLimit);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            truncateDescriptions(7);
+        });
+    </script>
 </head>
 
 <body>
@@ -40,63 +61,56 @@
             <partial th:insert="~{Admin/partial :: partial}"></partial>
             <div class="main-panel">
                 <div class="content-wrapper">
+                    <div th:if="${successMessage}" class="alert alert-success">
+                        <p th:text="${successMessage}"></p>
+                    </div>
+                    <script th:inline="javascript">
+                        /*<![CDATA[*/
+                        $(document).ready(function () {
+                            // Hide alert after 3 seconds
+                            setTimeout(function () {
+                                $(".alert").fadeOut("slow");
+                            }, 3000);  // 3000 milliseconds = 3 seconds
+                        });
+                        /*]]>*/
+                    </script>
                     <div class="table-responsive">
                         <table class="table table-hover table-light caption-top mt-3">
                             <thead>
                                 <tr>
                                     <th scope="col">STT</th>
                                     <th scope="col">Ảnh</th>
-                                    <th scope="col">Tên</th>
                                     <th scope="col">Loại Phòng</th>
                                     <th scope="col">Mô tả</th>
                                     <th scope="col">Giá</th>
                                     <th scope="col">Số người tối đa</th>
-                                    <th scope="col">Trạng Thái</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <th:block th:each="room, no: ${rList}">
+                                <th:block th:each="roomType, no: ${roomTypeList}">
                                     <tr>
-                                        <th th:text="${(currentPage - 1) * 10 + no.index + 1}"></th>
-                                        <td><img th:src="@{/images/{imageUrl}(imageUrl=${room.roomType.images})}"></td>
-                                        <td th:text="${room.roomID}"> </td>
-                                        <td th:text="${room.roomType.roomTypeName}"> </td>
-                                        <td th:text="${room.roomType.details}"></td>
-                                        <td th:text="${room.roomType.price}"></td>
-                                        <td th:text="${room.roomType.maxPeople}"></td>
-                                        <td th:if="${room.status == true}"><span class="badge bg-success">Chưa sử dụng</span></td>
-                                        <td th:if="${room.status == false}"><span class="badge bg-danger">Đã sử dụng</span>
+                                        <th th:text="${ no.index + 1}"></th>
+                                        <td><img th:src="@{/images/{imageUrl}(imageUrl=${roomType.images})}"></td>
+                                        <td  class="description" th:attr="data-fulltext=${roomType.roomTypeName}"> </td>
+                                        <td th:text="${roomType.details}"></td>
+                                        <td th:text="${roomType.price}"></td>
+                                        <td th:text="${roomType.maxPeople}"></td>
+                                        <td>
+                                            <button class="btn btn-outline-success btn-delete"><a
+                                                    th:href="@{/admin/updateRoomType/__${roomType.roomTypeID}__}"
+                                                    style="text-decoration: none; color: black;">Xem</a></button>
+                                        </td>
                                     </tr>
                                 </th:block>
                             </tbody>
                         </table>
                     </div>
-                    <div class="row mt-5">
-                        <div class="col text-center">
-                            <div class="block-27">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li th:if="${currentPage > 1}" class="page-item">
-                                            <a th:href="@{/admin/getAllRoom/__${Previous}__}"
-                                                class="page-link">&laquo;</a>
-                                        </li>
-                                        <li th:each="page, iterStat : ${numPage}"
-                                            th:class="${currentPage == page} ? 'active'" class="page-item">
-                                            <a th:href="@{/admin/getAllRoom/__${page}__}" th:text="${page} "
-                                                class="page-link"></a>
-                                        </li>
-                                        <li th:if="${numPage.length > currentPage}" class="page-item"><a
-                                                th:href="@{/admin/getAllRoom/__${Next}__}" class="page-link">&raquo;</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <footer th:insert="~{Admin/footer :: footer}"></footer>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     </div>
 
 </body>

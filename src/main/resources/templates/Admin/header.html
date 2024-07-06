@@ -36,21 +36,21 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="images/person_1.jpg" alt="profile" />
+                            <img th:src="@{/images/{imageUrl}(imageUrl=${session.user.avatar})}" alt="Avatar" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
-                                <i class="ti-settings text-primary"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item">
-                                <i class="ti-power-off text-primary"></i>
-                                Logout
-                            </a>
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" th:href="@{/user/edit}">
                                 <i class="ti-user text-primary"></i>
-                                Edit profile
+                                Chỉnh sửa thông tin
+                            </a>
+                            <a class="dropdown-item" th:href="@{/user/changePassword}">
+                                <i class="ti-settings text-primary"></i>
+                                Thay đổi mật khẩu
+                            </a>
+                            <a class="dropdown-item" th:href="@{/user/logout}">
+                                <i class="ti-power-off text-primary"></i>
+                                Đăng xuất
                             </a>
                         </div>
                     </li>

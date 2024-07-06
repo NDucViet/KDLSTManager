@@ -1,6 +1,7 @@
 package com.KDLST.Manager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Entity.Bill.Bill;
 import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
@@ -60,8 +66,10 @@ import com.KDLST.Manager.Model.Service.UserService.UserService;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.ServletException;
 
 import java.util.*;
@@ -69,6 +77,12 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/employee")
 public class EmployeeController {
+
+    @Value("${upload.path}")
+    private String uploadPath;
+
+    @Value("${liveUpload.path}")
+    private String liveUploadPath;
     ArrayList<BillDetails> billDetails = new ArrayList<>();
     ArrayList<BookingRoomDetails> bookingRoomDetails = new ArrayList<>();
     ArrayList<User> users = new ArrayList<>();
@@ -76,7 +90,7 @@ public class EmployeeController {
     ArrayList<BookingRoom> bookingRooms = new ArrayList<>();
     ArrayList<User> cList = new ArrayList<>();
     ArrayList<User> eList = new ArrayList<>();
- @Autowired
+    @Autowired
     private BlogServiceImplement blogServiceImplement = new BlogServiceImplement();
     private ImageServiceImplement imageServiceImplement = new ImageServiceImplement();
     private BlogTypeServiceImplement blogTypeServiceImplement = new BlogTypeServiceImplement();
@@ -98,11 +112,13 @@ public class EmployeeController {
     FeedBackService feedBackService = new FeedBackServiceImplement();
     CommentService commentService = new CommentServiceImplement();
 
-     @GetMapping("/")
+   
+
+    @GetMapping("/")
     public String index(Model model) throws JsonProcessingException {
         eList.clear();
         cList.clear();
-      
+
         bookingRooms = bookingRoomService.getAll();
 
         users = userService.getAll();
@@ -189,56 +205,6 @@ public class EmployeeController {
         return "Employee/index";
     }
 
-    
-   @GetMapping("/addBlog")
-    public String showBlogAdd(Model model, Blog blog, Image image1, Image image2) {
-        model.addAttribute("blog", blog);
-        model.addAttribute("image1", image1);
-        model.addAttribute("image2", image2);
-        return "User/blogAdd";
-    }
-
-    @PostMapping("/addBlog/action")
-    public String addBlog(Model model,
-            @ModelAttribute("blog") Blog blog1,
-            @ModelAttribute("image1") Image image1,
-            @ModelAttribute("image2") Image image2,
-            @RequestParam("imageUrl1") MultipartFile imageUrl1,
-            @RequestParam("imageUrl2") MultipartFile imageUrl2,
-            @RequestParam(value = "blogTypeID") int blogTypeID,
-            HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
-        User user = new User(3, null, null, null, null, null, null, null, null, blogTypeID, null, null, null, null);
-        BlogType blogType = blogTypeServiceImplement.getById(blogTypeID);
-        blog1.setUser(user);
-        blog1.setBlogType(blogType);
-        // set time
-        LocalDate today = LocalDate.now();
-        Date sqlDate = Date.valueOf(today);
-        blog1.setDateTimeEdit(sqlDate);
-        blog1.setStatus(true);
-        // add blog1
-        blogServiceImplement.add(blog1);
-        Blog blogID = blogServiceImplement.getIdLastest();
-        blog1.setBlogID(blogID.getBlogID());
-        // image1
-        String imageUrl1Filename = "";
-        this.storageService.store(imageUrl1);
-        imageUrl1Filename = imageUrl1.getOriginalFilename();
-        image1.setImageUrl(imageUrl1Filename);
-        image1.setBlog(blog1);
-        imageServiceImplement.add(image1);
-
-        // image2
-        String imageUrl2Filename = "";
-        this.storageService.store(imageUrl2);
-        imageUrl2Filename = imageUrl2.getOriginalFilename();
-        image2.setImageUrl(imageUrl2Filename);
-        image2.setBlog(blog1);
-        imageServiceImplement.add(image2);
-        return "User/blogAdd";
-    }
-
-    
     // customer
     @GetMapping("/getAllCustomer")
     public String getAllCustomer(Model model) {
@@ -338,40 +304,254 @@ public class EmployeeController {
     }
 
     // blog
-    private Set<Image> images = new HashSet<>();
+    ArrayList<Blog> bList = new ArrayList<>();
+
     @GetMapping("/getAllBlog")
     public String getAllBlogs(Model model) {
-        ArrayList<Image> imgList = imageService.getAll();
-        for (Image image : imgList) {
-            images.add(image);
-        }
+        bList = blogServiceImplement.getAll();
         return getPageBlog(model, "1");
     }
 
     @GetMapping("/getAllBlog/{page}")
     public String getPageBlog(Model model, @PathVariable(value = "page") String currentPage) {
-        ArrayList<Image> imageListt = new ArrayList<>(images);
-        System.out.println(imageListt.size() + "imgListt");
+        ArrayList<Blog> blogList = new ArrayList<>();
+        bList = blogServiceImplement.getAll();
         int imagePerPage = 10;
-        int numPages = (int) Math.ceil((float) imageListt.size() / imagePerPage);
+        int numPages = (int) Math.ceil((float) bList.size() / imagePerPage);
         int[] numPage = new int[numPages];
         for (int i = 0; i < numPages; i++) {
             numPage[i] = i + 1;
         }
-        List<Image> imageList = new ArrayList<>();
         for (int i = (Integer.parseInt(currentPage) - 1) * imagePerPage; i < Integer.parseInt(currentPage)
                 * imagePerPage; i++) {
-            if (imageListt.size() <= i)
+            if (bList.size() <= i)
                 break;
-            imageList.add(imageListt.get(i));
+            blogList.add(bList.get(i));
         }
-        System.out.println(imageList.size() + "imgList");
-        model.addAttribute("imageList", imageList);
+        model.addAttribute("blogList", blogList);
         model.addAttribute("numPage", numPage);
         model.addAttribute("currentPage", Integer.parseInt(currentPage));
         model.addAttribute("Previous", Integer.parseInt(currentPage) - 1);
         model.addAttribute("Next", Integer.parseInt(currentPage) + 1);
         return "Employee/blog";
+    }
+
+    @GetMapping("/addBlog")
+    public String showBlogAdd(Model model, Blog blog, Image image1, Image image2) {
+        model.addAttribute("blog", blog);
+        model.addAttribute("image1", image1);
+        model.addAttribute("image2", image2);
+        return "Employee/blogAdd";
+    }
+
+    @PostMapping("/addBlog/action")
+    public String addBlog(Model model,
+            @ModelAttribute("blog") Blog blog1,
+            @ModelAttribute("image1") Image image1,
+            @ModelAttribute("image2") Image image2,
+            @RequestParam("imageUrl1") MultipartFile imageUrl1,
+            @RequestParam("imageUrl2") MultipartFile imageUrl2,
+            @RequestParam(value = "blogTypeID") int blogTypeID,
+            @RequestParam(value = "imageDescript1") String imageDescript1,
+            @RequestParam(value = "imageDescript2") String imageDescript2,
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        BlogType blogType = blogTypeServiceImplement.getById(blogTypeID);
+        blog1.setUser(user);
+        blog1.setBlogType(blogType);
+
+        // set time
+        LocalDate today = LocalDate.now();
+        Date sqlDate = Date.valueOf(today);
+        blog1.setDateTimeEdit(sqlDate);
+        blog1.setStatus(true);
+        // add blog1
+        blogServiceImplement.add(blog1);
+        Blog blogID = blogServiceImplement.getIdLastest();
+        blog1.setBlogID(blogID.getBlogID());
+
+        // image1
+        Path uploadDirPath = Paths.get(uploadPath);
+        Path liveUploadDirPath = Paths.get(liveUploadPath);
+
+        if (!Files.exists(uploadDirPath)) {
+            Files.createDirectories(uploadDirPath);
+        }
+
+        if (!Files.exists(liveUploadDirPath)) {
+            Files.createDirectories(liveUploadDirPath);
+        }
+        if (!imageUrl1.isEmpty()) {
+            Path fileNameAndPath = Paths.get(uploadPath, imageUrl1.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, imageUrl1.getOriginalFilename());
+            try {
+                Files.write(fileNameAndPath, imageUrl1.getBytes());
+                Files.write(liveFileNameAndPath, imageUrl1.getBytes());
+                image1.setImageUrl(imageUrl1.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Employee/blogAdd";
+            }
+        }
+        image1.setImageDescript(imageDescript1);
+        image1.setBlog(blog1);
+        imageServiceImplement.add(image1);
+
+        // image2
+        if (!imageUrl2.isEmpty()) {
+            Path fileNameAndPath = Paths.get(uploadPath, imageUrl2.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, imageUrl2.getOriginalFilename());
+            try {
+
+                Files.write(fileNameAndPath, imageUrl2.getBytes());
+                Files.write(liveFileNameAndPath, imageUrl2.getBytes());
+                image2.setImageUrl(imageUrl2.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Employee/blogAdd";
+            }
+        }
+        image2.setImageDescript(imageDescript2);
+        image2.setBlog(blog1);
+        if (imageServiceImplement.add(image2)) {
+            redirectAttributes.addFlashAttribute("successMessage", "Đã thêm thành công!");
+        }
+        return "redirect:/employee/getAllBlog";
+    }
+
+    @GetMapping("/updateBlog/{blogID}")
+    public String showUpdateBlogForm(Model model,
+            @PathVariable("blogID") int id) {
+        Blog blog = blogServiceImplement.getById(id);
+        ArrayList<Image> imgList = imageServiceImplement.getImagesByBlogID(id);
+        Image image1 = imgList.get(0);
+        Image image2 = imgList.get(1);
+        model.addAttribute("blog", blog);
+        model.addAttribute("image1", image1);
+        model.addAttribute("image2", image2);
+        model.addAttribute("imageDescript1", image1.getImageDescript());
+        model.addAttribute("imageDescript2", image2.getImageDescript());
+        return "Employee/blogView";
+    }
+
+    @PostMapping("updateBlog/action")
+    public String updateBlog(Model model,
+            @ModelAttribute("blog") Blog blog1,
+            @ModelAttribute("image1") Image image1,
+            @ModelAttribute("image2") Image image2,
+            @RequestParam("imageUrl1") MultipartFile imageUrl1,
+            @RequestParam("imageUrl2") MultipartFile imageUrl2,
+            @RequestParam(value = "blogID") int blogID,
+            @RequestParam(value = "imageDescript1") String imageDescript1,
+            @RequestParam(value = "imageDescript2") String imageDescript2,
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request) throws ServletException, IOException {
+        System.out.println(imageDescript1);
+        System.out.println(imageDescript2);
+        Blog oldBlog = blogServiceImplement.getById(blogID);
+        ArrayList<Image> imgList = imageServiceImplement.getImagesByBlogID(blogID);
+        Image oldImage1 = imgList.get(0);
+        Image oldImage2 = imgList.get(1);
+        blog1.setUser(oldBlog.getUser());
+        blog1.setBlogType(oldBlog.getBlogType());
+
+        // set time
+        LocalDate today = LocalDate.now();
+        Date sqlDate = Date.valueOf(today);
+        blog1.setDateTimeEdit(sqlDate);
+        blog1.setStatus(true);
+        blog1.setBlogType(oldBlog.getBlogType());
+        // add blog1
+        blogServiceImplement.update(blog1);
+
+        // image1
+        Path uploadDirPath = Paths.get(uploadPath);
+        Path liveUploadDirPath = Paths.get(liveUploadPath);
+
+        if (!Files.exists(uploadDirPath)) {
+            Files.createDirectories(uploadDirPath);
+        }
+
+        if (!Files.exists(liveUploadDirPath)) {
+            Files.createDirectories(liveUploadDirPath);
+        }
+        if (!imageUrl1.isEmpty()) {
+
+            if (oldImage1.getImageUrl() != null && !oldImage1.getImageUrl().isEmpty()) {
+                Path oldFilePath = Paths.get(uploadPath, oldImage1.getImageUrl());
+                Path oldLiveFilePath = Paths.get(liveUploadPath, oldImage1.getImageUrl());
+
+                try {
+                    Files.deleteIfExists(oldFilePath);
+                    Files.deleteIfExists(oldLiveFilePath);
+                } catch (IOException e) {
+                    // Xử lý ngoại lệ nếu tệp không thể xóa
+                    System.err.println("Could not delete file: " + e.getMessage());
+                    return "Employee/blogView";
+                }
+            }
+            Path fileNameAndPath = Paths.get(uploadPath, imageUrl1.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, imageUrl1.getOriginalFilename());
+            try {
+                Files.write(fileNameAndPath, imageUrl1.getBytes());
+                Files.write(liveFileNameAndPath, imageUrl1.getBytes());
+                image1.setImageUrl(imageUrl1.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Employee/blogView";
+            }
+        } else {
+            image1.setImageUrl(oldImage1.getImageUrl());
+        }
+        image1.setImageID(oldImage1.getImageID());
+        image1.setImageDescript(imageDescript1);
+        image1.setBlog(blog1);
+        imageServiceImplement.update(image1);
+
+        // image2
+        if (!imageUrl2.isEmpty()) {
+
+            if (oldImage1.getImageUrl() != null && !oldImage2.getImageUrl().isEmpty()) {
+                Path oldFilePath = Paths.get(uploadPath, oldImage2.getImageUrl());
+                Path oldLiveFilePath = Paths.get(liveUploadPath, oldImage2.getImageUrl());
+
+                try {
+                    Files.deleteIfExists(oldFilePath);
+                    Files.deleteIfExists(oldLiveFilePath);
+                } catch (IOException e) {
+                    // Xử lý ngoại lệ nếu tệp không thể xóa
+                    System.err.println("Could not delete file: " + e.getMessage());
+                    return "Employee/blogView";
+                }
+            }
+            Path fileNameAndPath = Paths.get(uploadPath, imageUrl2.getOriginalFilename());
+            Path liveFileNameAndPath = Paths.get(liveUploadPath, imageUrl2.getOriginalFilename());
+            try {
+                Files.write(fileNameAndPath, imageUrl2.getBytes());
+                Files.write(liveFileNameAndPath, imageUrl2.getBytes());
+                image2.setImageUrl(imageUrl2.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Employee/blogView";
+            }
+        } else {
+            image2.setImageUrl(oldImage2.getImageUrl());
+        }
+        image2.setImageID(oldImage2.getImageID());
+        image2.setImageDescript(imageDescript2);
+        image2.setBlog(blog1);
+        if (imageServiceImplement.update(image2)) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thành công!");
+        }
+        return "redirect:/employee/getAllBlog";
+    }
+
+    @PostMapping(value = "/hiddenBlog")
+    public ResponseEntity<String> hiddenBlog(@RequestParam("id") int id) {
+        boolean status = blogServiceImplement.hiddenBlog(id);
+        return ResponseEntity.ok().body("Xoá thành công");
     }
 
     // feedback
@@ -408,7 +588,6 @@ public class EmployeeController {
         return "Employee/feedback";
     }
 
-
     // comment
     @GetMapping("/getAllComment")
     public String getAllComments(Model model) {
@@ -443,7 +622,6 @@ public class EmployeeController {
         return "Employee/comment";
     }
 
-    
     // roomType
     @GetMapping("/getAllRoomType")
     public String getAllRoomType(Model model) {

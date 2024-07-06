@@ -1,5 +1,6 @@
 package com.KDLST.Manager.Controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 import com.KDLST.Manager.Model.Entity.Blog.Blog;
 import com.KDLST.Manager.Model.Entity.ImageBlog.Image;
 import com.KDLST.Manager.Model.Entity.RateAFb.Comment;
@@ -26,7 +26,6 @@ import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
 import com.KDLST.Manager.Model.Service.RateAFbService.CommentServiceImplement;
 
 import java.time.LocalDate;
-
 
 @Controller
 @RequestMapping(value = "/blog")
@@ -40,8 +39,6 @@ public class BlogController {
     private ImageServiceImplement imageServiceImplement = new ImageServiceImplement();
     private CommentServiceImplement commentServiceImplement = new CommentServiceImplement();
 
-
-    
     @GetMapping("/getAll")
     public String getAll(Model model) {
         iList = imageServiceImplement.getAll();
@@ -104,12 +101,10 @@ public class BlogController {
             }
         }
 
-
         int commentTotal = 0;
         if (commentList != null) {
             commentTotal = commentList.size();
         }
-     
 
         model.addAttribute("images", images);
         model.addAttribute("commentTotal", commentTotal);
@@ -121,8 +116,9 @@ public class BlogController {
     }
 
     @PostMapping("/submitComment")
-    public String submitComment(@RequestParam(name = "blogID") int blogID,
+    public ResponseEntity<Comment> submitComment(@RequestParam(name = "blogID") int blogID,
             @RequestParam(name = "content") String content, HttpServletRequest request) {
+        System.out.println("ok");
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
         Blog blog = blogServiceImplement.getById(blogID);
@@ -133,8 +129,20 @@ public class BlogController {
         comment.setContent(content);
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today);
+
         comment.setCommentDate(sqlDate);
+
         commentServiceImplement.add(comment);
-        return "redirect:/blog/showBlogDetail/" + blogID;
+        ArrayList<Comment> comList = commentServiceImplement.getAll();
+        comment = comList.get(comList.size() -1);
+        System.out.println(comment.getCommentID());
+        return ResponseEntity.ok().body(comment);
+    }
+
+
+    @PostMapping("/deleteComment")
+    public ResponseEntity<String> deleteComment(@RequestParam("commentID") String id) {
+        commentServiceImplement.delete(Integer.parseInt(id));
+        return ResponseEntity.ok().body("Xoá thành công");
     }
 }

@@ -118,8 +118,6 @@ public class TicketRepository {
             prsm.setDouble(4, ticket.getPrice());
             prsm.setString(5, ticket.getImage());
             prsm.setBoolean(6, ticket.isStatus());
-            prsm.setInt(7, ticket.getTicketID());
-            prsm.setInt(8, ticket.getService().getServiceID());
             int result = prsm.executeUpdate();
             con.close();
             return result > 0;

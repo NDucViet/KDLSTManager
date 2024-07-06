@@ -39,10 +39,14 @@ public class RoleFilter implements Filter {
             "/cart/checkOut", "/cart/vnpay-payment-return", "/cart/history",
             "/service/addFeedback",
             "/service/deleteFeedback", "/blog/submitComment", "/hotel/", "/css",
-            "/images", "/js", "/user/403","/ticket/rating"));
+            "/images", "/js", "/user/403"));
 
     private static final List<String> EMPLOY_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
-            "/employee/", "/employee/addBlog", "/employee/addBlog/action", "/css",
+            "/employee/", "/employee/getAllService", "/employee/getAllCustomer", "/employee/getAllTicket",
+            "/employee/getAllBlog", "/employee/updateBlog", "/employee/updateBlog/action",
+            "/employee/addBlog", "/employee/addBlog/action", "/employee/hiddenBlog", "/employee/getAllFeedback",
+            "/employee/getAllComment", "/employee/getAllRoom", "/employee/getAllRoomType",
+            "/user/logout", "/css",
             "/images", "/js", "/user/403"));
 
     @Override
@@ -105,6 +109,7 @@ public class RoleFilter implements Filter {
     }
 
     private boolean isUserPath(String path) {
+        System.out.println(path);
         return USER_PATH.stream().anyMatch(path::equals);
     }
 

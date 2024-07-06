@@ -47,8 +47,8 @@
         <div class="col-md-9 ftco-animate pb-5 text-center">
           <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Trang chủ <i
                   class="fa fa-chevron-right"></i></a></span> <span class="mr-2"><a href="index.html">Tin tức <i
-                  class="fa fa-chevron-right"></i></a></span> <span>Nội dung <i
-                class="fa fa-chevron-right"></i></span></p>
+                  class="fa fa-chevron-right"></i></a></span> <span>Nội dung <i class="fa fa-chevron-right"></i></span>
+          </p>
           <h1 class="mb-0 bread">Nội dung</h1>
         </div>
       </div>
@@ -73,39 +73,42 @@
           <p th:text="${image2.imageDescript}"></p>
 
           <div class="pt-5 mt-5">
-            <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">[[${commentTotal}]] Bình luận</h3>
             <ul class="comment-list">
               <th:block th:each="comment : ${commentList}">
-                <li class="comment">
+                <li class="comment" th:id="|comment${comment.commentID}|">
                   <div class="vcard bio">
-                    <img src="/images/person_1.jpg" alt="Image placeholder">
+                    <img th:src="@{'/images/'+ ${comment.user.avatar}}" alt="Image placeholder">
                   </div>
                   <div class="comment-body">
                     <h3>[[${comment.user.username}]]</h3>
                     <div class="meta">[[${comment.commentDate}]]</div>
                     <p>[[${comment.content}]]</p>
-                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                    <div th:if="${session.user != null}">
+                      <button th:onclick="|deleteComment(${comment.commentID})|" class="btn btn-danger btn-sm"
+                        style="float: right;" th:if="${session.user.idUser == comment.user.idUser}">
+                        <i class="fa-solid fa-trash"></i> Xóa
+                      </button>
+                    </div>
                   </div>
                 </li>
               </th:block>
             </ul>
+
             <!-- END comment-list -->
 
 
             <th:block th:if="${session.user !=null}">
-
               <div class="comment-form-wrap pt-5">
                 <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Để lại bình luận của bạn</h3>
-                <form th:action="@{/blog/submitComment}" method="post" class="p-5 bg-light">
-                  <div class="form-group">
-                    <label for="message">Bình luận</label>
-                    <textarea name="content" id="message" cols="30" rows="10" class="form-control"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <input type="submit" value="Gửi" class="btn py-3 px-4 btn-primary">
-                  </div>
-                  <input type="hidden" name="blogID" th:value="${blogID}" />
-                </form>
+                <div class="form-group">
+                  <label for="message">Bình luận</label>
+                  <input type="text" th:id="|content${image2.blog.blogID}|" cols="30" rows="5" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="button" th:onclick="|submitComment(${image2.blog.blogID})|" value="Gửi"
+                    class="btn py-3 px-4 btn-primary">
+                </div>
+                <input type="hidden" name="blogID" th:value="${blogID}" />
               </div>
             </th:block>
           </div>
@@ -172,6 +175,7 @@
   <script src="js/jquery.animateNumber.min1.js"></script>
   <script src="js/bootstrap-datepicker1.js"></script>
   <script src="js/scrollax.min1.js"></script>
+  <script src="js/blog.js"></script>
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="js/google-map1.js"></script>

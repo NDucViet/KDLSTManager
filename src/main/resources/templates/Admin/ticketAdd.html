@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{css/feather.css}">
+    <link rel="stylesheet" th:href="@{css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{css/vendor.bundle.base.css}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" th:href="@{css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" th:href="@{css/themify-icons.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/select.dataTables.min.css}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" th:href="@{css/style2.css}">
+    <!-- endinject -->
+    <link rel="shortcut icon" th:href="@{images/favicon.png}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <style>
+        .btn-outline-success {
+            --bs-btn-color: #4b49ac;
+            --bs-btn-border-color: #4b49ac;
+            --bs-btn-hover-bg: #4b49ac;
+            --bs-btn-hover-border-color: #4b49ac;
+            --bs-btn-active-bg: #4b49ac;
+            --bs-btn-active-border-color: #4b49ac;
+            --bs-btn-disabled-color: #4b49ac;
+            --bs-btn-disabled-border-color: #4b49ac;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <header th:insert="~{Admin/header :: header}"></header>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_settings-panel.html -->
+            <partial th:insert="~{Admin/partial :: partial}"></partial>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <h2>Tạo vé</h2>
+                    <form th:action="@{/admin/addTicket/action}" th:method="post" th:object="${ticket}"
+                        enctype="multipart/form-data">
+                        <!-- Fields for Ticket -->
+                        <div class="mb-3">
+                            <label class="form-label" for="id">Loại bài viết:</label><br>
+                            <select class="form-select" name="id" id="id" required>
+                                <option value="" disabled selected>Chọn loại vé</option>
+                                <option value="4">Công viên nước</option>
+                                <option value="8">Tàu Lượn Siêu Tốc</option>
+                                <option value="16">Nhà Hàng Buffet</option>
+                                <option value="22">Nhà Cổ</option>
+                                <option value="25">Tham quan </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="title">Tiêu đề:</label><br>
+                            <input class="form-control" type="text" id="title" name="title" th:field="*{title}" required><br><br>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="description">Mô tả:</label><br>
+                            <textarea class="form-control" id="description" name="description" th:field="*{description}"
+                                maxlength="200" required></textarea><br><br>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="price">Giá:</label><br>
+                            <input class="form-control" type="number" id="price" name="price" th:field="*{price}"
+                                min="0" required><br>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="image1">Ảnh:</label><br>
+                            <input class="form-control" type="file" id="image1" name="image1"  accept="image/*" required><br>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 oval">Lưu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer th:insert="~{Admin/footer :: footer}"></footer>
+    </div>
+
+    <!-- <script>
+        function validateForm() {
+            const price = document.getElementById('price').value;
+            const priceError = document.getElementById('priceError');
+            if (price < 0) {
+                priceError.textContent = "Giá không được bé hơn 0";
+                return false;
+            }
+            priceError.textContent = "";
+            return true;
+        }
+    </script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+<script src="js/vendor.bundle.base.js"></script>
+<script src="js/Chart.min.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/dataTables.bootstrap4.js"></script>
+<script src="js/dataTables.select.min.js"></script>
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/Chart.roundedBarCharts.js"></script>
+<script src="js/chart.js"></script>
