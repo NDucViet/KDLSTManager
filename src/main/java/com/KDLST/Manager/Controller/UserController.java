@@ -323,7 +323,9 @@ public class UserController {
 
         // Sao chép các trường khác từ user trong session sang user1
         user1.setRole(user.getRole());
-        user1.setCustomerType(user.getCustomerType());
+        if (user.getCustomerType() != null) {
+            user1.setCustomerType(user.getCustomerType());
+        }
         user1.setIdUser(user.getIdUser());
         user1.setStatus(user.getStatus());
         user1.setEmail(user.getEmail());

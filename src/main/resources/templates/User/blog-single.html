@@ -73,11 +73,26 @@
           <p th:text="${image2.imageDescript}"></p>
 
           <div class="pt-5 mt-5">
+            <th:block th:if="${session.user !=null}">
+              <div class="comment-form-wrap pt-5">
+                <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Để lại bình luận của bạn</h3>
+                <div class="form-group">
+                  <label for="message">Bình luận</label>
+                  <input type="text" th:id="|content${image2.blog.blogID}|" cols="30" rows="5" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="button" th:onclick="|submitComment(${image2.blog.blogID})|" value="Gửi"
+                    class="btn py-3 px-4 btn-primary">
+                </div>
+                <input type="hidden" name="blogID" th:value="${blogID}" />
+              </div>
+            </th:block>
+
             <ul class="comment-list">
               <th:block th:each="comment : ${commentList}">
                 <li class="comment" th:id="|comment${comment.commentID}|">
                   <div class="vcard bio">
-                    <img th:src="@{'/images/'+ ${comment.user.avatar}}" alt="Image placeholder">
+                    <img th:src="@{'/images/'+ ${comment.user.avatar}}" alt="Image">
                   </div>
                   <div class="comment-body">
                     <h3>[[${comment.user.username}]]</h3>
@@ -97,20 +112,7 @@
             <!-- END comment-list -->
 
 
-            <th:block th:if="${session.user !=null}">
-              <div class="comment-form-wrap pt-5">
-                <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Để lại bình luận của bạn</h3>
-                <div class="form-group">
-                  <label for="message">Bình luận</label>
-                  <input type="text" th:id="|content${image2.blog.blogID}|" cols="30" rows="5" class="form-control">
-                </div>
-                <div class="form-group">
-                  <input type="button" th:onclick="|submitComment(${image2.blog.blogID})|" value="Gửi"
-                    class="btn py-3 px-4 btn-primary">
-                </div>
-                <input type="hidden" name="blogID" th:value="${blogID}" />
-              </div>
-            </th:block>
+
           </div>
         </div>
         <div class="col-lg-4 sidebar ftco-animate bg-light py-md-5">

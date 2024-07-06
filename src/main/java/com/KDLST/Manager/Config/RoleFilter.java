@@ -2,7 +2,6 @@ package com.KDLST.Manager.Config;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -46,7 +45,7 @@ public class RoleFilter implements Filter {
             "/employee/getAllBlog", "/employee/updateBlog", "/employee/updateBlog/action",
             "/employee/addBlog", "/employee/addBlog/action", "/employee/hiddenBlog", "/employee/getAllFeedback",
             "/employee/getAllComment", "/employee/getAllRoom", "/employee/getAllRoomType",
-            "/user/logout", "/css",
+            "/user/logout", "/user/profile", "/user/showEdit", "/user/edit", "/css",
             "/images", "/js", "/user/403"));
 
     @Override
@@ -110,11 +109,23 @@ public class RoleFilter implements Filter {
 
     private boolean isUserPath(String path) {
         System.out.println(path);
-        return USER_PATH.stream().anyMatch(path::equals);
+        for (String string : USER_PATH) {
+            if (path.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+        // return USER_PATH.stream().anyMatch(path::equals);
     }
 
     private boolean isEmployPath(String path) {
-        return EMPLOY_PATH.stream().anyMatch(path::equals);
+        for (String string : EMPLOY_PATH) {
+            if (path.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+        // return EMPLOY_PATH.stream().anyMatch(path::equals);
     }
 
     private boolean isStaticResource(String path) {

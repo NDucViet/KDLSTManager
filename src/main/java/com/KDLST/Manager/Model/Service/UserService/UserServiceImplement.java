@@ -76,7 +76,7 @@ public class UserServiceImplement implements UserService {
 
     public boolean toLogin(User user) {
         for (User user2 : userRepository.getAll()) {
-            if (user2.getEmail().equals(user.getEmail()) && user2.getPassword().equals(user.getPassword())) {
+            if (user2.getEmail().equals(user.getEmail()) && user2.getPassword().equals(user.getPassword()) && user2.getStatus() == true) {
                 return true;
             }
         }

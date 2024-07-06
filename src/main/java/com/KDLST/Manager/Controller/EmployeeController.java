@@ -282,6 +282,8 @@ public class EmployeeController {
     public String getPageTicket(Model model, @PathVariable(value = "page") String currentPage,
             @ModelAttribute("tList") ArrayList<Ticket> tList) {
         ArrayList<Ticket> ticketList = new ArrayList<>();
+        tList.clear();
+        tList = ticketService.getAll();
         int page = 10;
         int numPages = (int) Math.ceil((float) tList.size() / page);
         int[] numPage = new int[numPages];
