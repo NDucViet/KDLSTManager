@@ -88,6 +88,10 @@
     #popchat.active {
         opacity: 1;
     }
+
+    .form-control{
+        height: 28px  !important;
+    }
 </style>
 
 <body>
@@ -135,7 +139,7 @@
                                 alt="ticket Image" style="height: 20rem; object-fit: cover;">
                         </figure>
                         <div class="p-3 text-center room-info">
-                            <h2 th:text="${ticket.key.title}">Single Room</h2>
+                            <h3 th:text="${ticket.key.title}">Single Room</h3>
 
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <p class="h5 mb-0 me-1" th:text="${ticket.value}" style="color: #FF9529;"></p>
@@ -148,7 +152,7 @@
 
                                 <input min="1" max="20" th:name="'quantity'+${ticket.key.ticketID}"
                                     th:id="'quantity'+${ticket.key.ticketID}" value="1" type="number"
-                                    class="form-control form-control-sm" style="width: 70px;" pattern="[1-9]">
+                                    class="form-control form-control-sm" style="width: 47px; " pattern="[1-9]">
 
                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
                                     th:onclick="'adjustQuantity(' + ${ticket.key.ticketID} + ',1)'">

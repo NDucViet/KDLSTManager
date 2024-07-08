@@ -208,27 +208,27 @@ public class EmployeeController {
     // customer
     @GetMapping("/getAllCustomer")
     public String getAllCustomer(Model model) {
-        cList.clear();
-        cList = userService.getAllCustomer();
-        return getPageCustomer(model, "1");
+        ArrayList<User> cuList = userService.getAllCustomer();
+        return getPageCustomer(model, "1", cuList);
     }
 
     @GetMapping("/getAllCustomer/{page}")
-    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage) {
-        cList.clear();
+    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage, 
+    @ModelAttribute("cList") ArrayList<User> cuList) {
+        cuList.clear();
         ArrayList<User> customerList = new ArrayList<>();
-        cList = userService.getAllCustomer();
+        cuList = userService.getAllCustomer();
         int customerPage = 10;
-        int numPages = (int) Math.ceil((float) cList.size() / customerPage);
+        int numPages = (int) Math.ceil((float) cuList.size() / customerPage);
         int[] numPage = new int[numPages];
         for (int i = 0; i < numPages; i++) {
             numPage[i] = i + 1;
         }
         for (int i = (Integer.parseInt(currentPage) - 1) * customerPage; i < Integer.parseInt(currentPage)
                 * customerPage; i++) {
-            if (cList.size() <= i)
+            if (cuList.size() <= i)
                 break;
-            customerList.add(cList.get(i));
+            customerList.add(cuList.get(i));
         }
         model.addAttribute("customerList", customerList);
         model.addAttribute("numPage", numPage);

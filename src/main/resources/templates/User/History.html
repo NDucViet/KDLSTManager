@@ -61,82 +61,82 @@
                 <div class="col-12">
                     <!-- Timeline Area-->
                     <div class="apland-timeline-area">
-                        <!-- Single Timeline Content-->
-                        <th:block th:each="history: ${history}">
-                            <div class="single-timeline-area">
-                                <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s"
-                                    style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
-                                    <p th:text="${history.key.value}" style="color: black;"></p>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center">
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover table-light">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">Ảnh</th>
-                                                                <th scope="col">Tên</th>
-                                                                <th scope="col">Giá vé</th>
-                                                                <th scope="col">Số lượng</th>
-                                                                <th scope="col">Tổng tiền</th>
-                                                                <th scope="col">Trạng thái</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <th:block th:each="billDetail : ${history.key.key}">
-                                                                <tr>
-                                                                    <td>
-                                                                        <img th:src="@{/images/{imageUrl}(imageUrl=${billDetail.ticketID.image})}"
-                                                                            alt="" width="100px">
-                                                                    </td>
-                                                                    <td>[[${billDetail.ticketID.title}]]</td>
-                                                                    <td>[[${billDetail.ticketID.price}]]</td>
-                                                                    <td>[[${billDetail.quantity}]]</td>
-                                                                    <td>[[${billDetail.total}]]</td>
-                                                                    <td th:if="${billDetail.status == 0}">Chưa sử dụng
-                                                                    </td>
-                                                                    <td th:if="${billDetail.status == 1}"
-                                                                        class="status">Đã sử dụng</td>
-                                                                    <td th:if="${billDetail.status == 2}"
-                                                                        class="status">Đã đánh giá</td>
-                                                                    <td th:if="${billDetail.status == 1}">
-                                                                        <button
-                                                                            class="btn btn-primary btn-sm rounded-pill px-2 py-1 position-relative"
-                                                                            data-toggle="modal"
-                                                                            th:data-target="|#RatingModal-${billDetail.billID.billID}-${billDetail.ticketID.ticketID}|">
-                                                                            <i class="fas fa-star me-1"></i>Đánh giá
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                            </th:block>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="qr-code-container">
-                                                    <img th:src="${history.value}" style="width: 150px;">
-                                                </div>
-                                            </div>
-                                            <p>Tổng hóa đơn: <span class="total-bill">0</span> VND</p>
-                                            <script>
-                                                document.addEventListener("DOMContentLoaded", function () {
-                                                    document.querySelectorAll('.single-timeline-area').forEach(function (area) {
-                                                        let totalBill = 0;
-                                                        area.querySelectorAll("td:nth-child(5)").forEach(function (td) {
-                                                            totalBill += parseFloat(td.innerText);
-                                                        });
-                                                        area.querySelector(".total-bill").innerText = totalBill.toFixed(2);
-                                                    });
-                                                });
-                                            </script>
-                                        </div>
-                                    </div>
+                        <th:block th:if="history == null">
+                            <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                <div class="card-body">
+                                    <h2>Không có giao dịch</h2>
                                 </div>
                             </div>
                         </th:block>
+                        <!-- Single Timeline Content-->
+                        <th:block th:if="history !=null">
+                            <th:block th:each="history: ${history}">
+                                <div class="single-timeline-area">
+                                    <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s"
+                                        style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                                        <p th:text="${history.key.value}" style="color: black;"></p>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover table-light">
+                                                            <tbody>
+                                                                <th:block th:each="billDetail : ${history.key.key}">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img th:src="@{/images/{imageUrl}(imageUrl=${billDetail.ticketID.image})}"
+                                                                                alt="" width="100px">
+                                                                        </td>
+                                                                        <td>[[${billDetail.ticketID.title}]]</td>
+                                                                        <td>[[${billDetail.ticketID.price}]]</td>
+                                                                        <td>[[${billDetail.quantity}]]</td>
+                                                                        <td>[[${billDetail.total}]]</td>
+                                                                        <td th:if="${billDetail.status == 0}">Chưa sử
+                                                                            dụng
+                                                                        </td>
+                                                                        <td th:if="${billDetail.status == 1}"
+                                                                            class="status">Đã sử dụng</td>
+                                                                        <td th:if="${billDetail.status == 2}"
+                                                                            class="status">Đã đánh giá</td>
+                                                                        <td th:if="${billDetail.status == 1}">
+                                                                            <button
+                                                                                class="btn btn-primary btn-sm rounded-pill px-2 py-1 position-relative"
+                                                                                data-toggle="modal"
+                                                                                th:data-target="|#RatingModal-${billDetail.billID.billID}-${billDetail.ticketID.ticketID}|"
+                                                                                style="width: 120px;">
+                                                                                <i class="fas fa-star me-1"></i>Đánh giá
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </th:block>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="qr-code-container">
+                                                        <img th:src="${history.value}" style="width: 150px;">
+                                                    </div>
+                                                </div>
+                                                <p>Tổng hóa đơn: <span class="total-bill">0</span> VND</p>
+                                                <script>
+                                                    document.addEventListener("DOMContentLoaded", function () {
+                                                        document.querySelectorAll('.single-timeline-area').forEach(function (area) {
+                                                            let totalBill = 0;
+                                                            area.querySelectorAll("td:nth-child(5)").forEach(function (td) {
+                                                                totalBill += parseFloat(td.innerText);
+                                                            });
+                                                            area.querySelector(".total-bill").innerText = totalBill.toFixed(2);
+                                                        });
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </th:block>
+                       
                     </div>
                 </div>
             </div>

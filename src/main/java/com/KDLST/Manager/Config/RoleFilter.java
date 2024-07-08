@@ -38,7 +38,7 @@ public class RoleFilter implements Filter {
             "/cart/checkOut", "/cart/vnpay-payment-return", "/cart/history",
             "/service/addFeedback",
             "/service/deleteFeedback", "/blog/submitComment", "/hotel/", "/css",
-            "/images", "/js", "/user/403"));
+            "/images", "/js", "/user/403","ticket/rating", "blog/deleteComment"));
 
     private static final List<String> EMPLOY_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
             "/employee/", "/employee/getAllService", "/employee/getAllCustomer", "/employee/getAllTicket",

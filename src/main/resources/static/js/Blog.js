@@ -74,7 +74,6 @@ function deleteComment(commentID) {
         xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr1.onreadystatechange = function () {
             if (xhr1.readyState === 4 && xhr1.status === 200) {
-                // Remove the div with id feedback + idFeedback
                 var commentDiv = document.getElementById('comment' + commentID);
                 if (commentDiv) {
                     var commentList = commentDiv.parentNode;

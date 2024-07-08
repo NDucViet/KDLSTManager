@@ -142,7 +142,10 @@ public class BlogController {
 
     @PostMapping("/deleteComment")
     public ResponseEntity<String> deleteComment(@RequestParam("commentID") String id) {
-        commentServiceImplement.delete(Integer.parseInt(id));
+        System.out.println("okdelete");
+        System.out.println(id);
+        int commentID = Integer.parseInt(id);
+        commentServiceImplement.delete(commentID);
         return ResponseEntity.ok().body("Xoá thành công");
     }
 }
