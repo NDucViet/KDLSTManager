@@ -59,16 +59,16 @@
                             <label class="form-label" for="id">Loại bài viết:</label><br>
                             <select class="form-select" name="id" id="id" required>
                                 <option value="" disabled selected>Chọn loại vé</option>
-                                <option value="4">Công viên nước</option>
-                                <option value="8">Tàu Lượn Siêu Tốc</option>
-                                <option value="16">Nhà Hàng Buffet</option>
-                                <option value="22">Nhà Cổ</option>
-                                <option value="25">Tham quan </option>
+                                <option value="4">Vé Vào Cổng</option>
+                                <option value="5">Vé Trò Chơi</option>
+                                <option value="6">Vé Ăn</option>
+                                <option value="7">Vé Xe</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="title">Tiêu đề:</label><br>
-                            <input class="form-control" type="text" id="title" name="title" th:field="*{title}" required><br><br>
+                            <input class="form-control" type="text" id="title" name="title" th:field="*{title}"
+                                required><br><br>
                         </div>
 
                         <div class="mb-3">
@@ -83,7 +83,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="image1">Ảnh:</label><br>
-                            <input class="form-control" type="file" id="image1" name="image1"  accept="image/*" required><br>
+                            <input class="form-control" type="file" id="image1" name="image1" accept="image/*"
+                                required><br>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3 oval">Lưu</button>
                     </form>

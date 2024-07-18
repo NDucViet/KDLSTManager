@@ -11,7 +11,7 @@
   <meta name="author" content="" />
   <link rel="stylesheet" type="text/css"
     href="//fonts.googleapis.com/css?family=|Roboto+Sans:400,700|Playfair+Display:400,700">
-    <link rel="shortcut icon" th:href="@{images/logoHotel.png}" />
+  <link rel="shortcut icon" th:href="@{images/logoHotel.png}" />
   <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}">
   <link rel="stylesheet" type="text/css" th:href="@{../css/fancybox.min.css}">
   <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap-datepicker.css}">
@@ -25,6 +25,64 @@
   <!-- Theme Style -->
   <link rel="stylesheet" type="text/css" th:href="@{../css/style1.css}">
 </head>
+<style>
+  h5:hover,
+  p:hover {
+    transform: translateY(-10px);
+  }
+
+  .truncate {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    /* Điều chỉnh theo nhu cầu của bạn */
+  }
+
+  .custom-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-height: 90vh;
+    /* Để modal không chiếm toàn bộ chiều cao màn hình */
+    overflow-y: auto;
+    /* Để modal có thể cuộn nếu nội dung quá dài */
+    z-index: 1050;
+    /* Để đảm bảo modal xuất hiện trên các thành phần khác */
+  }
+
+  .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .modal-content {
+    border-radius: 0;
+  }
+
+  @media (min-width: 768px) {
+    .custom-modal {
+      width: 50%;
+    }
+  }
+
+  .custom-modal:not(:first-child) {
+    margin-bottom: 10px;
+    /* Khoảng cách giữa các modal */
+  }
+
+  .modal-body img {
+    height: 30rem;
+    /* Increase the image height */
+    width: 40rem;
+    /* Increase the image width */
+    object-fit: cover;
+    margin-right: 1rem;
+  }
+</style>
 
 <body>
 
@@ -38,8 +96,8 @@
         <div class="col-md-10 text-center" data-aos="fade-up">
           <span class="custom-caption text-uppercase text-white d-block  mb-3">Xin chào đến Khách sạn 5 <span
               class="fa fa-star text-primary">
-          <h1 class="heading">Nơi tốt nhất để nghĩ dưỡng</h1>
-        </div> 
+              <h1 class="heading">Nơi tốt nhất để nghĩ dưỡng</h1>
+        </div>
       </div>
     </div>
 
@@ -63,8 +121,11 @@
         <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
           <h2 class="heading">Chào mừng đến với Ngũ Hành Hotel </h2>
           <p class="mb-4">
-            Nép mình đằng xa, sau những ngọn núi xanh tươi, cách xa thành phố Đà Nẵng nhộn nhịp, là khu du lịch sinh thái đầy mê hoặc được mệnh danh là “Thiên đường xanh”. 
-            Được bao quanh bởi thiên nhiên hoang sơ và sự tĩnh lặng thanh bình,Ngũ Hành Hotel mang đến cho du khách cảm giác thư giãn, thoải mái tuyệt đối, mang đến trải nghiệm độc đáo và kỳ diệu cho những ai trân trọng sự yên bình và vẻ đẹp hoang sơ của thiên nhiên..</p>
+            Nép mình đằng xa, sau những ngọn núi xanh tươi, cách xa thành phố Đà Nẵng nhộn nhịp, là khu du lịch sinh
+            thái đầy mê hoặc được mệnh danh là “Thiên đường xanh”.
+            Được bao quanh bởi thiên nhiên hoang sơ và sự tĩnh lặng thanh bình,Ngũ Hành Hotel mang đến cho du khách cảm
+            giác thư giãn, thoải mái tuyệt đối, mang đến trải nghiệm độc đáo và kỳ diệu cho những ai trân trọng sự yên
+            bình và vẻ đẹp hoang sơ của thiên nhiên..</p>
         </div>
       </div>
     </div>
@@ -75,7 +136,9 @@
       <div class="row justify-content-center text-center mb-5">
         <div class="col-md-7">
           <h2 class="heading" data-aos="fade-up">Phòng</h2>
-          <p data-aos="fade-up" data-aos-delay="100">Ngũ Hành Hotel là nơi kết nối giữa vẻ đẹp thiên nhiên và sự sang trọng hiện đại, mang đến cho bạn trải nghiệm nghỉ dưỡng đẳng cấp.Tận hưởng không gian yên bình và sang trọng tại Ngũ Hành Hotel, nơi mỗi góc nhìn đều là một tác phẩm nghệ thuật</p>
+          <p data-aos="fade-up" data-aos-delay="100">Ngũ Hành Hotel là nơi kết nối giữa vẻ đẹp thiên nhiên và sự sang
+            trọng hiện đại, mang đến cho bạn trải nghiệm nghỉ dưỡng đẳng cấp.Tận hưởng không gian yên bình và sang trọng
+            tại Ngũ Hành Hotel, nơi mỗi góc nhìn đều là một tác phẩm nghệ thuật</p>
         </div>
       </div>
       <div class="row">
@@ -143,8 +206,12 @@
         <div class="col-md-7">
           <h2 class="heading" data-aos="fade-up">Ảnh</h2>
           <p data-aos="fade-up" data-aos-delay="100">
-            Nép mình đằng xa, sau những ngọn núi xanh tươi, cách xa thành phố Đà Nẵng nhộn nhịp, là khu du lịch sinh thái đầy mê hoặc được mệnh danh là “Thiên đường xanh”. 
-            Được bao quanh bởi thiên nhiên hoang sơ và sự tĩnh lặng thanh bình,Ngũ Hành Hotel mang đến cho du khách cảm giác thư giãn, thoải mái tuyệt đối, mang đến trải nghiệm độc đáo và kỳ diệu cho những ai trân trọng sự yên bình và vẻ đẹp hoang sơ của thiên nhiên..</p></p>
+            Nép mình đằng xa, sau những ngọn núi xanh tươi, cách xa thành phố Đà Nẵng nhộn nhịp, là khu du lịch sinh
+            thái đầy mê hoặc được mệnh danh là “Thiên đường xanh”.
+            Được bao quanh bởi thiên nhiên hoang sơ và sự tĩnh lặng thanh bình,Ngũ Hành Hotel mang đến cho du khách cảm
+            giác thư giãn, thoải mái tuyệt đối, mang đến trải nghiệm độc đáo và kỳ diệu cho những ai trân trọng sự yên
+            bình và vẻ đẹp hoang sơ của thiên nhiên..</p>
+          </p>
         </div>
       </div>
       <div class="row">
@@ -190,7 +257,7 @@
 
 
   <!-- END section -->
-      </div>
+  </div>
   </section>
   <section class="section bg-image overlay" style="background-image: url('images/hero_4.jpg');">
     <div class="container">

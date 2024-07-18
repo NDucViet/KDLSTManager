@@ -121,7 +121,7 @@ public class CommentRepository {
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = conn.prepareStatement(
-                    "select * from KDLST.Comment where blogID = ?;");
+                    "select * from KDLST.Comment where blogID = ? order by commentID desc;");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -156,7 +156,7 @@ public class CommentRepository {
         }
         return false;
     }
-  
+
     public static void main(String[] args) {
         CommentRepository commentRepository = new CommentRepository();
         System.out.println(commentRepository.delete(12));
