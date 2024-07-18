@@ -157,8 +157,4 @@ public class CommentRepository {
         return false;
     }
 
-    public static void main(String[] args) {
-        CommentRepository commentRepository = new CommentRepository();
-        System.out.println(commentRepository.delete(12));
-    }
 }

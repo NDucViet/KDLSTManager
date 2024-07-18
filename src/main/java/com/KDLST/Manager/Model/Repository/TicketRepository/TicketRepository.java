@@ -49,6 +49,36 @@ public class TicketRepository {
         return ticketList;
     }
 
+    public ArrayList<Ticket> getTicketByTicketTypeId(int id) {
+        try {
+            ticketList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement stsm = con.prepareStatement( "select * from KDLST.Ticket where ticketTypeID = ?");
+            stsm.setInt(1, id);
+            ResultSet rs = stsm.executeQuery();
+            while (rs.next()) {
+                int ticketID = rs.getInt("ticketID");
+                TicketType TicketType = ticketTypeRepository.getById(rs.getInt("ticketTypeID"));
+                Services service = serviceRepository.getById(rs.getInt("serviceID"));
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+                double price = rs.getDouble("price");
+                String image = rs.getString("image");
+                Boolean status = rs.getBoolean("status");
+                Ticket ticket = new Ticket(ticketID, service, TicketType, title, description, price, image, status);
+
+                ticketList.add(ticket);
+            }
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return ticketList;
+    }
+
     public Ticket getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);

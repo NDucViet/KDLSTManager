@@ -26,11 +26,13 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/ticket")
 public class TicketController {
-    ArrayList<Ticket> tList = new ArrayList<>();
+    List<Ticket> tList = new ArrayList<>();
 
     @Autowired
     TicketService ticketService = new TicketServiceImplement();
@@ -45,7 +47,7 @@ public class TicketController {
 
     @GetMapping("/getAll/{page}")
     public String getPage(Model model, @PathVariable(value = "page") String currentPage) {
-        HashMap<Ticket,Float> ticketList = new HashMap<>();
+        HashMap<Ticket, Float> ticketList = new HashMap<>();
         int ticketPage = 5;
         int numPages = (int) Math.ceil((float) tList.size() / ticketPage);
         int[] numPage = new int[numPages];
@@ -56,7 +58,7 @@ public class TicketController {
                 * ticketPage; i++) {
             if (tList.size() <= i)
                 break;
-            ticketList.put(tList.get(i),rateService.getScoreByService(tList.get(i)));
+            ticketList.put(tList.get(i), rateService.getScoreByService(tList.get(i)));
         }
         model.addAttribute("ticketList", ticketList);
         model.addAttribute("numPage", numPage);
@@ -66,8 +68,16 @@ public class TicketController {
         return "User/Ticket";
     }
 
+    @PostMapping("/getById")
+    public String getById(@RequestParam("ticketTypes") List<String> ticketType, Model model) {
+        tList = ticketService.getTicketsByTypes(ticketType);
+        System.out.println(tList.size());
+        return getPage(model, "1");
+    }
+
     @PostMapping(value = "/rating")
-    public ResponseEntity<String> ratingBook(@RequestParam("idBillDetail") String idBillDetail,@RequestParam("idTicket") String idTicket,
+    public ResponseEntity<String> ratingBook(@RequestParam("idBillDetail") String idBillDetail,
+            @RequestParam("idTicket") String idTicket,
             @RequestParam("score") String score, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");

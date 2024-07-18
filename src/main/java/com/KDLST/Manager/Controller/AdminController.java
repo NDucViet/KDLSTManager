@@ -12,16 +12,12 @@ import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServ
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomDetailsServiceImplement;
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomService;
 import com.KDLST.Manager.Model.Service.BookingRoomService.BookingRoomServiceImplement;
-import com.KDLST.Manager.Model.Service.HotelService.RoomTypeService;
-import com.KDLST.Manager.Model.Service.HotelService.RoomTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.ImageBlogService.ImageService;
 import com.KDLST.Manager.Model.Service.ImageBlogService.ImageServiceImplement;
 import com.KDLST.Manager.Model.Service.RateAFbService.CommentService;
 import com.KDLST.Manager.Model.Service.RateAFbService.CommentServiceImplement;
 import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackService;
 import com.KDLST.Manager.Model.Service.RateAFbService.FeedBackServiceImplement;
-import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceService;
-import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceServiceImplement;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.ServiceProject.ServiceType;
 import com.KDLST.Manager.Model.Service.BillService.*;
@@ -141,7 +137,7 @@ public class AdminController {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMonthlyTotals = objectMapper.writeValueAsString(monthlyTotals);
         String jsonMonthlyTotals1 = objectMapper.writeValueAsString(monthlyTotalsHotels);
-        
+
         bookingRooms = bookingRoomService.getAll();
 
         users = userService.getAll();
@@ -241,8 +237,8 @@ public class AdminController {
     }
 
     @GetMapping("/getAllCustomer/{page}")
-    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage, 
-    @ModelAttribute("cList") ArrayList<User> cuList) {
+    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage,
+            @ModelAttribute("cList") ArrayList<User> cuList) {
         cuList.clear();
         ArrayList<User> customerList = new ArrayList<>();
         cuList = userService.getAllCustomer();
@@ -290,7 +286,7 @@ public class AdminController {
 
     @GetMapping("/getAllEmployee/{page}")
     public String getPageEmployee(Model model, @PathVariable(value = "page") String currentPage,
-    @ModelAttribute("emList") ArrayList<User> emList ) {
+            @ModelAttribute("emList") ArrayList<User> emList) {
         ArrayList<User> employeeList = new ArrayList<>();
         emList.clear();
         emList = userService.getAllEmployee();
@@ -1138,10 +1134,23 @@ public class AdminController {
         return "Admin/chart";
     }
 
-    // @PostMapping("/delete")
-    // public String deleteService(@RequestParam("id") int id) {
-    // serviceService.delete(id);
-    // return "redirect:/admin/services";
-    // }
+    // ticket static
+    @GetMapping("/getTicketStatic")
+    public String getTicketStatic(Model model) {
+        ArrayList<TicketType> ticketTypes = ticketTypeService.getAll();
+        Map<Ticket, Integer> ticketStatic = new LinkedHashMap<>();
+        ArrayList<BillDetails> billDetails = billDetailsService.getAll();
+        for (BillDetails bDetails : billDetails) {
+            Ticket ticket = bDetails.getTicketID();
+            int quantity = bDetails.getQuantity();
+            if (ticketStatic.containsKey(ticket)) {
+                quantity += ticketStatic.get(ticket);
+            }
+            ticketStatic.put(ticket, quantity);
+        }
+        model.addAttribute("ticketTypes", ticketTypes);
+        model.addAttribute("ticketStatic", ticketStatic);
+        return "Admin/ticketStatic";
+    }
 
 }

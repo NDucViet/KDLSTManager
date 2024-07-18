@@ -28,7 +28,7 @@ public class RoleFilter implements Filter {
             "/hotel/getRoomType", "/hotel/getRoomByRoomType", "/hotel/getAllRoom",
             "/hotel/searchRoomType",
             "/hotel/roomTypeSuggestion", "/blog/getAll", "/blog/getByID",
-            "/blog/showBlogDetail", "/css", "/images", "/js", "/user/403"));
+            "/blog/showBlogDetail", "/css", "/images", "/js", "/user/403", "ticket/getById"));
 
     private static final List<String> USER_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
             "/user/logout", "/user/profile", "/user/showEdit", "/user/edit",
@@ -38,7 +38,7 @@ public class RoleFilter implements Filter {
             "/cart/checkOut", "/cart/vnpay-payment-return", "/cart/history",
             "/service/addFeedback",
             "/service/deleteFeedback", "/blog/submitComment", "/hotel/", "/css",
-            "/images", "/js", "/user/403","ticket/rating", "blog/deleteComment"));
+            "/images", "/js", "/user/403","ticket/rating", "blog/deleteComment", "ticket/getById", "cart/getAllTicketSold"));
 
     private static final List<String> EMPLOY_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
             "/employee/", "/employee/getAllService", "/employee/getAllCustomer", "/employee/getAllTicket",
