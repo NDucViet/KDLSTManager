@@ -56,56 +56,32 @@
                                         <td th:text="${feedback.user.username}"></td>
                                         <td th:text="${feedback.services.serviceName}"></td>
                                         <td th:text="${feedback.date}"></td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-delete"
-                                                th:data-user-id="${feedback.feedbackID}"
-                                                onclick="showConfirmModal(this)">Xóa</button>
-                                        </td>
                                     </tr>
                                 </th:block>
                             </tbody>
                         </table>
                     </div>
-                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmModalLabel">Xác nhận khóa người dùng</h5>
-                                <button type="button" class="btn-close" onclick="closeBan()"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Bạn có chắc chắn muốn khóa người dùng này không?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" onclick="closeBan()">Hủy</button>
-                                <button type="button" class="btn btn-danger" onclick="confirmBan()">Khóa</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                    <div class="row mt-5">
-                        <div class="col text-center">
-                            <div class="block-27">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li th:if="${currentPage > 1}" class="page-item">
-                                            <a th:href="@{/employee/getAllFeedback/__${Previous}__}"
-                                                class="page-link">&laquo;</a>
-                                        </li>
-                                        <li th:each="page, iterStat : ${numPage}" class="page-item"
-                                            th:class="${currentPage == page} ? 'active'" >
-                                            <a th:href="@{/employee/getAllFeedback/__${page}__}" th:text="${page} "
-                                                class="page-link"></a>
-                                        </li>
-                                        <li th:if="${numPage.length > currentPage}" class="page-item"><a
-                                                th:href="@{/employee/getAllFeedback/__${Next}__}"
-                                                class="page-link">&raquo;</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li th:if="${currentPage > 1}" class="page-item">
+                                        <a th:href="@{/employee/getAllFeedback/__${Previous}__}"
+                                            class="page-link">&laquo;</a>
+                                    </li>
+                                    <li th:each="page, iterStat : ${numPage}" class="page-item"
+                                        th:class="${currentPage == page} ? 'active'">
+                                        <a th:href="@{/employee/getAllFeedback/__${page}__}" th:text="${page} "
+                                            class="page-link"></a>
+                                    </li>
+                                    <li th:if="${numPage.length > currentPage}" class="page-item"><a
+                                            th:href="@{/employee/getAllFeedback/__${Next}__}"
+                                            class="page-link">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

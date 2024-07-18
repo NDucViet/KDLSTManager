@@ -18,8 +18,7 @@ import java.math.BigDecimal;
 import com.KDLST.Manager.Model.Entity.Bill.Bill;
 import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
 import com.KDLST.Manager.Model.Entity.CartItem.CartItem;
-import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
-import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
+import com.KDLST.Manager.Model.Entity.Ticket.TicketSold;
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsService;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsServiceImplement;
@@ -32,6 +31,8 @@ import com.KDLST.Manager.Model.Service.CartItemService.CartServiceImplement;
 import com.KDLST.Manager.Model.Service.CartItemService.VNPayService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketServiceImplement;
+import com.KDLST.Manager.Model.Service.TicketService.TicketSoldImplement;
+import com.KDLST.Manager.Model.Service.TicketService.TicketSoldService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -59,6 +60,7 @@ public class CartController {
     VNPayService vnPayService = new VNPayService();
     BillService billService = new BillServiceImplement();
     BillDetailsService billDetailsService = new BillDetailsServiceImplement();
+    TicketSoldService ticketSoldService = new TicketSoldImplement();
 
     @GetMapping("/allItem")
     public String getAll(Model model, HttpServletRequest request) {
@@ -177,6 +179,24 @@ public class CartController {
                         cartItem.getPrice().intValue(), 0);
                 billDetailsService.add(billDetails);
             }
+            int billId = billList.get(billList.size() - 1).getBillID();
+            for (CartItem cartItem : itemList) {
+                String ticketSoldId = "";
+                if (cartItem.getQuantity() > 1) {
+                    for (int i = 1; i <= cartItem.getQuantity(); i++) {
+                        ticketSoldId = billId + "" + cartItem.getTicketID().getTicketID() + "" + i;
+                        TicketSold ticketSold = new TicketSold(ticketSoldId, cartItem.getTicketID(), user, sqlUseDate,
+                                ticketSoldId, 0);
+                        ticketSoldService.add(ticketSold);
+                    }
+                } else {
+                    ticketSoldId = billId + "" + cartItem.getTicketID().getTicketID() + "" + cartItem.getQuantity();
+                    System.out.println("Generated ticketSoldId: " + ticketSoldId);
+                    TicketSold ticketSold = new TicketSold(ticketSoldId, cartItem.getTicketID(), user, sqlUseDate,
+                            ticketSoldId, 1);
+                    ticketSoldService.add(ticketSold);
+                }
+            }
             cartItemService.delete(cartService.getByIdUser(user.getIdUser()).getCartID());
         }
         model.addAttribute("orderId", orderInfo);
@@ -188,6 +208,22 @@ public class CartController {
         } else {
             return "User/orderfail";
         }
+    }
+
+    @GetMapping("/getAllTicketSold")
+    public String getAllTicketSold(Model model, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        response.setContentType("image/png");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        ArrayList<TicketSold> ticketSoldList = ticketSoldService.getByUserID(user.getIdUser());
+        Map<TicketSold, String> ticketSoldMap = new LinkedHashMap<>();
+        for (TicketSold t : ticketSoldList) {
+            String qrContent = t.getBarcode();
+            ticketSoldMap.put(t, "/cart/generateQRCode?qrContent=" + qrContent);
+        }
+        model.addAttribute("ticketSoldMap", ticketSoldMap);
+        return "User/ticketBuy";
     }
 
     @GetMapping("/history")
@@ -217,7 +253,7 @@ public class CartController {
     }
 
     @GetMapping("/generateQRCode")
-    public void generateQRCode(String qrContent, HttpServletResponse response) throws IOException {
+    public void generateQRCode(@RequestParam("qrContent") String qrContent, HttpServletResponse response) throws IOException {
         response.setContentType("image/png");
         byte[] qrCode = generateQRCodeService(qrContent, 500, 500);
         OutputStream outputStream = response.getOutputStream();

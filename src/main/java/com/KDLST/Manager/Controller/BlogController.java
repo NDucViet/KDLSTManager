@@ -92,7 +92,7 @@ public class BlogController {
         Image image1 = imageList.get(0);
         Image image2 = imageList.get(1);
         ArrayList<Comment> commentList = commentServiceImplement.getCommentByBlogID(blogIDInt);
-
+        
         ArrayList<Image> imgList = imageServiceImplement.getImagesSortDate();
         Set<Image> images = new HashSet<>();
         for (Image image : imgList) {

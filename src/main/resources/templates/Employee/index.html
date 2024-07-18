@@ -50,42 +50,45 @@
 
       <div class="content-wrapper">
         <div class="container">
+          <!-- <div class="row mt-4">
+           
+          </div> -->
           <div class="row mt-4">
-            <div class="row justify-content-between">
-              <div class="col-lg-3 adminTotal mb-4">
-                <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                  <div class="card-body d-flex align-items-center">
-                    <div style="flex-grow: 1;">
-                      <a th:href="@{/employee/getAllService}" style="text-decoration: none; color: #4b49ac;">
-                        <h4>[[${service}]]</h4>
-                        <h4>Dịch vụ</h4>
-                      </a>
-                    </div>
-                    <div class="ml-3">
-                      <i class="icon-head menu-icon" style="font-size: 2rem;"></i>
+            <div class="col-lg-6">
+              <div class="row justify-content-between">
+                <div class=" adminTotal mb-4">
+                  <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                    <div class="card-body d-flex align-items-center">
+                      <div style="flex-grow: 1;">
+                        <a th:href="@{/employee/getAllService}" style="text-decoration: none; color: #4b49ac;">
+                          <h4>[[${service}]]</h4>
+                          <h4>Dịch vụ</h4>
+                        </a>
+                      </div>
+                      <div class="ml-3">
+                        <i class="icon-head menu-icon" style="font-size: 2rem;"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="col-lg-3 adminTotal mb-4">
-                <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                  <div class="card-body d-flex align-items-center">
-                    <div style="flex-grow: 1;">
-                      <a th:href="@{/employee/getAllCustomer}" style="text-decoration: none; color: #4b49ac;">
-                        <h4>[[${customer}]]</h4>
-                        <h4>Khách hàng</h4>
-                      </a>
-                    </div>
-                    <div class="ml-3">
-                      <i class="icon-head menu-icon" style="font-size: 2rem;"></i>
+                <div class=" adminTotal mb-4">
+                  <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                    <div class="card-body d-flex align-items-center">
+                      <div style="flex-grow: 1;">
+                        <a th:href="@{/employee/getAllCustomer}" style="text-decoration: none; color: #4b49ac;">
+                          <h4>[[${customer}]]</h4>
+                          <h4>Khách hàng</h4>
+                        </a>
+                      </div>
+                      <div class="ml-3">
+                        <i class="icon-head menu-icon" style="font-size: 2rem;"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row mt-4">
             <div class="col-lg-6">
               <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                 <div class="card-body">
