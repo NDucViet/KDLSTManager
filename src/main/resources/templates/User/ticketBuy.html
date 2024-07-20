@@ -33,41 +33,43 @@
 
 <body>
 
-    <header th:insert="~{User/header2 :: header}"></header>
-
-    <div class="content-wrapper">
-        <div class="table-responsive">
-            <table class="table table-hover table-light">
-                <thead>
-                    <tr>
-                        <th>Mã vé</th>
-                        <th>Ảnh</th>
-                        <th>Tên vé</th>
-                        <th>Giá vé</th>
-                        <th>Thời gian sử dụng</th>
-                        <th>Trạng thái</th>
-                        <th>QR Code</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="entry : ${ticketSoldMap}">
-                        <td th:text="${entry.key.id}"></td>
-                        <td>
-                            <img th:src="@{/images/{imageUrl}(imageUrl=${entry.key.ticket.image})}"
-                                style="width: 50px;">
-                        </td>
-                        <td th:text="${entry.key.ticket.title}"></td>
-                        <td th:text="${entry.key.ticket.price}"></td>
-                        <td th:text="${#dates.format(entry.key.usageDate, 'dd-MM-yyyy')}"></td>
-                        <td th:if="${entry.key.status == 1}" class="status">Đã sử dụng</td>
-                        <td th:if="${entry.key.status == 0}" class="status">Chưa sử dụng</td>
-                        <td><img th:src="${entry.value}" style="width: 50px;"></td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="card"  style="margin-bottom:10px;">
+                <a th:href="@{/}" style="color: #ef5f2d;">&leftarrow; Trở về trang chủ</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-light">
+                    <thead>
+                        <tr>
+                            <th>Mã vé</th>
+                            <th>Ảnh</th>
+                            <th>Tên vé</th>
+                            <th>Giá vé</th>
+                            <th>Thời gian sử dụng</th>
+                            <th>Trạng thái</th>
+                            <th>QR Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="entry : ${ticketSoldMap}">
+                            <td th:text="${entry.key.id}"></td>
+                            <td>
+                                <img th:src="@{/images/{imageUrl}(imageUrl=${entry.key.ticket.image})}"
+                                    style="width: 50px;">
+                            </td>
+                            <td th:text="${entry.key.ticket.title}"></td>
+                            <td th:text="${entry.key.ticket.price}"></td>
+                            <td th:text="${#dates.format(entry.key.usageDate, 'dd-MM-yyyy')}"></td>
+                            <td th:if="${entry.key.status == 1}" class="status">Đã sử dụng</td>
+                            <td th:if="${entry.key.status == 0}" class="status">Chưa sử dụng</td>
+                            <td><img th:src="${entry.value}" style="width: 50px;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
     <script src="js/jquery.min1.js"></script>
     <script src="js/jquery-migrate-3.0.1.min1.js"></script>
     <script src="js/popper.min1.js"></script>

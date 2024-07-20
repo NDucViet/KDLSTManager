@@ -121,7 +121,7 @@ public class HotelController {
             roomHashMap.put(roomListss, roomListss.get(0).getRoomType().getRoomTypeName());
         } else {
             // Handle the case where roomListss is empty or the room type is null
-            roomHashMap.put(roomListss, "Unknown Room Type");
+            roomHashMap.put(roomListss, "Không xác định được loại phòng");
         }
 
         model.addAttribute("startDate", startDate);

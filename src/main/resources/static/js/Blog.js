@@ -7,18 +7,36 @@ function submitComment(blogID) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var comment = JSON.parse(xhr.responseText);
             document.getElementById("content" + blogID).value = "";
-            console.log(comment);
             showCommentAdded(comment, blogID);
-             // Clear input field after submission
         }
     };
     xhr.send();
 }
 
-
+function submitComment(blogID) {
+    var content = document.getElementById("content" + blogID).value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/blog/submitComment?blogID=" + blogID + "&content=" + encodeURIComponent(content), true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var comment = JSON.parse(xhr.responseText);
+            document.getElementById("content" + blogID).value = "";
+            showCommentAdded(comment, blogID);
+        }
+    };
+    xhr.send();
+}
 
 function showCommentAdded(comment, blogID) {
-    var commentList = document.querySelector('.comment');
+    var commentList = document.querySelector('.comment-list');
+    
+    // Remove the "No comments" message if it exists
+    var noCommentsMessage = document.getElementById('no-comments-message');
+    if (noCommentsMessage) {
+        noCommentsMessage.remove();
+    }
+    
     var newComment = document.createElement('li');
     newComment.className = 'comment';
     newComment.id = 'comment' + comment.commentID;
@@ -57,15 +75,14 @@ function showCommentAdded(comment, blogID) {
     deleteButton.appendChild(removeIcon);
     deleteButton.appendChild(document.createTextNode(" Xóa"));
     commentBodyDiv.appendChild(deleteButton);
+
     newComment.appendChild(vcardDiv);
     newComment.appendChild(commentBodyDiv);
 
     // Append the new comment to the comment list
-    commentList.appendChild(newComment);
-
-    var firstChild = commentList.firstChild;
-    commentList.insertBefore(newComment, firstChild);
+    commentList.insertBefore(newComment, commentList.firstChild);
 }
+
 
 function deleteComment(commentID) {
     if (confirm("Bạn có đồng ý xóa bình luận này không?")) {

@@ -35,6 +35,7 @@ import com.KDLST.Manager.Model.Entity.RateAFb.Comment;
 import com.KDLST.Manager.Model.Entity.RateAFb.FeedBack;
 import com.KDLST.Manager.Model.Entity.ServiceProject.Services;
 import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
+import com.KDLST.Manager.Model.Entity.Ticket.TicketSold;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsService;
 import com.KDLST.Manager.Model.Service.BillService.BillDetailsServiceImplement;
 import com.KDLST.Manager.Model.Service.BillService.BillService;
@@ -61,14 +62,13 @@ import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceTypeService;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.ServiceTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.TicketService.TicketService;
 import com.KDLST.Manager.Model.Service.TicketService.TicketServiceImplement;
+import com.KDLST.Manager.Model.Service.TicketService.TicketSoldImplement;
+import com.KDLST.Manager.Model.Service.TicketService.TicketSoldService;
 import com.KDLST.Manager.Model.Service.UploadFile.StorageService;
 import com.KDLST.Manager.Model.Service.UserService.UserService;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.ServletException;
 
@@ -96,7 +96,7 @@ public class EmployeeController {
     private BlogTypeServiceImplement blogTypeServiceImplement = new BlogTypeServiceImplement();
     @Autowired
     private StorageService storageService;
-    
+
     @Autowired
     ServiceService serviceService = new ServiceServiceImplement();
     ServiceTypeService serviceTypeService = new ServiceTypeServiceImplement();
@@ -111,99 +111,7 @@ public class EmployeeController {
     ImageService imageService = new ImageServiceImplement();
     FeedBackService feedBackService = new FeedBackServiceImplement();
     CommentService commentService = new CommentServiceImplement();
-
-   
-
-    @GetMapping("/")
-    public String index(Model model) throws JsonProcessingException {
-        eList.clear();
-        cList.clear();
-
-        bookingRooms = bookingRoomService.getAll();
-
-        users = userService.getAll();
-
-        bills = billService.getAll();
-        // employee, customer
-        int customer = 0;
-        int employee = 0;
-
-        for (User user : users) {
-            if (user.getRole().equals("CUSTOMER")) {
-                customer += 1;
-                if (cList.size() < 7) {
-                    cList.add(user);
-                }
-            } else if (user.getRole().equals("EMPLOYEE")) {
-                employee += 1;
-                if (eList.size() < 7) {
-                    eList.add(user);
-                }
-            }
-        }
-
-        // service
-        ArrayList<Services> sList = serviceService.getAll();
-        ArrayList<Services> sLists = new ArrayList<>();
-        for (Services s : sList) {
-            if (sLists.size() < 7) {
-                sLists.add(s);
-            }
-        }
-
-        // ticket
-        ArrayList<Ticket> ticketList = ticketService.getAll();
-        ArrayList<Ticket> ticketLists = new ArrayList<>();
-        for (Ticket ticket : ticketList) {
-            if (ticketLists.size() < 7) {
-                ticketLists.add(ticket);
-            }
-        }
-
-        // blog
-        ArrayList<Image> imgList = imageService.getAll();
-        Set<Image> images = new HashSet<>();
-        for (Image image : imgList) {
-            images.add(image);
-            if (images.size() == 6) {
-                break;
-            }
-        }
-
-        // room
-        ArrayList<RoomType> rList = roomTypeService.getAll();
-
-        // feedback
-        ArrayList<FeedBack> fList = feedBackService.getAll();
-        ArrayList<FeedBack> fLists = new ArrayList<>();
-        for (FeedBack feedback : fList) {
-            if (fLists.size() < 7) {
-                fLists.add(feedback);
-            }
-        }
-
-        // comment
-        ArrayList<Comment> comList = commentService.getAll();
-        ArrayList<Comment> comListLists = new ArrayList<>();
-        for (Comment comment : comList) {
-            if (comListLists.size() < 7) {
-                comListLists.add(comment);
-            }
-        }
-        model.addAttribute("service", serviceService.getAll().size());
-        model.addAttribute("order", bills.size() + bookingRooms.size());
-        model.addAttribute("customer", customer);
-        model.addAttribute("employee", employee);
-        model.addAttribute("cList", cList);
-        model.addAttribute("eList", eList);
-        model.addAttribute("serviceList", sLists);
-        model.addAttribute("feedbackList", fLists);
-        model.addAttribute("commentList", comListLists);
-        model.addAttribute("roomTypeList", rList);
-        model.addAttribute("ticketList", ticketLists);
-        model.addAttribute("blogList", images);
-        return "Employee/index";
-    }
+    TicketSoldService ticketSoldService = new TicketSoldImplement();
 
     // customer
     @GetMapping("/getAllCustomer")
@@ -213,8 +121,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/getAllCustomer/{page}")
-    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage, 
-    @ModelAttribute("cList") ArrayList<User> cuList) {
+    public String getPageCustomer(Model model, @PathVariable(value = "page") String currentPage,
+            @ModelAttribute("cList") ArrayList<User> cuList) {
         cuList.clear();
         ArrayList<User> customerList = new ArrayList<>();
         cuList = userService.getAllCustomer();
@@ -665,6 +573,21 @@ public class EmployeeController {
         model.addAttribute("Previous", Integer.parseInt(currentPage) - 1);
         model.addAttribute("Next", Integer.parseInt(currentPage) + 1);
         return "Employee/room";
+    }
+
+    @GetMapping("/")
+    public String getAllTicketSold(Model model) {
+        ArrayList<TicketSold> ticketSoldList = ticketSoldService.getAllTicketSold();
+        model.addAttribute("ticketSoldList", ticketSoldList);
+        return "Employee/checkTicket";
+    }
+
+    @PostMapping(value = "/checkTicket")
+    public ResponseEntity<String> checkTicket(@RequestParam("id") String id) {
+        TicketSold ticketSold = ticketSoldService.getByID(id);
+        boolean status = ticketSoldService.update(ticketSold);
+        System.out.println(status);
+        return ResponseEntity.ok().body("Hủy trạng thái vé thành công");
     }
 
 }

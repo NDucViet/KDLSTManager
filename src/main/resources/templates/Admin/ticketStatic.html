@@ -72,16 +72,15 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="table-responsive">
-                        <div class="form-group">
-                            <label for="ticketTypeFilter">Lọc theo loại vé:</label>
-                            <select id="ticketTypeFilter" class="form-control">
+                        <div class="form-group"  style="width: 200px;">
+                            <label for="ticketTypeFilter">Thống kê theo loại vé:</label>
+                            <select id="ticketTypeFilter" class="form-select">
                                 <option value="all">Tất cả</option>
                                 <th:block th:each="type : ${ticketTypes}">
                                     <option th:value="${type.ticketTypeID}" th:text="${type.ticketTypeName}"></option>
                                 </th:block>
                             </select>
                         </div>
-                        
                         <table class="table table-hover table-light">
                             <thead>
                                 <tr>
@@ -150,19 +149,6 @@
                             });
                         </script>
                         
-                        <!-- <script>
-                            document.addEventListener("DOMContentLoaded", function () {
-                                let total = 0;
-                                const quantities = document.querySelectorAll(".quantity");
-
-                                quantities.forEach(function (quantity) {
-                                    total += parseInt(quantity.innerText);
-                                });
-
-                                document.getElementById("totalQuantity").innerText = total;
-                            });
-                        </script> -->
-
                     </div>
                 </div>
             </div>

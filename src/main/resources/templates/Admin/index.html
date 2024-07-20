@@ -23,16 +23,16 @@
   <!-- endinject -->
   <link rel="shortcut icon" th:href="@{images/logoNHH.png}" />
   <style>
-     .btn-outline-success {
-            --bs-btn-color:#4b49ac;
-            --bs-btn-border-color: #4b49ac;
-            --bs-btn-hover-bg: #4b49ac;
-            --bs-btn-hover-border-color:#4b49ac;
-            --bs-btn-active-bg: #4b49ac;
-            --bs-btn-active-border-color: #4b49ac;
-            --bs-btn-disabled-color: #4b49ac;
-            --bs-btn-disabled-border-color:#4b49ac;
-        }
+    .btn-outline-success {
+      --bs-btn-color: #4b49ac;
+      --bs-btn-border-color: #4b49ac;
+      --bs-btn-hover-bg: #4b49ac;
+      --bs-btn-hover-border-color: #4b49ac;
+      --bs-btn-active-bg: #4b49ac;
+      --bs-btn-active-border-color: #4b49ac;
+      --bs-btn-disabled-color: #4b49ac;
+      --bs-btn-disabled-border-color: #4b49ac;
+    }
   </style>
 </head>
 
@@ -52,6 +52,17 @@
         <div class="container">
 
           <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <div class="card-body">
+              <form th:method="get" th:action="@{/admin/}">
+                <div class="form-group"  style="width: 120px;">
+                  <label for="yearSelect">Chọn năm:</label>
+                  <select id="yearSelect" name="year" class="form-select" onchange="this.form.submit()">
+                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}"
+                      th:selected="${year == selectedYear}"></option>
+                  </select>
+                </div>
+              </form>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-6">
@@ -134,397 +145,94 @@
               </div>
             </div>
           </div>
-          <div class="row mt-4">
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center mb-3">
-                    <div class="col-md-6">
-                      <span class="header-title">Khách hàng</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllCustomer}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light">
-                      <thead>
-                        <tr>
-                          <th scope="col">Tên</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Loại khách hàng</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="user, no: ${cList}">
-                          <tr>
-                            <td th:text="${user.username}"></td>
-                            <td th:text="${user.email}"></td>
-                            <td th:text="${user.customerType.nameCusType}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <span class="header-title">Nhân Viên</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllEmployee}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light caption-top mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">Tên</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Số điện thoại</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="user, no: ${eList}">
-                          <tr>
-                            <td th:text="${user.username}"></td>
-                            <td th:text="${user.email}"></td>
-                            <td th:text="${user.phoneNumber}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center mb-3">
-                    <div class="col-md-6">
-                      <span class="header-title">Dịch Vụ</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllService}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light">
-                      <thead>
-                        <tr>
-                          <th scope="col">Tên</th>
-                          <th scope="col">Mô tả</th>
-                          <th scope="col">Loại dịch vụ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="service: ${serviceList}">
-                          <tr>
-                            <td th:text="${service.serviceName}"></td>
-                            <td th:text="${service.description}"></td>
-                            <td th:text="${service.serviceTypeID.serviceName}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <span class="header-title">Vé</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllTicket}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light caption-top mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">Tên</th>
-                          <th scope="col">Chi tiết</th>
-                          <th scope="col">Giá</th>
-                          <th scope="col">Loại vé</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="ticket, no: ${ticketList}">
-                          <tr>
-                            <td th:text="${ticket.title}"></td>
-                            <td th:text="${ticket.description}"></td>
-                            <td th:text="${ticket.price}"></td>
-                            <td th:text="${ticket.ticketTypeID.ticketTypeName}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <span class="header-title">Bài viết</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllBlog}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light caption-top mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">Tên tiêu đề</th>
-                          <th scope="col">Loại bài viết</th>
-                          <th scope="col">Người viết</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="image: ${blogList}">
-                          <tr>
-                            <td th:text="${image.blog.title}"></td>
-                            <td th:text="${image.blog.blogType.blogTypeName}"></td>
-                            <td th:text="${image.blog.user.username}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <span class="header-title">Loại Phòng</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllRoom}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light caption-top mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">Tên</th>
-                          <th scope="col">Mô tả</th>
-                          <th scope="col">Giá</th>
-                          <th scope="col">Số người tối đa</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="roomType, no: ${roomTypeList}">
-                          <tr>
-                            <td th:text="${roomType.roomTypeName}"> </td>
-                            <td th:text="${roomType.details}"></td>
-                            <td th:text="${roomType.price}"></td>
-                            <td th:text="${roomType.maxPeople}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <span class="header-title">Bình Luận</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllComment}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light caption-top mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nội dung</th>
-                          <th scope="col">Tên người bình luận</th>
-                          <th scope="col">Tên bài viết</th>
-                          <th scope="col">Thời gian</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="comment : ${commentList}">
-                          <tr>
-                            <td th:text="${comment.content}"></td>
-                            <td th:text="${comment.user.username}"></td>
-                            <td th:text="${comment.blog.title}"></td>
-                            <td th:text="${comment.commentDate}"></td>
-                          </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <span class="header-title">Feedback</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <button class="btn btn-outline-success">
-                        <a th:href="@{/admin/getAllFeedback}" style="text-decoration: none; color: black;">Xem tất cả</a>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-hover table-light caption-top mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nội dung</th>
-                          <th scope="col">Tên người feedback</th>
-                          <th scope="col">Tên dịch vụ</th>
-                          <th scope="col">Thời gian</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <th:block th:each="feedback : ${feedbackList}">
-                        <tr>
-                          <td th:text="${feedback.content}"></td>
-                            <td th:text="${feedback.user.username}"></td>
-                            <td th:text="${feedback.services.serviceName}"></td>
-                            <td th:text="${feedback.date}"></td>
-                        </tr>
-                        </th:block>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
     <script th:inline="javascript">
       document.addEventListener("DOMContentLoaded", function () {
         var data = /*[[${data1}]]*/ {};
-        var data2 = /*[[${data2}]]*/ {}; // Lấy dữ liệu từ Spring Controller
-        // Kiểm tra dữ liệu trong console
+        var data2 = /*[[${data2}]]*/ {};
+
         data = JSON.parse(data);
         data2 = JSON.parse(data2);
-        console.log(data);
-        // Chuyển đổi dữ liệu sang định dạng phù hợp để vẽ biểu đồ
+
         var months = [];
         var totals = [];
         var totals2 = [];
+
         for (var key in data2) {
-          // Thêm tháng vào mảng months
-          totals2.push(data2[key]); // Thêm số tiền vào mảng totals
+          totals2.push(data2[key]);
         }
         for (var key in data) {
-          months.push(key); // Thêm tháng vào mảng months
-          totals.push(data[key]); // Thêm số tiền vào mảng totals
+          months.push(key);
+          totals.push(data[key]);
         }
+
         var ctx = document.getElementById('chart2').getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'bar', // Thay đổi loại biểu đồ thành cột (bar)
+        var myChart2 = new Chart(ctx, {
+          type: 'bar',
           data: {
-            labels: months, // Các tháng là nhãn trục x
+            labels: months,
             datasets: [{
               label: 'Doanh Thu Hotel Theo Tháng',
-              data: totals2, // Dữ liệu là các giá trị số tiền
-              backgroundColor: '#D8BFD8', // Màu nền của các cột
-              borderColor: '#D8BFD8', // Màu viền của các cột
-              borderWidth: 1 // Độ dày viền của các cột
+              data: totals2,
+              backgroundColor: '#D8BFD8',
+              borderColor: '#D8BFD8',
+              borderWidth: 1
             }]
           },
           options: {
             scales: {
               y: {
-                beginAtZero: true, // Bắt đầu trục y từ 0
+                beginAtZero: true,
                 title: {
                   display: true,
-                  text: 'Tiền' // Nhãn trục y là "Tiền"
+                  text: 'Tiền'
                 }
               },
               x: {
-                scaleLabel: {
+                title: {
                   display: true,
-                  labelString: 'Tháng' // Nhãn trục x là "Tháng"
+                  text: 'Tháng'
                 }
               }
             }
           }
         });
-        // Lấy đối tượng canvas và vẽ biểu đồ
+
         var ctx = document.getElementById('chart1').getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'bar', // Thay đổi loại biểu đồ thành cột (bar)
+        var myChart1 = new Chart(ctx, {
+          type: 'bar',
           data: {
-            labels: months, // Các tháng là nhãn trục x
+            labels: months,
             datasets: [{
               label: 'Doanh Thu Dịch Vụ Theo Tháng',
-              data: totals, // Dữ liệu là các giá trị số tiền
-              backgroundColor: '#6A5ACD', // Màu nền của các cột
-              borderColor: '#6A5ACD', // Màu viền của các cột
-              borderWidth: 1 // Độ dày viền của các cột
+              data: totals,
+              backgroundColor: '#6A5ACD',
+              borderColor: '#6A5ACD',
+              borderWidth: 1
             }]
           },
           options: {
             scales: {
               y: {
-                beginAtZero: true, // Bắt đầu trục y từ 0
+                beginAtZero: true,
                 title: {
                   display: true,
-                  text: 'Tiền' // Nhãn trục y là "Tiền"
+                  text: 'Tiền'
                 }
               },
               x: {
-                scaleLabel: {
+                title: {
                   display: true,
-                  labelString: 'Tháng' // Nhãn trục x là "Tháng"
+                  text: 'Tháng'
                 }
               }
             }
           }
         });
       });
+
     </script>
 
   </div>

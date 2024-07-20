@@ -29,6 +29,7 @@ import com.KDLST.Manager.Model.Service.ImageBlogService.*;
 import com.KDLST.Manager.Model.Service.RateAFbService.*;
 import com.KDLST.Manager.Model.Service.ServiceProjectService.*;
 import com.KDLST.Manager.Model.Entity.Ticket.Ticket;
+import com.KDLST.Manager.Model.Entity.Ticket.TicketSold;
 import com.KDLST.Manager.Model.Entity.Ticket.TicketType;
 import com.KDLST.Manager.Model.Service.TicketService.*;
 import com.KDLST.Manager.Model.Service.UploadFile.StorageService;
@@ -103,27 +104,35 @@ public class AdminController {
     ImageService imageService = new ImageServiceImplement();
     FeedBackService feedBackService = new FeedBackServiceImplement();
     CommentService commentService = new CommentServiceImplement();
-    // UserService userService = new UserServiceImplement();
-
+    TicketSoldService ticketSoldService = new TicketSoldImplement();
     @GetMapping("/")
-    public String index(Model model) throws JsonProcessingException {
-        eList.clear();
-        cList.clear();
+    public String index(@RequestParam(value = "year", defaultValue = "") String year, Model model) throws JsonProcessingException {
+        // Fetch distinct years for the dropdown
+        ArrayList<String> years = billDetailsService.getYearRevenue();
+    
         Map<String, Double> monthlyTotals = new LinkedHashMap<>();
         Map<String, Double> monthlyTotalsHotels = new LinkedHashMap<>();
         Map<String, Double> monthlyTotals1 = new LinkedHashMap<>();
         Map<String, Double> monthlyTotalsHotels1 = new LinkedHashMap<>();
+        
         java.util.Date utilDate = new java.util.Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate = formatter.format(utilDate);
-        monthlyTotals1 = billDetailsService.getMonthlyRevenue(formattedDate.split("/")[2]);
-        monthlyTotalsHotels1 = bookingRoomDetailsService.getMonthlyRevenue(formattedDate.split("/")[2]);
+        String currentYear = formattedDate.split("/")[2];
+    
+        // Default to current year if none provided
+        if (year.isEmpty()) {
+            year = currentYear;
+        }
+    
+        monthlyTotals1 = billDetailsService.getMonthlyRevenue(year);
+        monthlyTotalsHotels1 = bookingRoomDetailsService.getMonthlyRevenue(year);
+    
         if (monthlyTotals.size() != 12 && monthlyTotalsHotels.size() != 12) {
             for (int i = 1; i < 13; i++) {
                 String key = String.valueOf(i);
                 if (!monthlyTotals1.containsKey(key)) {
                     monthlyTotals.put(key, 0.0);
-
                 } else {
                     monthlyTotals.put(key, monthlyTotals1.get(key));
                 }
@@ -134,100 +143,37 @@ public class AdminController {
                 }
             }
         }
+    
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMonthlyTotals = objectMapper.writeValueAsString(monthlyTotals);
         String jsonMonthlyTotals1 = objectMapper.writeValueAsString(monthlyTotalsHotels);
-
+    
         bookingRooms = bookingRoomService.getAll();
-
         users = userService.getAll();
-
-        bills = billService.getAll();
-        // employee, customer
+    
         int customer = 0;
         int employee = 0;
-
-        System.out.println(users.size() + "customer");
+    
         for (User user : users) {
             if (user.getRole().equals("CUSTOMER")) {
                 customer += 1;
-                if (cList.size() < 7) {
-                    cList.add(user);
-                }
             } else if (user.getRole().equals("EMPLOYEE")) {
                 employee += 1;
-                if (eList.size() < 7) {
-                    eList.add(user);
-                }
             }
         }
-
-        // service
-        ArrayList<Services> sList = serviceService.getAll();
-        ArrayList<Services> sLists = new ArrayList<>();
-        for (Services s : sList) {
-            if (sLists.size() < 7) {
-                sLists.add(s);
-            }
-        }
-
-        // ticket
-        ArrayList<Ticket> ticketList = ticketService.getAll();
-        ArrayList<Ticket> ticketLists = new ArrayList<>();
-        for (Ticket ticket : ticketList) {
-            if (ticketLists.size() < 7) {
-                ticketLists.add(ticket);
-            }
-        }
-
-        // blog
-        ArrayList<Image> imgList = imageService.getAll();
-        Set<Image> images = new HashSet<>();
-        for (Image image : imgList) {
-            images.add(image);
-            if (images.size() == 6) {
-                break;
-            }
-        }
-
-        // room
-        ArrayList<RoomType> rList = roomTypeService.getAll();
-
-        // feedback
-        ArrayList<FeedBack> fList = feedBackService.getAll();
-        ArrayList<FeedBack> fLists = new ArrayList<>();
-        for (FeedBack feedback : fList) {
-            if (fLists.size() < 7) {
-                fLists.add(feedback);
-            }
-        }
-
-        // comment
-        ArrayList<Comment> comList = commentService.getAll();
-        ArrayList<Comment> comListLists = new ArrayList<>();
-        for (Comment comment : comList) {
-            if (comListLists.size() < 7) {
-                comListLists.add(comment);
-            }
-        }
+    
         model.addAttribute("data2", jsonMonthlyTotals1);
         model.addAttribute("data1", jsonMonthlyTotals);
         model.addAttribute("service", serviceService.getAll().size());
         model.addAttribute("order", bills.size() + bookingRooms.size());
-        model.addAttribute("data2", jsonMonthlyTotals1);
-        model.addAttribute("data1", jsonMonthlyTotals);
         model.addAttribute("customer", customer);
         model.addAttribute("employee", employee);
-        model.addAttribute("cList", cList);
-        model.addAttribute("eList", eList);
-        model.addAttribute("serviceList", sLists);
-        model.addAttribute("feedbackList", fLists);
-        model.addAttribute("commentList", comListLists);
-        model.addAttribute("roomTypeList", rList);
-        model.addAttribute("ticketList", ticketLists);
-        model.addAttribute("blogList", images);
+        model.addAttribute("selectedYear", year); // Add this attribute for year selection
+        model.addAttribute("years", years); // Add this attribute to populate the dropdown
         return "Admin/index";
     }
+    
+    
 
     // customer
     @GetMapping("/getAllCustomer")
@@ -262,12 +208,6 @@ public class AdminController {
         return "Admin/customer";
     }
 
-    // @GetMapping("/getAllCustomer")
-    // public String getAllCustomers(Model model) {
-    // // ArrayList<Customer> cList
-
-    // return "Admin/customer";
-    // }
     @PostMapping(value = "/banCustomer")
     public ResponseEntity<String> delete(@RequestParam("userId") int id) {
         User user = userService.getById(id);
@@ -1151,6 +1091,21 @@ public class AdminController {
         model.addAttribute("ticketTypes", ticketTypes);
         model.addAttribute("ticketStatic", ticketStatic);
         return "Admin/ticketStatic";
+    }
+
+     @GetMapping("/getAllTicketSold")
+    public String getAllTicketSold(Model model) {
+        ArrayList<TicketSold> ticketSoldList = ticketSoldService.getAllTicketSold();
+        model.addAttribute("ticketSoldList", ticketSoldList);
+        return "Admin/checkTicket";
+    }
+
+    @PostMapping(value = "/checkTicket")
+    public ResponseEntity<String> checkTicket(@RequestParam("id") String id) {
+        TicketSold ticketSold = ticketSoldService.getByID(id);
+        boolean status = ticketSoldService.update(ticketSold);
+        System.out.println(status);
+        return ResponseEntity.ok().body("Hủy trạng thái vé thành công");
     }
 
 }

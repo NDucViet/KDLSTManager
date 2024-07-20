@@ -44,8 +44,6 @@
 
 <body>
 
-    <header th:insert="~{User/header2 :: header}"></header>
-
     <section class="timeline_area section_padding_130">
         <div class="container">
             <div class="row justify-content-center">
@@ -56,6 +54,9 @@
                         <div class="line"></div>
                     </div>
                 </div>
+            </div>
+            <div class="card" style="margin-bottom:10px;">
+                <a th:href="@{/}" style="color: #ef5f2d;">&leftarrow; Trở về trang chủ</a>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -114,9 +115,6 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="qr-code-container">
-                                                        <img th:src="${history.value}" style="width: 150px;">
-                                                    </div>
                                                 </div>
                                                 <p>Tổng hóa đơn: <span class="total-bill">0</span> VND</p>
                                                 <script>
@@ -136,7 +134,7 @@
                                 </div>
                             </th:block>
                         </th:block>
-                       
+
                     </div>
                 </div>
             </div>

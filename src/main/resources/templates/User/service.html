@@ -276,7 +276,7 @@
                       <div class="d-flex flex-row add-comment-section mt-4 mb-4" th:if="${session.user != null}">
                         <img class="img-fluid img-responsive rounded-circle mr-2"
                           th:src="@{'/images/'+ ${session.user.avatar}}" style="width: 38px;height: auto;">
-                        <input type="text" class="form-control mr-3" placeholder="Add your feedback"
+                        <input type="text" class="form-control mr-3" placeholder="Thêm vào bình luận"
                           th:id="|content${service.key.serviceID}|">
                         <button class="btn" style="background-color: black; color: #fafafa;" type="button"
                           th:onclick="|addFeedback(${service.key.serviceID})|">Gửi</button>

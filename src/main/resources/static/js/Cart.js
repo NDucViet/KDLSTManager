@@ -63,7 +63,7 @@ function updateCart(id) {
 
 function deleteRow(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/cart/delete?id=" + id, true);
+    xhr.open("POST", "/cart/deleteCartItem?id=" + id, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             location.reload();

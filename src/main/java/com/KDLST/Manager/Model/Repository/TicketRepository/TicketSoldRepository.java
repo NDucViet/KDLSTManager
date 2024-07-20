@@ -52,6 +52,32 @@ public class TicketSoldRepository {
         return ticketSoldList;
     }
 
+    public ArrayList<TicketSold> getAllTicketSold() {
+        try {
+            ticketSoldList.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            Statement stsm = con.createStatement();
+            ResultSet rs = stsm
+                    .executeQuery("select * from KDLST.TicketSold where status = 0 order by usageDate desc ");
+            while (rs.next()) {
+                String id = rs.getString("id");
+                Ticket ticket = ticketRepository.getById(rs.getInt("ticketID"));
+                User user = userRepository.getById(rs.getInt("userID"));
+                Date usageDate = rs.getDate("usageDate");
+                String barcode = rs.getString("barcode");
+                int status = rs.getInt("status");
+                TicketSold ticketSold = new TicketSold(id, ticket, user, usageDate, barcode, status);
+                ticketSoldList.add(ticketSold);
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return ticketSoldList;
+    }
+
     public ArrayList<TicketSold> getByUserID(int UserID) {
         try {
             ticketSoldList.clear();
@@ -59,7 +85,7 @@ public class TicketSoldRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = con.prepareStatement(
-                    "select * from KDLST.TicketSold where userID = ?;");
+                    "select * from KDLST.TicketSold where userID = ? order by usageDate desc, status asc;");
             st.setInt(1, UserID);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -112,8 +138,8 @@ public class TicketSoldRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
-                    "update KDLST.TicketSold  set status =? where ticketSoldID =?");
-            prsm.setInt(1, 0);
+                    "update KDLST.TicketSold set status = ? where id =?");
+            prsm.setInt(1, 1);
             prsm.setString(2, ticketSold.getId());
             int result = prsm.executeUpdate();
             con.close();
@@ -146,8 +172,4 @@ public class TicketSoldRepository {
         return false;
     }
 
-    public static void main(String[] args) {
-        TicketSoldRepository ticketSoldRepository = new TicketSoldRepository();
-        System.out.println(ticketSoldRepository.getByUserID(1));
-    }
 }

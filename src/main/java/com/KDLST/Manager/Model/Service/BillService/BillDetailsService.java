@@ -2,8 +2,11 @@ package com.KDLST.Manager.Model.Service.BillService;
 
 import java.util.ArrayList;
 import java.util.Map;
-import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
 
+import org.springframework.stereotype.Service;
+
+import com.KDLST.Manager.Model.Entity.Bill.BillDetails;
+@Service
 public interface BillDetailsService {
 
     public ArrayList<BillDetails> getAll();
@@ -19,4 +22,6 @@ public interface BillDetailsService {
     public boolean add(BillDetails billDetails);
 
     public ArrayList<BillDetails> getByBillID(int id);
+
+    public ArrayList<String> getYearRevenue() ;
 }

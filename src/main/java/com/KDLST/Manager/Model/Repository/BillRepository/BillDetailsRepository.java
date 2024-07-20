@@ -103,7 +103,6 @@ public class BillDetailsRepository {
                     BaseConnection.password);
             PreparedStatement prsm = con.prepareStatement(
                     "insert into KDLST.BillDetails (billID, ticketID, quantity, total, status) values(?,?,?,?,?)");
-
             prsm.setInt(1, billDetails.getBillID().getBillID());
             prsm.setInt(2, billDetails.getTicketID().getTicketID());// so sai
             prsm.setInt(3, billDetails.getQuantity());
@@ -145,6 +144,28 @@ public class BillDetailsRepository {
             System.out.println(e);
         }
         return billDetailListt;
+    }
+
+    public ArrayList<String> getYearRevenue() {
+        ArrayList<String> billYearBill = new ArrayList<>();
+        try {
+            billYearBill.clear();
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement st = con
+                    .prepareStatement(
+                            "  SELECT DISTINCT YEAR(bill.datePay) as yearBill FROM billdetails INNER JOIN bill ON bill.billID = billdetails.billID;");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String yearBill = rs.getString("yearBill");
+                billYearBill.add(yearBill);
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return billYearBill;
     }
 
     public Map<String, Double> getMonthlyRevenue(String year) {

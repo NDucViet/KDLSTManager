@@ -273,11 +273,6 @@
                             </div>
                             <div class="col text-right" id="items-total">0 &#8363;</div>
                         </div>
-
-                        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                            <div class="col">Tổng giá (Thuế)</div>
-                            <div class="col text-right" id="total-price" name="total-price">0 &#8363;</div>
-                        </div>
                     </div>
                     <input type="hidden" name="info" th:if="${cartItemList != null and cartItemList.size() > 1}"
                         th:value="'Don Hang Cua ' + ${cartItemList.get(1).cart.user.username}">

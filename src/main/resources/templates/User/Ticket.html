@@ -36,31 +36,43 @@
     <link rel="stylesheet" type="text/css" th:href="@{css/header.css}">
 </head>
 <style>
+    .dropdown-menu {
+        min-width: 200px;
+    }
+
+    .form-check {
+        margin-bottom: 10px;
+    }
+
+    .d-flex {
+        gap: 10px;
+    }
+
+    .dropdown-toggle::after {
+        margin-left: 10px;
+    }
+
+    .btn-primary {
+        margin-top: 0;
+    }
+
+    @media (max-width: 576px) {
+        .d-flex {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dropdown-menu {
+            width: 100%;
+        }
+    }
+
     .pagination {
         display: flex;
         justify-content: center;
         padding-left: 0;
         list-style: none;
     }
-
-    /* .pagination li {
-        display: inline-block;
-        margin: 0 5px;
-    }
-
-    .pagination li a {
-        color: #007bff;
-        text-decoration: none;
-        padding: 8px 12px;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-    }
-
-    .pagination li.active a {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-    } */
 
     #popchat {
         position: fixed;
@@ -95,7 +107,7 @@
     }
 
     .icon-brightness {
-      filter: brightness(150%);
+        filter: brightness(150%);
     }
 </style>
 
@@ -137,51 +149,48 @@
                 </div>
             </div>
             <div class="row mb-3">
+                <h3>Bộ lọc</h3>
                 <form th:method="post" th:action="@{/ticket/getById}">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa-solid fa-filter"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="ticketTypes" value="Công viên nước"
-                                        id="type1" checked>
-                                    <label class="form-check-label" for="type1">Công viên nước</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="ticketTypes" value="Tàu Lượn Siêu Tốc"
-                                        id="type2" checked>
-                                    <label class="form-check-label" for="type2">Tàu Lượn Siêu Tốc</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="ticketTypes" value="Nhà Hàng Buffet"
-                                        id="type3" checked>
-                                    <label class="form-check-label" for="type3">Nhà Hàng Buffet</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="ticketTypes" value="Nhà Cổ"
-                                        id="type4" checked>
-                                    <label class="form-check-label" for="type4">Nhà Cổ</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="ticketTypes" value="Tham quan "
-                                        id="type5" checked>
-                                    <label class="form-check-label" for="type5">Tham quan </label>
-                                </div>
-                            </li>
-                        </ul>
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown me-2">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fa-solid fa-filter"></i>
+                            </button>
+                            <ul class="dropdown-menu p-3">
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="ticketTypes"
+                                            value="Vé Vào Cổng" id="type1" checked>
+                                        <label class="form-check-label" for="type1">Vé Vào Cổng</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="ticketTypes"
+                                            value="Vé Trò Chơi" id="type2" checked>
+                                        <label class="form-check-label" for="type2">Vé Trò Chơi</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="ticketTypes" value="Vé Ăn"
+                                            id="type3" checked>
+                                        <label class="form-check-label" for="type3">Vé Ăn</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="ticketTypes" value="Vé Xe"
+                                            id="type4" checked>
+                                        <label class="form-check-label" for="type4">Vé Xe</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">Filter</button>
                 </form>
             </div>
 

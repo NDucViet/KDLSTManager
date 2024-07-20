@@ -38,7 +38,7 @@ public class RoleFilter implements Filter {
             "/cart/checkOut", "/cart/vnpay-payment-return", "/cart/history",
             "/service/addFeedback",
             "/service/deleteFeedback", "/blog/submitComment", "/hotel/", "/css",
-            "/images", "/js", "/user/403","ticket/rating", "blog/deleteComment", "ticket/getById", "cart/getAllTicketSold"));
+            "/images", "/js", "/user/403","ticket/rating", "blog/deleteComment", "ticket/getById", "cart/getAllTicketSold", "/cart/deleteCartItem"));
 
     private static final List<String> EMPLOY_PATH = new CopyOnWriteArrayList<>(Arrays.asList(
             "/employee/", "/employee/getAllService", "/employee/getAllCustomer", "/employee/getAllTicket",
@@ -46,7 +46,7 @@ public class RoleFilter implements Filter {
             "/employee/addBlog", "/employee/addBlog/action", "/employee/hiddenBlog", "/employee/getAllFeedback",
             "/employee/getAllComment", "/employee/getAllRoom", "/employee/getAllRoomType",
             "/user/logout", "/user/profile", "/user/showEdit", "/user/edit", "/css",
-            "/403"));
+            "/403", "/employee/checkTicket"));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,

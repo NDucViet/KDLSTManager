@@ -53,4 +53,11 @@ public class CartItemServiceImplement implements CartItemService {
         return false;
     }
 
+    @Override
+    public boolean deleteCartItem(int id) {
+        if (cartItemRepository.deleteCartItem(id)) {
+            return true;
+        }
+        return false;
+    }
 }

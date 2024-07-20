@@ -113,7 +113,24 @@ public class CartItemRepository {
             con.close();
             return result > 0;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    
+    public boolean deleteCartItem(int id) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement("Delete from KDLST.cartitem where cartItemID = ?;");
+            prsm.setInt(1, id);
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return false;
     }

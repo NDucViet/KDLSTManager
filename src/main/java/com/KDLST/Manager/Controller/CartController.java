@@ -75,10 +75,15 @@ public class CartController {
     @PostMapping(value = "/delete")
     public ResponseEntity<String> delete(@RequestParam("id") String id) {
         cartItemService.delete(Integer.parseInt(id));
-        System.out.println("quek");
         return ResponseEntity.ok().body("Xoá thành công");
     }
 
+
+    @PostMapping(value = "/deleteCartItem")
+    public ResponseEntity<String> deleteCartItem(@RequestParam("id") String id) {
+        cartItemService.deleteCartItem(Integer.parseInt(id));
+        return ResponseEntity.ok().body("Xoá thành công");
+    }
     @PostMapping(value = "/update")
     public ResponseEntity<String> update(@RequestParam("id") String id, @RequestParam("quantity") String quantity) {
         CartItem cartItem = cartItemService.getById(Integer.parseInt(id));
@@ -193,7 +198,7 @@ public class CartController {
                     ticketSoldId = billId + "" + cartItem.getTicketID().getTicketID() + "" + cartItem.getQuantity();
                     System.out.println("Generated ticketSoldId: " + ticketSoldId);
                     TicketSold ticketSold = new TicketSold(ticketSoldId, cartItem.getTicketID(), user, sqlUseDate,
-                            ticketSoldId, 1);
+                            ticketSoldId, 0);
                     ticketSoldService.add(ticketSold);
                 }
             }

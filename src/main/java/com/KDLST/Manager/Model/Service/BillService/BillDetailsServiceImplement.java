@@ -55,4 +55,13 @@ public class BillDetailsServiceImplement implements BillDetailsService {
         this.billDetailsList = billDetailsRepository.getByBillID(id);
         return billDetailsList;
     }
+
+    @Override
+    public ArrayList<String> getYearRevenue() {
+        ArrayList<String> yearBillList = billDetailsRepository.getYearRevenue();
+        if(yearBillList != null){
+            return yearBillList;
+        }
+        return null;
+    }
 }

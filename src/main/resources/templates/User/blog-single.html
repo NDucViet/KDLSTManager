@@ -32,6 +32,14 @@
       text-overflow: ellipsis;
       max-width: 270px;
     }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .extended-hr {
+      border: 1px solid black;
+    }
   </style>
 </head>
 
@@ -46,7 +54,8 @@
       <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
         <div class="col-md-9 ftco-animate pb-5 text-center">
           <p class="breadcrumbs"><span class="mr-2"><a th:href="@{/}">Trang chủ <i
-            class="fa fa-chevron-right"></i></a></span> <span>Tin tức <i class="fa fa-chevron-right"></i></span></p>
+                  class="fa fa-chevron-right"></i></a></span> <span>Tin tức <i class="fa fa-chevron-right"></i></span>
+          </p>
           <h1 class="mb-0 bread">Nội dung</h1>
         </div>
       </div>
@@ -71,26 +80,29 @@
           <p th:text="${image2.imageDescript}"></p>
 
           <div class="pt-5 mt-5">
-            <th:block th:if="${session.user !=null}">
+            <th:block th:if="${session.user != null}">
               <div class="comment-form-wrap pt-5">
                 <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Để lại bình luận của bạn</h3>
                 <div class="form-group">
                   <label for="message">Bình luận</label>
                   <input type="text" th:id="|content${image2.blog.blogID}|" cols="30" rows="5" class="form-control">
                 </div>
-                <div class="form-group">
+                <div class="form-group text-right">
                   <input type="button" th:onclick="|submitComment(${image2.blog.blogID})|" value="Gửi"
-                    class="btn py-3 px-4 btn-primary">
+                    class="btn py-3 px-4 btn-primary align-right">
                 </div>
                 <input type="hidden" name="blogID" th:value="${blogID}" />
               </div>
             </th:block>
-
-            <ul class="comment-list">
+            <hr style="width: 100%; border: 1px solid black;">
+            <ul class="comment-list" style="margin-top: 20px;">
+              <th:block th:if="${#lists.isEmpty(commentList)}">
+                <li class="comment no-comments" id="no-comments-message" style="font-size: 20px; text-align: center;">Không có bình luận</li>
+              </th:block>
               <th:block th:each="comment : ${commentList}">
                 <li class="comment" th:id="|comment${comment.commentID}|">
                   <div class="vcard bio">
-                    <img th:src="@{'/images/'+ ${comment.user.avatar}}" alt="Image">
+                    <img th:src="@{'/images/' + ${comment.user.avatar}}" alt="Image">
                   </div>
                   <div class="comment-body">
                     <h3>[[${comment.user.username}]]</h3>
@@ -106,11 +118,6 @@
                 </li>
               </th:block>
             </ul>
-
-            <!-- END comment-list -->
-
-
-
           </div>
         </div>
         <div class="col-lg-4 sidebar ftco-animate bg-light py-md-5">
@@ -135,7 +142,7 @@
         </div>
       </div>
     </div>
-  </section> <!-- .section -->
+  </section>
 
 
   <section class="ftco-intro ftco-section ftco-no-pt">

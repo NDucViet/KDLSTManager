@@ -16,4 +16,6 @@ public interface CartItemService {
 
     public boolean delete(int id);
 
+    public boolean deleteCartItem(int id) ;
+
 }

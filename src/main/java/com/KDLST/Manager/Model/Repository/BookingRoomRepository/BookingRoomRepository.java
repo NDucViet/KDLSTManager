@@ -49,7 +49,7 @@ public class BookingRoomRepository {
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = conn.prepareStatement(
-                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.userID = ?;");
+                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.userID = ? order by checkInDate desc, checkOutDate desc ;");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -76,7 +76,7 @@ public class BookingRoomRepository {
             Connection conn = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = conn.prepareStatement(
-                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.bookingRoomID = ?;");
+                    "select * from KDLST.BookingRoom where KDLST.BookingRoom.bookingRoomID = ?");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
@@ -164,5 +164,9 @@ public class BookingRoomRepository {
             System.out.println(e);
         }
         return false;
+    }
+    public static void main(String[] args) {
+        BookingRoomRepository bookingRoomRepository = new BookingRoomRepository();
+        System.out.println(bookingRoomRepository.getByIdUser(2));
     }
 }
