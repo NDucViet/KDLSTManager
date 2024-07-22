@@ -153,12 +153,15 @@ public class BillDetailsRepository {
             Class.forName(BaseConnection.nameClass);
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
-            PreparedStatement st = con
-                    .prepareStatement(
-                            "  SELECT DISTINCT YEAR(bill.datePay) as yearBill FROM billdetails INNER JOIN bill ON bill.billID = billdetails.billID;");
+            PreparedStatement st = con.prepareStatement("SELECT DISTINCT  YEAR(bill.datePay) as yearTotal\n" + //
+                                "FROM bill \n" + //
+                                "UNION\n" + //
+                                "SELECT DISTINCT YEAR(bookingRoom.checkInDate) AS yearTotal\n" + //
+                                "FROM bookingRoom\n" + //
+                                "order by yearTotal asc; ");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                String yearBill = rs.getString("yearBill");
+                String yearBill = rs.getString("yearTotal");
                 billYearBill.add(yearBill);
             }
             con.close();

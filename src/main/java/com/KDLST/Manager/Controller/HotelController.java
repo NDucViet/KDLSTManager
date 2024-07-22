@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.LinkedHashMap;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoom;
 import com.KDLST.Manager.Model.Entity.BookingRoom.BookingRoomDetails;
 import com.KDLST.Manager.Model.Entity.Hotel.Room;
@@ -168,7 +168,7 @@ public class HotelController {
 
     @GetMapping("/history")
     public String getHistory(Model model, HttpServletRequest request) {
-        Map<ArrayList<BookingRoomDetails>, String> boArrayList = new HashMap<>();
+        Map<ArrayList<BookingRoomDetails>, String> boArrayList = new LinkedHashMap<>();
 
         // hashmap ArrayList<BookingRoomDetails>// date
         HttpSession session = request.getSession(true);
@@ -266,9 +266,9 @@ public class HotelController {
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
         if (paymentStatus == 1) {
-            return "User/ordersuccess";
+            return "Hotel/ordersuccess";
         } else {
-            return "User/orderfail";
+            return "Hotel/orderfail";
         }
     }
 }
