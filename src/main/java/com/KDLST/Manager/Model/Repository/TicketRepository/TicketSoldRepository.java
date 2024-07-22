@@ -60,7 +60,8 @@ public class TicketSoldRepository {
                     BaseConnection.password);
             Statement stsm = con.createStatement();
             ResultSet rs = stsm
-                    .executeQuery("select * from KDLST.TicketSold where status = 0 order by usageDate desc ");
+                    .executeQuery(
+                            "select * from KDLST.TicketSold where status = 0 and DATE(usageDate) = CURDATE() order by usageDate desc ");
             while (rs.next()) {
                 String id = rs.getString("id");
                 Ticket ticket = ticketRepository.getById(rs.getInt("ticketID"));
