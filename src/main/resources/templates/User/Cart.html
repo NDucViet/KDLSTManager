@@ -274,8 +274,8 @@
                             <div class="col text-right" id="items-total">0 &#8363;</div>
                         </div>
                     </div>
-                    <input type="hidden" name="info" th:if="${cartItemList != null and cartItemList.size() > 1}"
-                        th:value="'Don Hang Cua ' + ${cartItemList.get(1).cart.user.username}">
+                    <input type="hidden" name="info" th:if="${cartItemList != null and cartItemList.size() >= 1}"
+                        th:value="'Don Hang Cua ' + ${cartItemList.get(0).cart.user.username}">
                     <button type="submit" class="btn">Thanh toán</button>
                 </form>
             </div>
