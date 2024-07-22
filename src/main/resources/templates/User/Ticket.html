@@ -194,65 +194,73 @@
                 </form>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" th:each="ticket : ${ticketList}">
+            <th:block th:if="${ticketList != null}">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" th:each="ticket : ${ticketList}">
 
-                    <figure class="img-wrap">
-                        <img th:src="@{/images/{image}(image=${ticket.key.image})}" class="card-img-top"
-                            alt="ticket Image" style="height: 20rem; object-fit: cover;">
-                    </figure>
-                    <div class="p-3 text-center room-info">
-                        <h3 th:text="${ticket.key.title}">Single Room</h3>
+                        <figure class="img-wrap">
+                            <img th:src="@{/images/{image}(image=${ticket.key.image})}" class="card-img-top"
+                                alt="ticket Image" style="height: 20rem; object-fit: cover;">
+                        </figure>
+                        <div class="p-3 text-center room-info">
+                            <h3 th:text="${ticket.key.title}">Single Room</h3>
 
-                        <div class="d-flex justify-content-center align-items-center mb-2">
-                            <p class="h5 mb-0 me-1" th:text="${ticket.value}" style="color: #FF9529;"></p>
-                            <i class="fa-solid fa-star" style="color: #FF9529; font-size: larger;"></i>
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <p class="h5 mb-0 me-1" th:text="${ticket.value}" style="color: #FF9529;"></p>
+                                <i class="fa-solid fa-star" style="color: #FF9529; font-size: larger;"></i>
 
-                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                th:onclick="'adjustQuantity(' + ${ticket.key.ticketID} + ',-1)'">
-                                <i class="fas fa-minus"></i>
-                            </button>
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
+                                    th:onclick="'adjustQuantity(' + ${ticket.key.ticketID} + ',-1)'">
+                                    <i class="fas fa-minus"></i>
+                                </button>
 
-                            <input min="1" max="20" th:name="'quantity'+${ticket.key.ticketID}"
-                                th:id="'quantity'+${ticket.key.ticketID}" value="1" type="number"
-                                class="form-control form-control-sm" style="width: 47px; " pattern="[1-9]">
+                                <input min="1" max="20" th:name="'quantity'+${ticket.key.ticketID}"
+                                    th:id="'quantity'+${ticket.key.ticketID}" value="1" type="number"
+                                    class="form-control form-control-sm" style="width: 47px; " pattern="[1-9]">
 
-                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                th:onclick="'adjustQuantity(' + ${ticket.key.ticketID} + ',1)'">
-                                <i class="fas fa-plus"></i>
-                            </button>
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
+                                    th:onclick="'adjustQuantity(' + ${ticket.key.ticketID} + ',1)'">
+                                    <i class="fas fa-plus"></i>
+                                </button>
 
+                            </div>
+
+                            <span class="text-uppercase letter-spacing-1"
+                                th:text="${ticket.key.price} + ' VND/Per'"></span>
+                            <button type="button"
+                                style="color: black; font-weight: lighter; border: none; background-color: transparent;"
+                                onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
+                                th:onclick="'addToCart(' + ${ticket.key.ticketID} + ')'">Thêm vào giỏ</button>
+                            <p th:text="${ticket.key.description}"></p>
                         </div>
 
-                        <span class="text-uppercase letter-spacing-1" th:text="${ticket.key.price} + ' VND/Per'"></span>
-                        <button type="button"
-                            style="color: black; font-weight: lighter; border: none; background-color: transparent;"
-                            onmouseover="this.style.color='orange'" onmouseout="this.style.color='black'"
-                            th:onclick="'addToCart(' + ${ticket.key.ticketID} + ')'">Thêm vào giỏ</button>
-                        <p th:text="${ticket.key.description}"></p>
                     </div>
-
                 </div>
-            </div>
+            </th:block>
         </section>
 
 
-
-        <div class="row mt-5">
-            <div class="col text-center">
-                <div class="block-27">
-                    <ul class="pagination">
-                        <li th:if="${currentPage > 1}"><a th:href="@{/ticket/getAll/__${Previous}__}">&lt;</a></li>
-                        <li th:each="page, iterStat : ${numPage}" th:class="${currentPage == page} ? 'active'">
-                            <a th:href="@{/ticket/getAll/__${page}__}" th:text="${page} "></a>
-                        </li>
-                        <li th:if="${numPage.length > currentPage}"><a th:href="@{/ticket/getAll/__${Next}__}">&gt;</a>
-                        </li>
-                    </ul>
+        <th:block th:if="${ticketList !=null}">
+            <div class="row mt-5">
+                <div class="col text-center">
+                    <div class="block-27">
+                        <ul class="pagination">
+                            <li th:if="${currentPage > 1}"><a th:href="@{/ticket/getAll/__${Previous}__}">&lt;</a></li>
+                            <li th:each="page, iterStat : ${numPage}" th:class="${currentPage == page} ? 'active'">
+                                <a th:href="@{/ticket/getAll/__${page}__}" th:text="${page} "></a>
+                            </li>
+                            <li th:if="${numPage.length > currentPage}"><a
+                                    th:href="@{/ticket/getAll/__${Next}__}">&gt;</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        </th:block>
     </div>
+    <th:block th:if="${message != null}">
+        <h2 style="text-align: center; color: #FF9529;">[[${message}]]</h2>
+    </th:block>
 
     <div id="popchat">
         <i class="fa-solid fa-square-check"></i>

@@ -86,7 +86,7 @@ public class TicketSoldRepository {
             Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
                     BaseConnection.password);
             PreparedStatement st = con.prepareStatement(
-                    "select * from KDLST.TicketSold where userID = ? order by usageDate desc, status asc;");
+                    "select * from KDLST.TicketSold where userID = ? and status = 0 order by usageDate asc;");
             st.setInt(1, UserID);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {

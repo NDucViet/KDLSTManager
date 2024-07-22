@@ -42,11 +42,13 @@ public class TicketController {
     @GetMapping("/getAll")
     public String getAll(Model model) {
         tList = ticketService.getAll();
+        System.out.println(tList.size());
         return getPage(model, "1");
     }
 
     @GetMapping("/getAll/{page}")
     public String getPage(Model model, @PathVariable(value = "page") String currentPage) {
+        System.out.println("vao");
         HashMap<Ticket, Float> ticketList = new HashMap<>();
         int ticketPage = 5;
         int numPages = (int) Math.ceil((float) tList.size() / ticketPage);
@@ -69,11 +71,22 @@ public class TicketController {
     }
 
     @PostMapping("/getById")
-    public String getById(@RequestParam("ticketTypes") List<String> ticketType, Model model) {
-        tList = ticketService.getTicketsByTypes(ticketType);
-        System.out.println(tList.size());
-        return getPage(model, "1");
+    public String getById(@RequestParam(value = "ticketTypes", required = false) List<String> ticketType, Model model) {
+        if (ticketType == null || ticketType.isEmpty()) {
+            tList = null;
+            model.addAttribute("message", "Không tìm thấy kết quả");
+            return "User/Ticket";
+        } else {
+            tList = ticketService.getTicketsByTypes(ticketType);
+            if (tList == null || tList.isEmpty()) {
+                model.addAttribute("message", "Không tìm thấy kết quả");
+            } else {
+                model.addAttribute("tList", tList);
+            }
+            return getPage(model, "1");
+        }
     }
+    
 
     @PostMapping(value = "/rating")
     public ResponseEntity<String> ratingBook(@RequestParam("idBillDetail") String idBillDetail,
