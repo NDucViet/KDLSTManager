@@ -96,6 +96,23 @@ public class BillDetailsRepository {
         return false;
     }
 
+    public boolean updateStatus(BillDetails billDetails) {
+        try {
+            Class.forName(BaseConnection.nameClass);
+            Connection con = DriverManager.getConnection(BaseConnection.url, BaseConnection.username,
+                    BaseConnection.password);
+            PreparedStatement prsm = con.prepareStatement(
+                    "update KDLST.BillDetails set KDLST.BillDetails.status = ? where KDLST.BillDetails.billDetailsID =?");
+            prsm.setInt(4, billDetails.getStatus());
+            prsm.setInt(5, billDetails.getBillDetailsID());
+            int result = prsm.executeUpdate();
+            con.close();
+            return result > 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
     public boolean add(BillDetails billDetails) {
         try {
             Class.forName(BaseConnection.nameClass);

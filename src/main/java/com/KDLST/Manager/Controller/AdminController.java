@@ -79,6 +79,7 @@ public class AdminController {
     private BlogServiceImplement blogServiceImplement = new BlogServiceImplement();
     private ImageServiceImplement imageServiceImplement = new ImageServiceImplement();
     private BlogTypeServiceImplement blogTypeServiceImplement = new BlogTypeServiceImplement();
+
     @Autowired
     private StorageService storageService;
     ArrayList<BillDetails> billDetails = new ArrayList<>();
@@ -105,29 +106,31 @@ public class AdminController {
     FeedBackService feedBackService = new FeedBackServiceImplement();
     CommentService commentService = new CommentServiceImplement();
     TicketSoldService ticketSoldService = new TicketSoldImplement();
+
     @GetMapping("/")
-    public String index(@RequestParam(value = "year", defaultValue = "") String year, Model model) throws JsonProcessingException {
+    public String index(@RequestParam(value = "year", defaultValue = "") String year, Model model)
+            throws JsonProcessingException {
         // Fetch distinct years for the dropdown
         ArrayList<String> years = billDetailsService.getYearRevenue();
-    
+
         Map<String, Double> monthlyTotals = new LinkedHashMap<>();
         Map<String, Double> monthlyTotalsHotels = new LinkedHashMap<>();
         Map<String, Double> monthlyTotals1 = new LinkedHashMap<>();
         Map<String, Double> monthlyTotalsHotels1 = new LinkedHashMap<>();
-        
+
         java.util.Date utilDate = new java.util.Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate = formatter.format(utilDate);
         String currentYear = formattedDate.split("/")[2];
-    
+
         // Default to current year if none provided
         if (year.isEmpty()) {
             year = currentYear;
         }
-    
+
         monthlyTotals1 = billDetailsService.getMonthlyRevenue(year);
         monthlyTotalsHotels1 = bookingRoomDetailsService.getMonthlyRevenue(year);
-    
+
         if (monthlyTotals.size() != 12 && monthlyTotalsHotels.size() != 12) {
             for (int i = 1; i < 13; i++) {
                 String key = String.valueOf(i);
@@ -143,17 +146,17 @@ public class AdminController {
                 }
             }
         }
-    
+
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMonthlyTotals = objectMapper.writeValueAsString(monthlyTotals);
         String jsonMonthlyTotals1 = objectMapper.writeValueAsString(monthlyTotalsHotels);
-    
+
         bookingRooms = bookingRoomService.getAll();
         users = userService.getAll();
-    
+
         int customer = 0;
         int employee = 0;
-    
+
         for (User user : users) {
             if (user.getRole().equals("CUSTOMER")) {
                 customer += 1;
@@ -161,7 +164,7 @@ public class AdminController {
                 employee += 1;
             }
         }
-    
+
         model.addAttribute("data2", jsonMonthlyTotals1);
         model.addAttribute("data1", jsonMonthlyTotals);
         model.addAttribute("service", serviceService.getAll().size());
@@ -172,8 +175,6 @@ public class AdminController {
         model.addAttribute("years", years); // Add this attribute to populate the dropdown
         return "Admin/index";
     }
-    
-    
 
     // customer
     @GetMapping("/getAllCustomer")
@@ -1018,11 +1019,11 @@ public class AdminController {
             double value = ticketMap.get(key) + bDetails.getTotal();
             ticketMap.put(key, value);
         }
-        roomTypeMap.put("Luxurious Room", 0.0);
-        roomTypeMap.put("Family Room", 0.0);
-        roomTypeMap.put("Couple Room", 0.0);
-        roomTypeMap.put("Normal Room", 0.0);
-        roomTypeMap.put("President Room", 0.0);
+        roomTypeMap.put("Phòng Cao Cấp ", 0.0);
+        roomTypeMap.put("Phòng Gia Đình", 0.0);
+        roomTypeMap.put("Phòng Đôi", 0.0);
+        roomTypeMap.put("Phòng Đơn", 0.0);
+        roomTypeMap.put("Phòng Tổng Thống", 0.0);
         for (BookingRoomDetails bookingRoomDetails : b) {
             if (roomTypeMap.containsKey(bookingRoomDetails.getRoom().getRoomType().getRoomTypeName())) {
                 String key = bookingRoomDetails.getRoom().getRoomType().getRoomTypeName();
@@ -1093,7 +1094,7 @@ public class AdminController {
         return "Admin/ticketStatic";
     }
 
-     @GetMapping("/getAllTicketSold")
+    @GetMapping("/getAllTicketSold")
     public String getAllTicketSold(Model model) {
         ArrayList<TicketSold> ticketSoldList = ticketSoldService.getAllTicketSold();
         model.addAttribute("ticketSoldList", ticketSoldList);
@@ -1103,8 +1104,18 @@ public class AdminController {
     @PostMapping(value = "/checkTicket")
     public ResponseEntity<String> checkTicket(@RequestParam("id") String id) {
         TicketSold ticketSold = ticketSoldService.getByID(id);
-        boolean status = ticketSoldService.update(ticketSold);
-        System.out.println(status);
+        ArrayList<BillDetails> billDetails = billDetailsService.getAll();
+        int firstTwo = Integer.parseInt(id.substring(0, 2));
+        int middle = Character.getNumericValue(id.charAt(2));
+        int nextTwo = Integer.parseInt(id.substring(2, 4));
+        for (BillDetails billDetail : billDetails) {
+            if (firstTwo == billDetail.getBillID().getBillID() && (middle == billDetail.getTicketID().getTicketID() || nextTwo ==billDetail.getTicketID().getTicketID())) {
+                boolean status = ticketSoldService.update(ticketSold);
+                billDetail.setStatus(1);
+                billDetailsService.update(billDetail);
+                System.out.println(status);
+            }
+        }
         return ResponseEntity.ok().body("Hủy trạng thái vé thành công");
     }
 

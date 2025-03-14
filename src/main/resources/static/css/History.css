@@ -38,6 +38,8 @@ body {
     -ms-flex-pack: end;
     justify-content: flex-end;
     padding-right: 50px;
+    padding-right: 60px;
+    left: -10px;
 }
 
 @media only screen and (max-width: 575px) {

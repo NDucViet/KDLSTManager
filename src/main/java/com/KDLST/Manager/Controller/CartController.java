@@ -38,14 +38,17 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+
 import java.util.*;
 import java.sql.Date;
 import java.io.OutputStream;
+
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.text.ParseException;
 
 @Controller
@@ -66,6 +69,10 @@ public class CartController {
     public String getAll(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login"; // Hoặc một trang thông báo lỗi
+        }
+
         ArrayList<CartItem> itemList = cartItemService
                 .getByIdCart(cartService.getByIdUser(user.getIdUser()).getCartID());
         model.addAttribute("cartItemList", itemList);
@@ -84,6 +91,7 @@ public class CartController {
         cartItemService.deleteCartItem(Integer.parseInt(id));
         return ResponseEntity.ok().body("Xoá thành công");
     }
+
     @PostMapping(value = "/update")
     public ResponseEntity<String> update(@RequestParam("id") String id, @RequestParam("quantity") String quantity) {
         CartItem cartItem = cartItemService.getById(Integer.parseInt(id));
@@ -98,7 +106,7 @@ public class CartController {
 
     @PostMapping(value = "/add")
     public ResponseEntity<String> add(@RequestParam("id") String id, HttpServletRequest request,
-            @RequestParam("quantity") String quantity) {
+                                      @RequestParam("quantity") String quantity) {
         ArrayList<CartItem> cartItemAll = cartItemService.getAll();
         HttpSession session = request.getSession();
         User userSession = (User) session.getAttribute("user");
@@ -124,7 +132,7 @@ public class CartController {
 
     @PostMapping("/checkOut")
     public String checkOut(@RequestParam(name = "info") String info, @RequestParam(name = "date") String date,
-            HttpServletRequest request) {
+                           HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         ArrayList<CartItem> itemList = cartItemService
@@ -246,8 +254,7 @@ public class CartController {
             for (BillDetails billdt : bArrayList) {
                 qrContent += billdt.getBillDetailsID() + " ";
             }
-            Map.Entry<ArrayList<BillDetails>, Date> billMapEntry = new AbstractMap.SimpleEntry<>(bArrayList,
-                    bill2.getDatePay());
+            Map.Entry<ArrayList<BillDetails>, Date> billMapEntry = new AbstractMap.SimpleEntry<>(bArrayList, bill2.getDatePay());
             qrContent += "," + bill2.getStatus();
 
             billArrayList.put(billMapEntry, "/cart/generateQRCode?qrContent=" + qrContent);

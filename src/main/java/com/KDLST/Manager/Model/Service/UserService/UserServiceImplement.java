@@ -2,12 +2,15 @@ package com.KDLST.Manager.Model.Service.UserService;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
 import java.sql.Date;
 import java.time.LocalDate;
+
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Repository.UserRepository.UserRepository;
 
@@ -45,7 +48,7 @@ public class UserServiceImplement implements UserService {
         return userList;
     }
 
-    
+
     @Override
     public ArrayList<User> getAllEmployee() {
         ArrayList<User> userList = userRepository.getAllEmployee();
@@ -107,8 +110,8 @@ public class UserServiceImplement implements UserService {
         return invalidAttributes;
     }
 
-    public boolean banCustomer(User user){
-        if(userRepository.banCustomer(user)){
+    public boolean banCustomer(User user) {
+        if (userRepository.banCustomer(user)) {
             return true;
         }
         return false;
@@ -118,14 +121,20 @@ public class UserServiceImplement implements UserService {
     private JavaMailSender mailSender;
 
     public void sendMail(String toEmail, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("vietndde170616@fpt.edu.vn");
-        message.setTo(toEmail);
-        message.setText(body);
-        message.setSubject(subject);
-        mailSender.send(message);
-        System.out.println("Mail Sent successfully....");
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("vietndde170616@fpt.edu.vn");
+            message.setTo(toEmail);
+            message.setSubject(subject);
+            message.setText(body);
+            mailSender.send(message);
+            System.out.println("Mail Sent successfully....");
+        } catch (Exception e) {
+            System.out.println("Error sending email: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public boolean add(User user) {

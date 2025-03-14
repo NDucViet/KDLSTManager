@@ -585,8 +585,19 @@ public class EmployeeController {
     @PostMapping(value = "/checkTicket")
     public ResponseEntity<String> checkTicket(@RequestParam("id") String id) {
         TicketSold ticketSold = ticketSoldService.getByID(id);
-        boolean status = ticketSoldService.update(ticketSold);
-        System.out.println(status);
+        ArrayList<BillDetails> billDetails = billDetailsService.getAll();
+        int firstTwo = Integer.parseInt(id.substring(0, 2));
+        int middle = Character.getNumericValue(id.charAt(2));
+        int nextTwo = Integer.parseInt(id.substring(2, 4));
+        for (BillDetails billDetail : billDetails) {
+            if (firstTwo == billDetail.getBillID().getBillID() && (middle == billDetail.getTicketID().getTicketID() 
+            || nextTwo ==billDetail.getTicketID().getTicketID())) {
+                boolean status = ticketSoldService.update(ticketSold);
+                billDetail.setStatus(1);
+                billDetailsService.update(billDetail);
+                System.out.println(status);
+            }
+        }
         return ResponseEntity.ok().body("Hủy trạng thái vé thành công");
     }
 

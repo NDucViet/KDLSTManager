@@ -37,7 +37,7 @@
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             <th:block th:if="${session.user != null}">
-                                <img th:src="@{/images/{imageUrl}(imageUrl=${session.user.avatar})}" alt="Avatar" />
+                                <img th:src="@{'/images/'+ ${session.user.avatar}}" alt="Avatar" />
                             </th:block>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"

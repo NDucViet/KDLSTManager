@@ -40,6 +40,10 @@ public class ImageRepository {
         return imageList;
     }
 
+    public static void main(String[] args) {
+        ImageRepository imageRepository = new ImageRepository();
+        System.out.println(imageRepository.getAll());
+    }
     public Image getById(int id) {
         try {
             Class.forName(BaseConnection.nameClass);

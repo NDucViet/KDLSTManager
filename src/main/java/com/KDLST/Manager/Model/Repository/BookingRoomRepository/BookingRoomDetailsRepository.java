@@ -135,6 +135,8 @@ public class BookingRoomDetailsRepository {
             prsm.setInt(2, bookingRoomDetails.getRoom().getRoomID());
             prsm.setDouble(3, bookingRoomDetails.getTotals());
             int result = prsm.executeUpdate();
+            System.out.println(bookingRoomDetails.toString());
+            System.out.println(result);
             con.close();
             return result > 0;
         } catch (Exception e) {

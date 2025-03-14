@@ -222,6 +222,10 @@ textarea.form-control {
   position: relative;
 }
 
+.site-navbar nav .menu li a:hover{
+  color: #ffba5a;
+}
+
 .site-navbar nav .menu li a:hover:before {
   width: 100%;
 }
@@ -316,6 +320,7 @@ textarea.form-control {
   color: #fff;
   line-height: 1;
   font-weight: bold;
+  margin-top: 13px;
 }
 
 @media (max-width: 991.98px) {
@@ -1735,6 +1740,7 @@ textarea.form-control {
   padding: 3em 2em 2em;
   position: relative;
   border-left: 2px solid #dee2e6;
+  list-style-type:none;
 }
 
 .timeline-item::before {

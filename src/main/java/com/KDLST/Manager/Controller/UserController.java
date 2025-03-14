@@ -19,13 +19,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.sql.Date;
+
 import com.KDLST.Manager.Model.Entity.CartItem.Cart;
 
 import com.KDLST.Manager.Model.Entity.User.User;
 import com.KDLST.Manager.Model.Service.CartItemService.CartService;
 import com.KDLST.Manager.Model.Service.UserService.CustomerTypeServiceImplement;
 import com.KDLST.Manager.Model.Service.UserService.UserServiceImplement;
+
 import java.util.ArrayList;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,28 +60,41 @@ public class UserController {
     // Hàm check cookie, trả về form đăng nhập
     @GetMapping("/showLogin")
     public String showLogin(Model model, HttpServletRequest request) {
-
         Cookie[] cookies = request.getCookies();
         User user = new User();
+        HttpSession session = request.getSession(true);
+
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("userCookie".equals(cookie.getName())) {
                     String userStr = cookie.getValue();
                     user = userServiceImplement.login(userStr);
-                    // Xử lý logic với username
-                    HttpSession session = request.getSession(true);
+
+                    // Lưu thông tin người dùng vào session
                     session.setAttribute("user", user);
                     session.setAttribute("userRole", user.getRole());
                     model.addAttribute("user", user);
-                    if (user.getRole().equals("ADMIN")) {
+
+                    // Xử lý vai trò và chuyển hướng phù hợp
+                    if ("ADMIN".equals(user.getRole())) {
                         return "redirect:/admin/";
-                    } else if (user.getRole().equals("EMPLOYEE")) {
+                    } else if ("EMPLOYEE".equals(user.getRole())) {
                         return "redirect:/employee/";
                     }
-                    return new IndexController().index(model);
+
+                    // Nếu người dùng không phải ADMIN/EMPLOYEE, kiểm tra URL trước đó
+                    String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
+                    if (redirectUrl != null) {
+                        session.removeAttribute("redirectAfterLogin");
+                        return "redirect:" + redirectUrl;
+                    }
+
+                    return new IndexController().index(model); // Quay về trang chính
                 }
             }
         }
+
+        // Nếu không có cookie, trả về trang đăng nhập
         model.addAttribute("user", user);
         return "User/login";
     }
@@ -91,9 +107,9 @@ public class UserController {
     // Hàm check form và đăng nhập
     @PostMapping(value = "/login")
     public String toLogin(@ModelAttribute("user") User user1, Model model,
-            @RequestParam(value = "agree", required = false) Boolean rememberme,
-            HttpServletResponse response,
-            HttpServletRequest request) {
+                          @RequestParam(value = "agree", required = false) Boolean rememberme,
+                          HttpServletResponse response,
+                          HttpServletRequest request) {
 
         User user = new User();
 
@@ -138,7 +154,7 @@ public class UserController {
     }
 
     // Hàm trả về form đăng kí
-    @GetMapping(value = { "/showRegister" })
+    @GetMapping(value = {"/showRegister"})
     public String showRegister(Model model, String mess) {
         User user = new User();
 
@@ -150,7 +166,7 @@ public class UserController {
     // Hàm check form đăng kí
     @PostMapping(value = "/register")
     public String register(Model model, @ModelAttribute("user") User user1,
-            @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth) {
+                           @RequestParam(name = "passAgain") String pass, @RequestParam(name = "birth") String birth) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
         try {
@@ -160,7 +176,7 @@ public class UserController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        user1.setAvatar("UserAvatarDefault.jpg");
+        user1.setAvatar("face28.jpg");
         user1.setRole("CUSTOMER");
         user1.setCustomerType(customerTypeServiceImplement.getById(1));
         user1.setIdUser(0);
@@ -271,7 +287,7 @@ public class UserController {
 
     @PostMapping("/edit")
     public String edit(Model model, @ModelAttribute("user") User user1, HttpServletRequest request,
-            @RequestParam("image") MultipartFile file) throws IOException {
+                       @RequestParam("image") MultipartFile file) throws IOException {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");

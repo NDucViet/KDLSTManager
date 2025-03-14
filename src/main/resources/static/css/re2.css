@@ -17,14 +17,17 @@ body, html {
     background: transparent; /* Semi-transparent white */
     padding: 20px;
     border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 300px;
+    backdrop-filter: blur(10px);
+    border: 1px solid #fff;
+    box-shadow: 5px -1px 7px rgb(82 74 74);
 }
 
 .forgot-password-form h2 {
     margin-bottom: 20px;
-    color: black;
+    color: white;
+    font-family: emoji;
 }
 
 .input-group {
@@ -35,11 +38,12 @@ body, html {
 .input-group input {
     width: calc(100% - 22px);
     padding: 10px;
-    border: 1px solid transparent;
+    border: 1px solid #ccc;
     border-radius: 20px;
     box-sizing: border-box;
     background: transparent;
     color: #000;
+    outline: none;
 }
 
 .input-group input::placeholder {
@@ -56,6 +60,8 @@ body, html {
     border-radius: 20px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 25px;
+    margin-left: 85px;
 }
 
 .submit-btn:hover {

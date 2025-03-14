@@ -50,8 +50,8 @@ public class BillDetailsServiceImplement implements BillDetailsService {
         return billDetailsRepository.getYearsRevenue();
     }
 
-    @Override 
-    public ArrayList<BillDetails> getByBillID(int id){
+    @Override
+    public ArrayList<BillDetails> getByBillID(int id) {
         this.billDetailsList = billDetailsRepository.getByBillID(id);
         return billDetailsList;
     }
@@ -59,7 +59,7 @@ public class BillDetailsServiceImplement implements BillDetailsService {
     @Override
     public ArrayList<String> getYearRevenue() {
         ArrayList<String> yearBillList = billDetailsRepository.getYearRevenue();
-        if(yearBillList != null){
+        if (yearBillList != null) {
             return yearBillList;
         }
         return null;

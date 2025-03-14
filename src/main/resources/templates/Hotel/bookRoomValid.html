@@ -1,153 +1,266 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="shortcut icon" th:href="@{images/logoHotel.png}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/reUse.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/fancybox.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap-datepicker.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/jquery.timepicker.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/owl.carousel.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../fonts/ionicons/css/ionicons.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../fonts/fontawesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/reUse.css}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../css/bootstrap.min.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../css/fancybox.min.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../css/bootstrap-datepicker.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../css/jquery.timepicker.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../css/owl.carousel.min.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../fonts/ionicons/css/ionicons.min.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{../fonts/fontawesome/css/font-awesome.min.css}"
+    />
 
-    <link rel="stylesheet" type="text/css" th:href="@{../css/animate.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/aos.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/animate.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{../css/aos.css}" />
     <!-- Theme Style -->
-    <link rel="stylesheet" type="text/css" th:href="@{../css/style1.css}">
-
-</head>
-<style>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/style1.css}" />
+  </head>
+  <style>
     .card-selected {
-        background-color: red;
-        /* Màu nền được chọn */
-    }
-
-
-    input[type="checkbox"] {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+      background-color: red;
+      /* Màu nền được chọn */
     }
 
     input[type="checkbox"] {
-        background-color: #ccc;
-        border: 1px solid #999;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    input[type="checkbox"] {
+      background-color: #ccc;
+      border: 1px solid #999;
     }
 
     input[type="checkbox"]:checked {
-        background-color: #64a1e2;
+      background-color: #64a1e2;
     }
 
     input[type="checkbox"]:focus {
-        outline: 2px solid rgb(96, 248, 142);
+      outline: 2px solid rgb(96, 248, 142);
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <header th:insert="~{Hotel/header1 :: header}"></header>
-    <section class="site-hero overlay" style="background-image: url(images/hero_4.jpg)"
-        data-stellar-background-ratio="0.5">
-        <div class="container">
-            <div class="row site-hero-inner justify-content-center align-items-center">
-                <div class="col-md-10 text-center" data-aos="fade-up">
-                    <span class="custom-caption text-uppercase text-white d-block  mb-3">Xin chào đến Khách sạn 5 <span
-                        class="fa fa-star text-primary">
-                    <h1 class="heading">Nơi tốt nhất để nghĩ dưỡng</h1>
-                </div>
-            </div>
+    <section
+      class="site-hero overlay"
+      style="background-image: url(images/hero_4.jpg)"
+      data-stellar-background-ratio="0.5"
+    >
+      <div class="container">
+        <div
+          class="row site-hero-inner justify-content-center align-items-center"
+        >
+          <div class="col-md-10 text-center" data-aos="fade-up">
+            <span class="custom-caption text-uppercase text-white d-block mb-3"
+              >Xin chào đến Khách sạn
+            </span>
+            <span class="fa fa-star text-primary"></span>
+            <span class="fa fa-star text-primary"></span>
+            <span class="fa fa-star text-primary"></span>
+            <span class="fa fa-star text-primary"></span>
+            <span class="fa fa-star text-primary"></span>
+            <h1 class="heading">Nơi tốt nhất để nghĩ dưỡng</h1>
+          </div>
         </div>
+      </div>
 
-        <a class="mouse smoothscroll" href="#next">
-            <div class="mouse-icon">
-                <span class="mouse-wheel"></span>
-            </div>
-        </a>
+      <a class="mouse smoothscroll" href="#next">
+        <div class="mouse-icon">
+          <span class="mouse-wheel"></span>
+        </div>
+      </a>
     </section>
     <!-- END section -->
 
     <section class="section bg-light pb-0">
-        <div class="container">
-            <div class="row check-availabilty" id="next">
-                <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
-                    <form th:action="@{/hotel/getRoom}" th:method="get">
-                        <div class="row">
-                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="checkin_date" class="font-weight-bold text-black">Ngày vào</label>
-                                <div class="field-icon-wrap">
-                                    <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" th:value="${startDate}" id="startDate" class="form-control"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="checkout_date" class="font-weight-bold text-black">Ngày ra</label>
-                                <div class="field-icon-wrap">
-                                    <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input type="text" th:value="${endDate}" id="endDate" class="form-control" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3 align-self-end">
-                                <button type="submit" class="btn btn-primary btn-block text-white" disabled>
-                                   Kiểm tra 
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+      <div class="container">
+        <div class="row check-availabilty" id="next">
+          <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+            <form th:action="@{/hotel/getRoom}" th:method="get">
+              <div class="row">
+                <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                  <label for="checkin_date" class="font-weight-bold text-black"
+                    >Ngày vào</label
+                  >
+                  <div class="field-icon-wrap">
+                    <div class="icon"><span class="icon-calendar"></span></div>
+                    <input
+                      type="text"
+                      th:value="${startDate}"
+                      id="startDate"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
                 </div>
-            </div>
+                <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                  <label for="checkout_date" class="font-weight-bold text-black"
+                    >Ngày ra</label
+                  >
+                  <div class="field-icon-wrap">
+                    <div class="icon"><span class="icon-calendar"></span></div>
+                    <input
+                      type="text"
+                      th:value="${endDate}"
+                      id="endDate"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3 align-self-end">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block text-white"
+                    disabled
+                  >
+                    Kiểm tra
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </section>
 
     <section>
+      <div class="container">
+        <h2 style="font-weight: lighter">Phòng của chúng tôi</h2>
+        <p>Chào mừng đến với Ngũ Hành Hotel</p>
         <div class="container">
-            <h2 style="font-weight: lighter;">Phòng của chúng tôi</h2>
-            <p>Chào mừng đến với Ngũ Hành Hotel </p>
+            <!-- Vòng lặp qua setRoom -->
             <div class="row" th:each="roomList : ${setRoom}">
-                <!-- Sử dụng lặp để tạo cột cho mỗi phòng -->
-                <p class="h3" th:text="${roomList.value}" style="display: block;"></p>
+                <!-- Tiêu đề loại phòng -->
+                <p class="h3" th:text="${roomList.value}" style="display: block"></p>
+                
+                <!-- Vòng lặp qua từng phòng trong roomList.key -->
                 <div class="col-md-2 mb-2" th:each="room : ${roomList.key}">
-                    <div class="card h-100 position-relative" style="text-align: center; border: none;">
-                        <label th:for="'room_' + ${room.roomID}">
-                            <input type="checkbox" th:id="${room.roomID}" onclick="updateTotalPrice()"
-                                name="checkBoxNoLabel" th:value="${room.roomType.price}"
-                                style="width: 50%; height: 50%;">
-                            <input type="hidden" th:id="'price'+${room.roomType.price}" name="onePrice"
-                                th:value="${room.roomType.price}">
-                            <p th:text="${room.roomID}"></p>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="fixed-buttons"
-                style="position: sticky; bottom: 0; z-index: 2; background-color: white; padding: 20px; border-top: 1px solid #ccc;">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="small text-muted">Tổng giá trị:</span>
-                            <span class="lead fw-normal order-total" id="orderTotal">0đ</span>
-                            <form th:action="@{/hotel/checkOut}" th:method="post" class="d-inline-block"
-                                onsubmit="return toCheckout()">
-                                <input type="hidden" name="date" th:value="|${startDate};${endDate}">
-                                <input type="hidden" name="bookingRoom" id="bookingRoom">
-                                <input type="hidden" name="total" id="total">
-                                <button type="submit" class="buttonCheckout" data-mdb-button-init data-mdb-ripple-init
-                                    style="border: none; background-color: white; color: orange;" disabled>Book
-                                    Room</button>
-                            </form>
+                    <div class="card h-100 position-relative" 
+                         style="text-align: center; border: none; cursor: pointer;" 
+                         th:for="'room_' + ${room.roomID}" 
+                         onclick="toggleCheckbox(this)">
+                        <!-- Hình ảnh của phòng -->
+                        <img th:src="@{/images/{image}(image=${room.roomType.images})}" 
+                             class="card-img-top" 
+                             alt="Hình ảnh phòng" 
+                             style="height: 120px; object-fit: cover;" />
+    
+                        <!-- Nội dung card -->
+                        <div class="card-body">
+                            <input
+                                type="checkbox"
+                                th:id="${room.roomID}"
+                                onclick="updateTotalPrice(); event.stopPropagation();"
+                                name="checkBoxNoLabel"
+                                th:value="${room.roomType.price}"
+                                style="width: 50%; height: 50%"
+                            />
+                            <input
+                                type="hidden"
+                                th:id="'price' + ${room.roomType.price}"
+                                name="onePrice"
+                                th:value="${room.roomType.price}"
+                            />
+                            <p th:text="${room.roomID}" class="card-text"></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    
+    
+
+        <div
+          class="fixed-buttons"
+          style="
+            position: sticky;
+            bottom: 0;
+            z-index: 2;
+            background-color: white;
+            padding: 20px;
+            border-top: 1px solid #ccc;
+          "
+        >
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Tổng giá trị:</span>
+                <span class="lead fw-normal order-total" id="orderTotal"
+                  >0đ</span
+                >
+                <form
+                  th:action="@{/hotel/checkOut}"
+                  th:method="post"
+                  class="d-inline-block"
+                  onsubmit="return toCheckout()"
+                >
+                  <input
+                    type="hidden"
+                    name="date"
+                    th:value="|${startDate};${endDate}"
+                  />
+                  <input type="hidden" name="bookingRoom" id="bookingRoom" />
+                  <input type="hidden" name="total" id="total" />
+                  <button
+                    type="submit"
+                    class="buttonCheckout"
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    style="border: none; background-color: white; color: orange"
+                    disabled
+                  >
+                    Book Room
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <footer th:insert="~{Hotel/footer1 :: footer}"></footer>
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -164,6 +277,5 @@
     <script th:src="@{/js/Booking.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-</body>
-
+  </body>
 </html>

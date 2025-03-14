@@ -57,13 +57,15 @@ public class RoleFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String path = httpRequest.getServletPath();
         System.out.println(path);
-
+        String userRole = (String) httpRequest.getSession().getAttribute("userRole");
+        System.out.println(userRole);
         if (isStaticResource(path) || isPublicPath(path) || path.equals("/")) {
             chain.doFilter(request, response);
             return;
-        }
-
-        String userRole = (String) httpRequest.getSession().getAttribute("userRole");
+        } else if(userRole == null ) {
+            httpResponse.sendRedirect("/user/showLogin");
+            return;
+        } else
         if (userRole != null) {
             if (userRole.equals("ADMIN")) {
                 chain.doFilter(request, response);
@@ -88,43 +90,22 @@ public class RoleFilter implements Filter {
                 httpResponse.sendRedirect("/user/403");
                 return;
             }
-        } else if (isStaticResource(path) || isPublicPath(path) || path.equals("/")) {
-            chain.doFilter(request, response);
-            return;
-        } else {
-            httpResponse.sendRedirect("/user/showLogin");
-            return;
-        }
+        } 
     }
 
     private boolean isPublicPath(String path) {
-        for (String string : PUBLIC_PATH) {
-            if (path.contains(string)) {
-                return true;
-            }
+        if (path.equals("/hotel/checkOut")) {
+            return false;
         }
-        return false;
+        return PUBLIC_PATH.stream().anyMatch(p -> path.contains(p) || (p.endsWith("/") && path.startsWith(p)));
     }
-
+    
     private boolean isUserPath(String path) {
-
-        for (String string : USER_PATH) {
-            if (path.contains(string)) {
-                return true;
-            }
-        }
-        return false;
-        // return USER_PATH.stream().anyMatch(path::equals);
+        return USER_PATH.stream().anyMatch(p -> path.contains(p) || (p.endsWith("/") && path.startsWith(p)));
     }
-
+    
     private boolean isEmployPath(String path) {
-        for (String string : EMPLOY_PATH) {
-            if (path.contains(string)) {
-                return true;
-            }
-        }
-        return false;
-        // return EMPLOY_PATH.stream().anyMatch(path::equals);
+        return EMPLOY_PATH.stream().anyMatch(p -> path.contains(p) || (p.endsWith("/") && path.startsWith(p)));
     }
 
     private boolean isStaticResource(String path) {

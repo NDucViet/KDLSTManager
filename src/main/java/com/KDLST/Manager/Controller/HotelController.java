@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -68,7 +71,13 @@ public class HotelController {
     }
 
     @GetMapping({ "/getDate" })
-    public String getDate() {
+    public String getDate(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            model.addAttribute("error", "Bạn cần đăng nhập để xem lịch sử giao dịch.");
+            return "redirect:/showLogin"; // Chuyển hướng đến trang đăng nhập
+        }
         return "Hotel/getDate";
     }
 
@@ -168,11 +177,9 @@ public class HotelController {
 
     @GetMapping("/history")
     public String getHistory(Model model, HttpServletRequest request) {
-        Map<ArrayList<BookingRoomDetails>, String> boArrayList = new LinkedHashMap<>();
-
-        // hashmap ArrayList<BookingRoomDetails>// date
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
+        Map<ArrayList<BookingRoomDetails>, String> boArrayList = new LinkedHashMap<>();
         ArrayList<BookingRoom> bookingRoom = bookingroomService.getByIdUser(user.getIdUser());
         for (BookingRoom bookingRoom2 : bookingRoom) {
             ArrayList<BookingRoomDetails> bookingRoomDetailListt = bookingRoomDetailsService
@@ -202,8 +209,6 @@ public class HotelController {
             HttpServletRequest request, @RequestParam(name = "date") String date,
             @RequestParam(name = "total") String price) {
         String info = String.join("|", bookingRoom, date);
-        System.out.println(price);
-        System.out.println(info);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(request, Integer.parseInt(price), info,
                 baseUrl + "/hotel/vnpay-payment-return");
@@ -247,6 +252,12 @@ public class HotelController {
             BookingRoom bookingRoom = new BookingRoom(0, userSession, sqlStartDate, sqlEndDate, true);
             if (bookingroomService.add(bookingRoom)) {
                 ArrayList<BookingRoom> bolist = bookingroomService.getByIdUser(userSession.getIdUser());
+                Collections.sort(bolist, new Comparator<BookingRoom>() {
+                    @Override
+                    public int compare(BookingRoom o1, BookingRoom o2) {
+                        return o1.getBookingRoomID() - o2.getBookingRoomID();
+                    }
+                });
                 bookingRoom = bolist.get(bolist.size() - 1);
                 for (int i = 0; i < roomsBooking.length; i++) {
                     Room room = roomService.getById(Integer.parseInt(roomsBooking[i]));
@@ -256,7 +267,6 @@ public class HotelController {
                             room,
                             ChronoUnit.DAYS.between(startLocalDate, endLocalDate) * room.getRoomType().getPrice());
                     System.out.println(bookingRoomDetailsService.add(bookingRoomDetails));
-                    ;
                 }
             }
             // ....

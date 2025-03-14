@@ -1,5 +1,9 @@
 function addFeedback(idService) {
     var content = document.getElementById("content" + idService).value;
+    if (!content || content.trim() === "") {
+        alert("Vui lòng nhập nội dung phản hồi hợp lệ!");
+        return; // Dừng hàm nếu content không hợp lệ
+    }
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/service/addFeedback?service=" + idService + "&content=" + content, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
